@@ -1,0 +1,5025 @@
+import { useState, useEffect } from "react";
+
+/* ═══════════════════════ DATA ═══════════════════════ */
+const INITIAL_ORDERS = [
+  {
+    id: "#RA-247",
+    customer: "Ramesh Shrestha",
+    product: "Wooden Photo Engraving",
+    date: "2025-01-20",
+    amount: 1500,
+    status: "Processing",
+    phone: "+977 9812345678",
+  },
+  {
+    id: "#RA-246",
+    customer: "Sita Poudel",
+    product: "Wooden QR Code x3",
+    date: "2025-01-19",
+    amount: 2400,
+    status: "Completed",
+    phone: "+977 9823456789",
+  },
+  {
+    id: "#RA-245",
+    customer: "Bikram Thapa",
+    product: "Acrylic Award",
+    date: "2025-01-19",
+    amount: 3500,
+    status: "Pending",
+    phone: "+977 9834567890",
+  },
+  {
+    id: "#RA-244",
+    customer: "Anjali Gurung",
+    product: "Custom Keyrings x10",
+    date: "2025-01-18",
+    amount: 3000,
+    status: "Completed",
+    phone: "+977 9845678901",
+  },
+  {
+    id: "#RA-243",
+    customer: "Suresh Maharjan",
+    product: "ACP Signboard",
+    date: "2025-01-17",
+    amount: 8000,
+    status: "Processing",
+    phone: "+977 9856789012",
+  },
+  {
+    id: "#RA-242",
+    customer: "Priya Shrestha",
+    product: "3D Number Plate x2",
+    date: "2025-01-16",
+    amount: 3000,
+    status: "Completed",
+    phone: "+977 9867890123",
+  },
+  {
+    id: "#RA-241",
+    customer: "Anil Tamang",
+    product: "Wedding Invitations x50",
+    date: "2025-01-15",
+    amount: 12000,
+    status: "Processing",
+    phone: "+977 9878901234",
+  },
+];
+
+const INITIAL_PRODUCTS = [
+  {
+    id: 1,
+    name: "Wooden Photo Engraving",
+    category: "wooden",
+    price: 500,
+    maxPrice: 2000,
+    stock: 99,
+    badge: "Popular",
+    status: "active",
+    image:
+      "https://images.unsplash.com/photo-1582269847642-87432658c952?q=80&w=300",
+  },
+  {
+    id: 2,
+    name: "Wooden QR Code Stand",
+    category: "qr",
+    price: 800,
+    maxPrice: 2500,
+    stock: 50,
+    badge: "Trending",
+    status: "active",
+    image:
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300",
+  },
+  {
+    id: 3,
+    name: "Custom Keyrings",
+    category: "keyring",
+    price: 300,
+    maxPrice: 800,
+    stock: 200,
+    badge: "New",
+    status: "active",
+    image:
+      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=300",
+  },
+  {
+    id: 4,
+    name: "Acrylic Awards",
+    category: "award",
+    price: 1200,
+    maxPrice: 5000,
+    stock: 30,
+    badge: "",
+    status: "active",
+    image:
+      "https://images.unsplash.com/photo-1495121553079-4c61bcce1894?q=80&w=300",
+  },
+  {
+    id: 5,
+    name: "3D Vehicle Number Plate",
+    category: "numberplate",
+    price: 1500,
+    maxPrice: 3000,
+    stock: 99,
+    badge: "Hot",
+    status: "active",
+    image:
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=300",
+  },
+  {
+    id: 6,
+    name: "ACP Signboard",
+    category: "signboard",
+    price: 5000,
+    maxPrice: 50000,
+    stock: 20,
+    badge: "",
+    status: "active",
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=300",
+  },
+];
+
+const SAMPLE_CUSTOMERS = [
+  {
+    name: "Ramesh Shrestha",
+    email: "ramesh@gmail.com",
+    phone: "+977 9812345678",
+    orders: 8,
+    spent: 24500,
+    joined: "Jan 2024",
+  },
+  {
+    name: "Sita Poudel",
+    email: "sita@gmail.com",
+    phone: "+977 9823456789",
+    orders: 5,
+    spent: 12300,
+    joined: "Mar 2024",
+  },
+  {
+    name: "Bikram Thapa",
+    email: "bikram@gmail.com",
+    phone: "+977 9834567890",
+    orders: 12,
+    spent: 45000,
+    joined: "Nov 2023",
+  },
+  {
+    name: "Anjali Gurung",
+    email: "anjali@gmail.com",
+    phone: "+977 9845678901",
+    orders: 3,
+    spent: 8200,
+    joined: "Jun 2024",
+  },
+  {
+    name: "Suresh Maharjan",
+    email: "suresh@gmail.com",
+    phone: "+977 9856789012",
+    orders: 6,
+    spent: 18700,
+    joined: "Feb 2024",
+  },
+];
+
+const TOP_PRODUCTS = [
+  { name: "Wooden Engraving", pct: 78, color: "#145faf" },
+  { name: "QR Code Stands", pct: 62, color: "#22c55e" },
+  { name: "Keyrings", pct: 55, color: "#D93A6A" },
+  { name: "Number Plates", pct: 45, color: "#f59e0b" },
+  { name: "Acrylic Awards", pct: 38, color: "#a855f7" },
+];
+
+const REPORT_CATEGORIES = [
+  { name: "Wooden Engraving", pct: 78, orders: 193, color: "#145faf" },
+  { name: "Wooden QR Code", pct: 62, orders: 153, color: "#22c55e" },
+  { name: "Custom Keyrings", pct: 55, orders: 136, color: "#D93A6A" },
+  { name: "3D Number Plates", pct: 45, orders: 111, color: "#f59e0b" },
+  { name: "Acrylic Awards", pct: 38, orders: 94, color: "#a855f7" },
+  { name: "ACP Signboards", pct: 22, orders: 54, color: "#60a5fa" },
+];
+
+const MONTHLY_REPORTS = [
+  {
+    month: "January",
+    orders: 32,
+    revenue: "Rs. 98,400",
+    avg: "Rs. 3,075",
+    growth: "+5%",
+    up: true,
+  },
+  {
+    month: "February",
+    orders: 28,
+    revenue: "Rs. 86,200",
+    avg: "Rs. 3,079",
+    growth: "-12%",
+    up: false,
+  },
+  {
+    month: "March",
+    orders: 41,
+    revenue: "Rs. 1,12,300",
+    avg: "Rs. 2,739",
+    growth: "+30%",
+    up: true,
+  },
+  {
+    month: "April",
+    orders: 38,
+    revenue: "Rs. 1,04,500",
+    avg: "Rs. 2,750",
+    growth: "-7%",
+    up: false,
+  },
+  {
+    month: "May",
+    orders: 47,
+    revenue: "Rs. 1,23,450",
+    avg: "Rs. 2,626",
+    growth: "+18%",
+    up: true,
+  },
+];
+
+const PAGE_TITLES = {
+  dashboard: { title: "Dashboard", sub: "Overview & quick actions" },
+  orders: { title: "All Orders", sub: "Manage customer orders" },
+  products: {
+    title: "Product Management",
+    sub: "Add, edit or remove products",
+  },
+  customers: { title: "Customers", sub: "Customer database" },
+  invoices: { title: "Tax Invoices", sub: "Create VAT compliant invoices" },
+  estimates: { title: "Estimates", sub: "Create price quotations" },
+  reports: { title: "Reports & Analytics", sub: "Sales analytics" },
+  settings: { title: "Settings", sub: "Configure your store" },
+};
+
+/* ═══════════════════════ UTILS ═══════════════════════ */
+function numToWords(n) {
+  const a = [
+    "",
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+    "Nineteen",
+  ];
+  const b = [
+    "",
+    "",
+    "Twenty",
+    "Thirty",
+    "Forty",
+    "Fifty",
+    "Sixty",
+    "Seventy",
+    "Eighty",
+    "Ninety",
+  ];
+  if (n === 0) return "Zero";
+  if (n < 20) return a[n];
+  if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? " " + a[n % 10] : "");
+  if (n < 1000)
+    return (
+      a[Math.floor(n / 100)] +
+      " Hundred" +
+      (n % 100 ? " " + numToWords(n % 100) : "")
+    );
+  if (n < 100000)
+    return (
+      numToWords(Math.floor(n / 1000)) +
+      " Thousand" +
+      (n % 1000 ? " " + numToWords(n % 1000) : "")
+    );
+  if (n < 10000000)
+    return (
+      numToWords(Math.floor(n / 100000)) +
+      " Lakh" +
+      (n % 100000 ? " " + numToWords(n % 100000) : "")
+    );
+  return (
+    numToWords(Math.floor(n / 10000000)) +
+    " Crore" +
+    (n % 10000000 ? " " + numToWords(n % 10000000) : "")
+  );
+}
+
+function today() {
+  return new Date().toISOString().split("T")[0];
+}
+function daysAhead(d) {
+  const dt = new Date();
+  dt.setDate(dt.getDate() + d);
+  return dt.toISOString().split("T")[0];
+}
+
+/* ═══════════════════════ SMALL COMPONENTS ═══════════════════════ */
+function StatusBadge({ status }) {
+  const map = {
+    Pending: "bg-yellow-100 text-yellow-900",
+    Processing: "bg-blue-100 text-blue-900",
+    Completed: "bg-green-100 text-green-900",
+    Cancelled: "bg-red-100 text-red-600",
+    Unpaid: "bg-yellow-100 text-yellow-900",
+  };
+  return (
+    <span className={`${map[status] || ''} rounded-full px-2.5 py-0.5 text-xs font-bold`}>
+      {status}
+    </span>
+  );
+}
+
+function Toast({ msg, visible }) {
+  return (
+    <div className={`fixed bottom-6 right-6 z-500 bg-gray-900 text-white font-poppins text-sm px-5 py-3 rounded-lg shadow-2xl flex items-center gap-2 ${visible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 pointer-events-none`}>
+      <i className="fas fa-check-circle text-green-400"></i> {msg}
+    </div>
+  );
+}
+
+/* ═══════════════════════ SIDEBAR ═══════════════════════ */
+function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
+  const w = collapsed ? 70 : 260;
+  const navItems = [
+    {
+      id: "dashboard",
+      icon: "fas fa-tachometer-alt",
+      label: "Dashboard",
+      section: "Main",
+    },
+    {
+      id: "orders",
+      icon: "fas fa-shopping-bag",
+      label: "Orders",
+      badge: "12",
+      section: null,
+    },
+    { id: "products", icon: "fas fa-box", label: "Products", section: null },
+    {
+      id: "customers",
+      icon: "fas fa-users",
+      label: "Customers",
+      section: null,
+    },
+    {
+      id: "invoices",
+      icon: "fas fa-file-invoice",
+      label: "Tax Invoices",
+      section: "Finance",
+    },
+    {
+      id: "estimates",
+      icon: "fas fa-file-alt",
+      label: "Estimates",
+      section: null,
+    },
+    {
+      id: "reports",
+      icon: "fas fa-chart-bar",
+      label: "Reports",
+      section: null,
+    },
+    {
+      id: "settings",
+      icon: "fas fa-cog",
+      label: "Settings",
+      section: "Config",
+    },
+  ];
+
+  return (
+    <aside
+      style={{
+        width: w,
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom, #111827, #0f172a)",
+        display: "flex",
+        flexDirection: "column",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        zIndex: 50,
+        transition: "width .3s ease",
+        overflow: "hidden",
+      }}
+    >
+      {/* Brand */}
+      <div
+        style={{
+          padding: "20px 16px",
+          borderBottom: "1px solid rgba(255,255,255,.08)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div
+            style={{
+              width: 36,
+              height: 36,
+              background: "linear-gradient(135deg,#145faf,#D93A6A)",
+              borderRadius: 10,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <span
+              style={{
+                color: "#fff",
+                fontWeight: 700,
+                fontFamily: "Playfair Display,serif",
+                fontSize: 13,
+              }}
+            >
+              RA
+            </span>
+          </div>
+          {!collapsed && (
+            <div>
+              <p
+                style={{
+                  color: "#fff",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  margin: 0,
+                  fontFamily: "Poppins,sans-serif",
+                }}
+              >
+                Radhana Art
+              </p>
+              <p
+                style={{
+                  color: "#6b7280",
+                  fontSize: 10,
+                  margin: 0,
+                  fontFamily: "Poppins,sans-serif",
+                }}
+              >
+                Admin Panel
+              </p>
+            </div>
+          )}
+        </div>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#6b7280",
+            cursor: "pointer",
+            padding: 4,
+            flexShrink: 0,
+          }}
+        >
+          <i className="fas fa-bars" style={{ fontSize: 13 }}></i>
+        </button>
+      </div>
+
+      {/* Nav */}
+      <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
+        {navItems.map((item, i) => (
+          <div key={item.id}>
+            {item.section && !collapsed && (
+              <p
+                style={{
+                  color: "#4b5563",
+                  fontSize: 10,
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  padding: "16px 8px 6px",
+                  margin: 0,
+                  fontFamily: "Poppins,sans-serif",
+                }}
+              >
+                {item.section}
+              </p>
+            )}
+            <button
+              onClick={() => setPage(item.id)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "10px 12px",
+                borderRadius: 10,
+                width: "100%",
+                background:
+                  activePage === item.id ? "rgba(20,95,175,0.25)" : "none",
+                border: activePage === item.id ? "none" : "none",
+                borderLeft:
+                  activePage === item.id
+                    ? "3px solid #D93A6A"
+                    : "3px solid transparent",
+                color: activePage === item.id ? "#fff" : "#9ca3af",
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: "pointer",
+                fontFamily: "Poppins,sans-serif",
+                transition: "all .2s",
+                marginBottom: 2,
+              }}
+              onMouseEnter={(e) => {
+                if (activePage !== item.id) {
+                  e.currentTarget.style.background = "rgba(255,255,255,.07)";
+                  e.currentTarget.style.color = "#fff";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activePage !== item.id) {
+                  e.currentTarget.style.background = "none";
+                  e.currentTarget.style.color = "#9ca3af";
+                }
+              }}
+            >
+              <i
+                className={item.icon}
+                style={{ width: 18, textAlign: "center", flexShrink: 0 }}
+              ></i>
+              {!collapsed && <span>{item.label}</span>}
+              {!collapsed && item.badge && (
+                <span
+                  style={{
+                    marginLeft: "auto",
+                    background: "#D93A6A",
+                    color: "#fff",
+                    fontSize: 10,
+                    padding: "2px 6px",
+                    borderRadius: 999,
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          </div>
+        ))}
+      </nav>
+
+      {/* Footer */}
+      <div
+        style={{
+          padding: "16px 10px",
+          borderTop: "1px solid rgba(255,255,255,.08)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            marginBottom: 10,
+          }}
+        >
+          <img
+            src="https://randomuser.me/api/portraits/men/1.jpg"
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              flexShrink: 0,
+            }}
+            alt="admin"
+          />
+          {!collapsed && (
+            <div style={{ minWidth: 0 }}>
+              <p
+                style={{
+                  color: "#fff",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  margin: 0,
+                  fontFamily: "Poppins,sans-serif",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Admin User
+              </p>
+              <p
+                style={{
+                  color: "#6b7280",
+                  fontSize: 10,
+                  margin: 0,
+                  fontFamily: "Poppins,sans-serif",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                admin@radhanaart.com
+              </p>
+            </div>
+          )}
+        </div>
+        <button
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            padding: "8px 12px",
+            borderRadius: 10,
+            color: "#9ca3af",
+            fontSize: 12,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            width: "100%",
+            fontFamily: "Poppins,sans-serif",
+          }}
+        >
+          <i
+            className="fas fa-external-link-alt"
+            style={{ width: 18, textAlign: "center", flexShrink: 0 }}
+          ></i>
+          {!collapsed && <span>View Website</span>}
+        </button>
+      </div>
+    </aside>
+  );
+}
+
+/* ═══════════════════════ TOPBAR ═══════════════════════ */
+function Topbar({ page }) {
+  const info = PAGE_TITLES[page] || { title: page, sub: "" };
+  return (
+    <header
+      style={{
+        background: "#fff",
+        boxShadow: "0 1px 4px rgba(0,0,0,.07)",
+        padding: "16px 24px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position: "sticky",
+        top: 0,
+        zIndex: 40,
+      }}
+    >
+      <div>
+        <h1
+          style={{
+            margin: 0,
+            fontFamily: "Playfair Display,serif",
+            fontSize: 20,
+            color: "#1f2937",
+          }}
+        >
+          {info.title}
+        </h1>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: "Poppins,sans-serif",
+            fontSize: 11,
+            color: "#9ca3af",
+            marginTop: 2,
+          }}
+        >
+          {info.sub}
+        </p>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {[
+          { icon: "fas fa-bell", dot: "red" },
+          { icon: "fas fa-envelope", dot: "#D93A6A" },
+        ].map((b, i) => (
+          <button
+            key={i}
+            style={{
+              position: "relative",
+              padding: 8,
+              background: "none",
+              border: "none",
+              color: "#6b7280",
+              cursor: "pointer",
+              borderRadius: 10,
+            }}
+          >
+            <i className={b.icon} style={{ fontSize: 18 }}></i>
+            <span
+              style={{
+                position: "absolute",
+                top: 6,
+                right: 6,
+                width: 8,
+                height: 8,
+                background: b.dot,
+                borderRadius: "50%",
+              }}
+            ></span>
+          </button>
+        ))}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            paddingLeft: 12,
+            borderLeft: "1px solid #f3f4f6",
+          }}
+        >
+          <img
+            src="https://randomuser.me/api/portraits/men/1.jpg"
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: "2px solid rgba(20,95,175,.2)",
+            }}
+            alt="admin"
+          />
+          <span
+            style={{
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 13,
+              color: "#374151",
+              fontWeight: 500,
+            }}
+          >
+            Admin
+          </span>
+          <i
+            className="fas fa-chevron-down"
+            style={{ color: "#9ca3af", fontSize: 11 }}
+          ></i>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+/* ═══════════════════════ STAT CARD ═══════════════════════ */
+function StatCard({
+  icon,
+  iconBg,
+  iconColor,
+  badge,
+  badgeColor,
+  label,
+  value,
+  sub,
+}) {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 16,
+        padding: 20,
+        boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 16,
+        }}
+      >
+        <div
+          style={{
+            width: 48,
+            height: 48,
+            background: iconBg,
+            borderRadius: 16,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <i className={icon} style={{ color: iconColor, fontSize: 20 }}></i>
+        </div>
+        <span
+          style={{
+            fontFamily: "Poppins,sans-serif",
+            fontSize: 11,
+            color: badgeColor || "#6b7280",
+            background: badgeColor ? "#f0fdf4" : "#f9fafb",
+            padding: "2px 8px",
+            borderRadius: 999,
+            fontWeight: 500,
+          }}
+        >
+          {badge}
+        </span>
+      </div>
+      <p
+        style={{
+          fontFamily: "Poppins,sans-serif",
+          color: "#9ca3af",
+          fontSize: 11,
+          margin: "0 0 4px",
+        }}
+      >
+        {label}
+      </p>
+      <p
+        style={{
+          fontFamily: "Playfair Display,serif",
+          fontSize: 28,
+          fontWeight: 700,
+          color: "#1f2937",
+          margin: 0,
+        }}
+        dangerouslySetInnerHTML={{ __html: value }}
+      ></p>
+      <p
+        style={{
+          fontFamily: "Poppins,sans-serif",
+          fontSize: 11,
+          color: "#9ca3af",
+          marginTop: 4,
+        }}
+      >
+        {sub}
+      </p>
+    </div>
+  );
+}
+
+/* ═══════════════════════ DASHBOARD PAGE ═══════════════════════ */
+function DashboardPage({ orders, setPage }) {
+  return (
+    <div>
+      {/* Stats */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+          gap: 20,
+          marginBottom: 24,
+        }}
+      >
+        <StatCard
+          icon="fas fa-shopping-bag"
+          iconBg="#eff6ff"
+          iconColor="#145faf"
+          badge="+12%"
+          badgeColor="#16a34a"
+          label="Total Orders"
+          value="247"
+          sub="47 this month"
+        />
+        <StatCard
+          icon="fas fa-rupee-sign"
+          iconBg="#fdf2f8"
+          iconColor="#D93A6A"
+          badge="+18%"
+          badgeColor="#16a34a"
+          label="Revenue (Month)"
+          value="Rs. 1.2L"
+          sub="Rs. 8.4L this year"
+        />
+        <StatCard
+          icon="fas fa-users"
+          iconBg="#f0fdf4"
+          iconColor="#16a34a"
+          badge="+8%"
+          badgeColor="#16a34a"
+          label="Total Customers"
+          value="5,204"
+          sub="23 new this month"
+        />
+        <StatCard
+          icon="fas fa-star"
+          iconBg="#fffbeb"
+          iconColor="#f59e0b"
+          badge="stable"
+          badgeColor={null}
+          label="Avg. Rating"
+          value='4.9<span style="color:#f59e0b;font-size:22px">★</span>'
+          sub="from 247 reviews"
+        />
+      </div>
+
+      {/* Recent Orders + Quick Actions */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr",
+          gap: 24,
+          marginBottom: 24,
+        }}
+      >
+        {/* Recent Orders */}
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "16px 24px",
+              borderBottom: "1px solid #f9fafb",
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                fontFamily: "Playfair Display,serif",
+                fontSize: 17,
+                color: "#1f2937",
+              }}
+            >
+              Recent Orders
+            </h2>
+            <button
+              onClick={() => setPage("orders")}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#145faf",
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 12,
+                cursor: "pointer",
+                fontWeight: 500,
+              }}
+            >
+              View All <i className="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ background: "#f9fafb" }}>
+                {["Order ID", "Customer", "Amount", "Status", "Action"].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      style={{
+                        textAlign: "left",
+                        padding: "10px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 10,
+                        fontWeight: 600,
+                        textTransform: "uppercase",
+                        letterSpacing: ".05em",
+                        color: "#9ca3af",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {orders.slice(0, 5).map((o, i) => (
+                <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                  <td
+                    style={{
+                      padding: "12px 16px",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: "#145faf",
+                    }}
+                  >
+                    {o.id}
+                  </td>
+                  <td
+                    style={{
+                      padding: "12px 16px",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#374151",
+                    }}
+                  >
+                    {o.customer}
+                  </td>
+                  <td
+                    style={{
+                      padding: "12px 16px",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: "#1f2937",
+                    }}
+                  >
+                    Rs. {o.amount.toLocaleString()}
+                  </td>
+                  <td style={{ padding: "12px 16px" }}>
+                    <StatusBadge status={o.status} />
+                  </td>
+                  <td style={{ padding: "12px 16px" }}>
+                    <button
+                      onClick={() => setPage("orders")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "#145faf",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 12,
+                        cursor: "pointer",
+                        fontWeight: 500,
+                      }}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Quick Actions */}
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            padding: 20,
+          }}
+        >
+          <h2
+            style={{
+              margin: "0 0 16px",
+              fontFamily: "Playfair Display,serif",
+              fontSize: 17,
+              color: "#1f2937",
+            }}
+          >
+            Quick Actions
+          </h2>
+          {[
+            {
+              label: "New Tax Invoice",
+              sub: "Create VAT invoice",
+              icon: "fas fa-file-invoice",
+              bg: "rgba(20,95,175,.05)",
+              hoverBg: "#145faf",
+              color: "#145faf",
+              page: "invoices",
+            },
+            {
+              label: "New Estimate",
+              sub: "Create quotation",
+              icon: "fas fa-file-alt",
+              bg: "rgba(217,58,106,.05)",
+              hoverBg: "#D93A6A",
+              color: "#D93A6A",
+              page: "estimates",
+            },
+            {
+              label: "Add Product",
+              sub: "Add new item",
+              icon: "fas fa-plus-circle",
+              bg: "#f0fdf4",
+              hoverBg: "#16a34a",
+              color: "#15803d",
+              page: "products",
+            },
+            {
+              label: "View Reports",
+              sub: "Analytics",
+              icon: "fas fa-chart-line",
+              bg: "#fffbeb",
+              hoverBg: "#f59e0b",
+              color: "#92400e",
+              page: "reports",
+            },
+          ].map((a, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(a.page)}
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                background: a.bg,
+                border: "none",
+                padding: "14px",
+                borderRadius: 12,
+                cursor: "pointer",
+                marginBottom: 10,
+                transition: "all .2s",
+                color: a.color,
+                fontFamily: "Poppins,sans-serif",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = a.hoverBg;
+                e.currentTarget.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = a.bg;
+                e.currentTarget.style.color = a.color;
+              }}
+            >
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  background: "rgba(0,0,0,.08)",
+                  borderRadius: 8,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <i className={a.icon} style={{ fontSize: 13 }}></i>
+              </div>
+              <div style={{ textAlign: "left" }}>
+                <p style={{ margin: 0, fontSize: 13, fontWeight: 600 }}>
+                  {a.label}
+                </p>
+                <p style={{ margin: 0, fontSize: 11, opacity: 0.6 }}>{a.sub}</p>
+              </div>
+              <i
+                className="fas fa-arrow-right"
+                style={{ marginLeft: "auto", fontSize: 11 }}
+              ></i>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Top Products */}
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 16,
+          boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+          padding: 24,
+        }}
+      >
+        <h2
+          style={{
+            margin: "0 0 20px",
+            fontFamily: "Playfair Display,serif",
+            fontSize: 17,
+            color: "#1f2937",
+          }}
+        >
+          Top Products by Orders
+        </h2>
+        {TOP_PRODUCTS.map((p, i) => (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              marginBottom: 16,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 13,
+                color: "#4b5563",
+                width: 160,
+                flexShrink: 0,
+              }}
+            >
+              {p.name}
+            </span>
+            <div
+              style={{
+                flex: 1,
+                background: "#f3f4f6",
+                borderRadius: 999,
+                height: 10,
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: `${p.pct}%`,
+                  height: "100%",
+                  background: p.color,
+                  borderRadius: 999,
+                }}
+              ></div>
+            </div>
+            <span
+              style={{
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 13,
+                fontWeight: 700,
+                color: "#374151",
+                width: 36,
+                textAlign: "right",
+              }}
+            >
+              {p.pct}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════ ORDERS PAGE ═══════════════════════ */
+function OrdersPage({ orders, setPage }) {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const filtered = orders.filter((o) => {
+    const matchSearch =
+      !search ||
+      o.customer.toLowerCase().includes(search.toLowerCase()) ||
+      o.id.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = !statusFilter || o.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
+
+  const s = {
+    padding: "10px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 13,
+    color: "#374151",
+    borderBottom: "1px solid #f3f4f6",
+  };
+  const th = {
+    textAlign: "left",
+    padding: "10px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 10,
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: ".05em",
+    color: "#9ca3af",
+    background: "#f9fafb",
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 16,
+          boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px 24px",
+            borderBottom: "1px solid #f9fafb",
+            flexWrap: "wrap",
+            gap: 12,
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: "Playfair Display,serif",
+              fontSize: 19,
+              color: "#1f2937",
+            }}
+          >
+            All Orders
+          </h2>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <div style={{ position: "relative" }}>
+              <i
+                className="fas fa-search"
+                style={{
+                  position: "absolute",
+                  left: 10,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#9ca3af",
+                  fontSize: 11,
+                }}
+              ></i>
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search orders..."
+                style={{
+                  border: "2px solid #f3f4f6",
+                  background: "#f9fafb",
+                  borderRadius: 10,
+                  padding: "8px 12px 8px 30px",
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 12,
+                  outline: "none",
+                  width: 180,
+                }}
+              />
+            </div>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              style={{
+                border: "2px solid #f3f4f6",
+                background: "#f9fafb",
+                borderRadius: 10,
+                padding: "8px 12px",
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 12,
+              }}
+            >
+              <option value="">All Status</option>
+              {["Pending", "Processing", "Completed", "Cancelled"].map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+            <button
+              onClick={() => setPage("invoices")}
+              style={{
+                background: "#145faf",
+                color: "#fff",
+                border: "none",
+                padding: "8px 16px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 12,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <i className="fas fa-file-invoice"></i> New Invoice
+            </button>
+          </div>
+        </div>
+
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                {[
+                  "Order ID",
+                  "Customer",
+                  "Product",
+                  "Date",
+                  "Amount",
+                  "Status",
+                  "Actions",
+                ].map((h) => (
+                  <th key={h} style={th}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((o, i) => (
+                <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                  <td style={{ ...s, fontWeight: 600, color: "#145faf" }}>
+                    {o.id}
+                  </td>
+                  <td style={s}>
+                    <div style={{ fontWeight: 500, color: "#1f2937" }}>
+                      {o.customer}
+                    </div>
+                    <div style={{ fontSize: 11, color: "#9ca3af" }}>
+                      {o.phone}
+                    </div>
+                  </td>
+                  <td style={{ ...s, color: "#6b7280" }}>{o.product}</td>
+                  <td style={{ ...s, fontSize: 11, color: "#9ca3af" }}>
+                    {o.date}
+                  </td>
+                  <td style={{ ...s, fontWeight: 600 }}>
+                    Rs. {o.amount.toLocaleString()}
+                  </td>
+                  <td style={s}>
+                    <StatusBadge status={o.status} />
+                  </td>
+                  <td style={s}>
+                    <div style={{ display: "flex", gap: 4 }}>
+                      <ActionBtn
+                        icon="fas fa-eye"
+                        color="#145faf"
+                        bg="#eff6ff"
+                        onClick={() => setSelectedOrder(o)}
+                        title="View"
+                      />
+                      <ActionBtn
+                        icon="fas fa-file-invoice"
+                        color="#16a34a"
+                        bg="#f0fdf4"
+                        onClick={() => setPage("invoices")}
+                        title="Invoice"
+                      />
+                      <ActionBtn
+                        icon="fas fa-edit"
+                        color="#f59e0b"
+                        bg="#fffbeb"
+                        onClick={() => {}}
+                        title="Edit"
+                      />
+                      <ActionBtn
+                        icon="fas fa-times"
+                        color="#ef4444"
+                        bg="#fef2f2"
+                        onClick={() => {}}
+                        title="Cancel"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          style={{
+            padding: "12px 24px",
+            borderTop: "1px solid #f9fafb",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 11,
+              color: "#9ca3af",
+              margin: 0,
+            }}
+          >
+            Showing {filtered.length} of {orders.length} orders
+          </p>
+          <div style={{ display: "flex", gap: 8 }}>
+            {["Previous", "1", "Next"].map((b, i) => (
+              <button
+                key={i}
+                style={{
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 11,
+                  border: i === 1 ? "none" : "1px solid #e5e7eb",
+                  background: i === 1 ? "#145faf" : "none",
+                  color: i === 1 ? "#fff" : "#374151",
+                  padding: "6px 12px",
+                  borderRadius: 8,
+                  cursor: "pointer",
+                }}
+              >
+                {b}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Order Modal */}
+      {selectedOrder && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,.5)",
+            zIndex: 200,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 20px 60px rgba(0,0,0,.2)",
+              width: "100%",
+              maxWidth: 480,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "20px",
+                borderBottom: "1px solid #f3f4f6",
+              }}
+            >
+              <h3
+                style={{
+                  margin: 0,
+                  fontFamily: "Playfair Display,serif",
+                  fontSize: 17,
+                  color: "#145faf",
+                }}
+              >
+                Order {selectedOrder.id}
+              </h3>
+              <button
+                onClick={() => setSelectedOrder(null)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#9ca3af",
+                  cursor: "pointer",
+                  fontSize: 18,
+                }}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div style={{ padding: 20 }}>
+              {[
+                ["Customer", selectedOrder.customer],
+                ["Phone", selectedOrder.phone],
+                ["Product", selectedOrder.product],
+                ["Date", selectedOrder.date],
+                ["Amount", `Rs. ${selectedOrder.amount.toLocaleString()}`],
+              ].map(([k, v]) => (
+                <div
+                  key={k}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    marginBottom: 12,
+                  }}
+                >
+                  <span style={{ color: "#6b7280" }}>{k}:</span>
+                  <strong style={{ color: "#1f2937" }}>{v}</strong>
+                </div>
+              ))}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 13,
+                  marginBottom: 20,
+                }}
+              >
+                <span style={{ color: "#6b7280" }}>Status:</span>
+                <StatusBadge status={selectedOrder.status} />
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                <button
+                  onClick={() => {
+                    setPage("invoices");
+                    setSelectedOrder(null);
+                  }}
+                  style={{
+                    flex: 1,
+                    background: "#145faf",
+                    color: "#fff",
+                    border: "none",
+                    padding: "12px",
+                    borderRadius: 10,
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: 600,
+                    fontSize: 13,
+                    cursor: "pointer",
+                  }}
+                >
+                  Generate Invoice
+                </button>
+                <button
+                  onClick={() => setSelectedOrder(null)}
+                  style={{
+                    padding: "12px 20px",
+                    border: "2px solid #f3f4f6",
+                    background: "none",
+                    color: "#6b7280",
+                    borderRadius: 10,
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: 600,
+                    fontSize: 13,
+                    cursor: "pointer",
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ActionBtn({ icon, color, bg, onClick, title }) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      style={{
+        padding: "6px",
+        background: "none",
+        border: "none",
+        color,
+        cursor: "pointer",
+        borderRadius: 8,
+        transition: "background .2s",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.background = bg)}
+      onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+    >
+      <i className={icon} style={{ fontSize: 13 }}></i>
+    </button>
+  );
+}
+
+/* ═══════════════════════ PRODUCTS PAGE ═══════════════════════ */
+function ProductsPage({ products, setProducts, showToast }) {
+  const [catFilter, setCatFilter] = useState("all");
+  const [showModal, setShowModal] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    maxPrice: "",
+    category: "wooden",
+    stock: "",
+    badge: "",
+    status: "active",
+    image: "",
+    desc: "",
+  });
+
+  const cats = [
+    { val: "all", label: "All" },
+    { val: "wooden", label: "Wooden" },
+    { val: "qr", label: "QR" },
+    { val: "keyring", label: "Keyrings" },
+    { val: "award", label: "Awards" },
+    { val: "signboard", label: "Signboards" },
+  ];
+
+  const filtered =
+    catFilter === "all"
+      ? products
+      : products.filter((p) => p.category === catFilter);
+
+  function openAdd() {
+    setEditId(null);
+    setForm({
+      name: "",
+      price: "",
+      maxPrice: "",
+      category: "wooden",
+      stock: "",
+      badge: "",
+      status: "active",
+      image: "",
+      desc: "",
+    });
+    setShowModal(true);
+  }
+
+  function openEdit(p) {
+    setEditId(p.id);
+    setForm({
+      name: p.name,
+      price: p.price,
+      maxPrice: p.maxPrice,
+      category: p.category,
+      stock: p.stock,
+      badge: p.badge,
+      status: p.status,
+      image: p.image,
+      desc: p.desc || "",
+    });
+    setShowModal(true);
+  }
+
+  function saveProduct() {
+    if (!form.name.trim()) {
+      alert("Product name is required.");
+      return;
+    }
+    if (editId) {
+      setProducts(
+        products.map((p) =>
+          p.id === editId
+            ? {
+                ...p,
+                ...form,
+                price: +form.price,
+                maxPrice: +form.maxPrice,
+                stock: +form.stock,
+              }
+            : p,
+        ),
+      );
+      showToast("Product updated!");
+    } else {
+      setProducts([
+        ...products,
+        {
+          id: Date.now(),
+          ...form,
+          price: +form.price,
+          maxPrice: +form.maxPrice,
+          stock: +form.stock,
+          image:
+            form.image ||
+            "https://images.unsplash.com/photo-1582269847642-87432658c952?q=80&w=300",
+        },
+      ]);
+      showToast("Product added!");
+    }
+    setShowModal(false);
+  }
+
+  function deleteProduct(id) {
+    if (!confirm("Delete this product?")) return;
+    setProducts(products.filter((p) => p.id !== id));
+  }
+
+  const inputStyle = {
+    width: "100%",
+    border: "2px solid #f3f4f6",
+    background: "#f9fafb",
+    borderRadius: 10,
+    padding: "10px 14px",
+    fontSize: 13,
+    fontFamily: "Poppins,sans-serif",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+  const labelStyle = {
+    fontSize: 11,
+    fontWeight: 600,
+    color: "#6b7280",
+    display: "block",
+    marginBottom: 4,
+    textTransform: "uppercase",
+    letterSpacing: ".04em",
+    fontFamily: "Poppins,sans-serif",
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 20,
+        }}
+      >
+        <div>
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: "Playfair Display,serif",
+              fontSize: 19,
+              color: "#1f2937",
+            }}
+          >
+            Product Management
+          </h2>
+          <p
+            style={{
+              margin: "4px 0 0",
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 11,
+              color: "#9ca3af",
+            }}
+          >
+            Manage your product catalog
+          </p>
+        </div>
+        <button
+          onClick={openAdd}
+          style={{
+            background: "#145faf",
+            color: "#fff",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: 12,
+            fontFamily: "Poppins,sans-serif",
+            fontSize: 13,
+            fontWeight: 500,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <i className="fas fa-plus"></i> Add Product
+        </button>
+      </div>
+
+      <div
+        style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}
+      >
+        {cats.map((c) => (
+          <button
+            key={c.val}
+            onClick={() => setCatFilter(c.val)}
+            style={{
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 12,
+              padding: "8px 16px",
+              borderRadius: 10,
+              cursor: "pointer",
+              border: catFilter === c.val ? "none" : "1px solid #e5e7eb",
+              background: catFilter === c.val ? "#145faf" : "#fff",
+              color: catFilter === c.val ? "#fff" : "#6b7280",
+              transition: "all .2s",
+            }}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 16,
+          boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+          padding: 24,
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))",
+            gap: 20,
+          }}
+        >
+          {filtered.map((p) => (
+            <div
+              key={p.id}
+              style={{
+                background: "#f9fafb",
+                borderRadius: 12,
+                overflow: "hidden",
+                border: "1px solid #f3f4f6",
+                transition: "box-shadow .2s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,.1)")
+              }
+              onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "none")}
+            >
+              <div style={{ position: "relative", overflow: "hidden" }}>
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  style={{ width: "100%", height: 140, objectFit: "cover" }}
+                />
+                {p.badge && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "#145faf",
+                      color: "#fff",
+                      fontSize: 10,
+                      padding: "2px 8px",
+                      borderRadius: 999,
+                      fontFamily: "Poppins,sans-serif",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {p.badge}
+                  </span>
+                )}
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 8,
+                    left: 8,
+                    background: p.status === "active" ? "#22c55e" : "#9ca3af",
+                    color: "#fff",
+                    fontSize: 10,
+                    padding: "2px 8px",
+                    borderRadius: 999,
+                    fontFamily: "Poppins,sans-serif",
+                  }}
+                >
+                  {p.status}
+                </span>
+              </div>
+              <div style={{ padding: 14 }}>
+                <p
+                  style={{
+                    margin: "0 0 2px",
+                    fontFamily: "Playfair Display,serif",
+                    fontSize: 13,
+                    color: "#1f2937",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {p.name}
+                </p>
+                <p
+                  style={{
+                    margin: "0 0 4px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 11,
+                    color: "#9ca3af",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {p.category}
+                </p>
+                <p
+                  style={{
+                    margin: "0 0 2px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    color: "#D93A6A",
+                    fontWeight: 700,
+                  }}
+                >
+                  Rs. {p.price.toLocaleString()} – {p.maxPrice.toLocaleString()}
+                </p>
+                <p
+                  style={{
+                    margin: "0 0 12px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 11,
+                    color: "#9ca3af",
+                  }}
+                >
+                  Stock: {p.stock}
+                </p>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button
+                    onClick={() => openEdit(p)}
+                    style={{
+                      flex: 1,
+                      background: "rgba(20,95,175,.08)",
+                      color: "#145faf",
+                      border: "none",
+                      padding: "8px",
+                      borderRadius: 10,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <i className="fas fa-edit"></i> Edit
+                  </button>
+                  <button
+                    onClick={() => deleteProduct(p.id)}
+                    style={{
+                      flex: 1,
+                      background: "#fef2f2",
+                      color: "#ef4444",
+                      border: "none",
+                      padding: "8px",
+                      borderRadius: 10,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <i className="fas fa-trash-alt"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Product Modal */}
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,.5)",
+            zIndex: 200,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 20px 60px rgba(0,0,0,.2)",
+              width: "100%",
+              maxWidth: 520,
+              maxHeight: "90vh",
+              overflowY: "auto",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "20px",
+                borderBottom: "1px solid #f3f4f6",
+                position: "sticky",
+                top: 0,
+                background: "#fff",
+              }}
+            >
+              <h3
+                style={{
+                  margin: 0,
+                  fontFamily: "Playfair Display,serif",
+                  fontSize: 19,
+                  color: "#145faf",
+                }}
+              >
+                {editId ? "Edit Product" : "Add New Product"}
+              </h3>
+              <button
+                onClick={() => setShowModal(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#9ca3af",
+                  cursor: "pointer",
+                  fontSize: 18,
+                }}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div
+              style={{
+                padding: 20,
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+              }}
+            >
+              <div>
+                <label style={labelStyle}>Product Name *</label>
+                <input
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="e.g., Wooden Photo Engraving"
+                  style={inputStyle}
+                />
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <label style={labelStyle}>Price (Rs.) *</label>
+                  <input
+                    type="number"
+                    value={form.price}
+                    onChange={(e) =>
+                      setForm({ ...form, price: e.target.value })
+                    }
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Max Price (Rs.)</label>
+                  <input
+                    type="number"
+                    value={form.maxPrice}
+                    onChange={(e) =>
+                      setForm({ ...form, maxPrice: e.target.value })
+                    }
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <label style={labelStyle}>Category *</label>
+                  <select
+                    value={form.category}
+                    onChange={(e) =>
+                      setForm({ ...form, category: e.target.value })
+                    }
+                    style={inputStyle}
+                  >
+                    {[
+                      "wooden",
+                      "qr",
+                      "award",
+                      "keyring",
+                      "signboard",
+                      "numberplate",
+                      "neon",
+                      "mug",
+                      "leafart",
+                    ].map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Stock Qty</label>
+                  <input
+                    type="number"
+                    value={form.stock}
+                    onChange={(e) =>
+                      setForm({ ...form, stock: e.target.value })
+                    }
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={labelStyle}>Description</label>
+                <textarea
+                  value={form.desc}
+                  onChange={(e) => setForm({ ...form, desc: e.target.value })}
+                  rows={3}
+                  style={{ ...inputStyle, resize: "none" }}
+                />
+              </div>
+              <div>
+                <label style={labelStyle}>Image URL</label>
+                <input
+                  value={form.image}
+                  onChange={(e) => setForm({ ...form, image: e.target.value })}
+                  placeholder="https://..."
+                  style={inputStyle}
+                />
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <label style={labelStyle}>Badge</label>
+                  <select
+                    value={form.badge}
+                    onChange={(e) =>
+                      setForm({ ...form, badge: e.target.value })
+                    }
+                    style={inputStyle}
+                  >
+                    {[
+                      "",
+                      "Popular",
+                      "New",
+                      "Trending",
+                      "Hot",
+                      "Sale",
+                      "Premium",
+                    ].map((b) => (
+                      <option key={b} value={b}>
+                        {b || "None"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Status</label>
+                  <select
+                    value={form.status}
+                    onChange={(e) =>
+                      setForm({ ...form, status: e.target.value })
+                    }
+                    style={inputStyle}
+                  >
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 12, paddingTop: 4 }}>
+                <button
+                  onClick={saveProduct}
+                  style={{
+                    flex: 1,
+                    background: "#145faf",
+                    color: "#fff",
+                    border: "none",
+                    padding: "12px",
+                    borderRadius: 10,
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: 600,
+                    fontSize: 13,
+                    cursor: "pointer",
+                  }}
+                >
+                  Save Product
+                </button>
+                <button
+                  onClick={() => setShowModal(false)}
+                  style={{
+                    padding: "12px 20px",
+                    border: "2px solid #f3f4f6",
+                    background: "none",
+                    color: "#6b7280",
+                    borderRadius: 10,
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: 600,
+                    fontSize: 13,
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════ CUSTOMERS PAGE ═══════════════════════ */
+function CustomersPage() {
+  const th = {
+    textAlign: "left",
+    padding: "10px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 10,
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: ".05em",
+    color: "#9ca3af",
+    background: "#f9fafb",
+  };
+  const td = {
+    padding: "14px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 13,
+    color: "#374151",
+    borderBottom: "1px solid #f3f4f6",
+  };
+
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 16,
+        boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "16px 24px",
+          borderBottom: "1px solid #f9fafb",
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontFamily: "Playfair Display,serif",
+            fontSize: 19,
+            color: "#1f2937",
+          }}
+        >
+          Customers
+        </h2>
+        <div style={{ position: "relative" }}>
+          <i
+            className="fas fa-search"
+            style={{
+              position: "absolute",
+              left: 10,
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: "#9ca3af",
+              fontSize: 11,
+            }}
+          ></i>
+          <input
+            type="text"
+            placeholder="Search customers..."
+            style={{
+              border: "2px solid #f3f4f6",
+              background: "#f9fafb",
+              borderRadius: 10,
+              padding: "8px 12px 8px 30px",
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 12,
+              outline: "none",
+            }}
+          />
+        </div>
+      </div>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            {[
+              "Customer",
+              "Phone",
+              "Total Orders",
+              "Total Spent",
+              "Joined",
+              "Actions",
+            ].map((h) => (
+              <th key={h} style={th}>
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {SAMPLE_CUSTOMERS.map((c, i) => (
+            <tr key={i}>
+              <td style={td}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      background: "rgba(20,95,175,.1)",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      color: "#145faf",
+                      fontSize: 14,
+                      fontFamily: "Poppins,sans-serif",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {c.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontWeight: 500,
+                        color: "#1f2937",
+                        fontSize: 13,
+                      }}
+                    >
+                      {c.name}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 11, color: "#9ca3af" }}>
+                      {c.email}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td style={td}>{c.phone}</td>
+              <td style={td}>
+                <span style={{ fontWeight: 600, color: "#145faf" }}>
+                  {c.orders}
+                </span>
+              </td>
+              <td style={{ ...td, fontWeight: 600, color: "#D93A6A" }}>
+                Rs. {c.spent.toLocaleString()}
+              </td>
+              <td style={{ ...td, fontSize: 11, color: "#9ca3af" }}>
+                {c.joined}
+              </td>
+              <td style={td}>
+                <button
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#145faf",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 12,
+                    cursor: "pointer",
+                    fontWeight: 500,
+                  }}
+                >
+                  View Orders
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ═══════════════════════ INVOICE / ESTIMATE SHARED ITEM ROW ═══════════════════════ */
+function ItemRow({ item, onChange, onRemove, accentColor }) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "5fr 2fr 3fr auto",
+        gap: 8,
+        alignItems: "center",
+        marginBottom: 8,
+      }}
+    >
+      <input
+        value={item.desc}
+        onChange={(e) => onChange({ ...item, desc: e.target.value })}
+        placeholder="Description"
+        style={{
+          border: "2px solid #f3f4f6",
+          background: "#f9fafb",
+          borderRadius: 8,
+          padding: "8px 10px",
+          fontSize: 12,
+          fontFamily: "Poppins,sans-serif",
+          outline: "none",
+        }}
+      />
+      <input
+        type="number"
+        value={item.qty}
+        min={1}
+        onChange={(e) => onChange({ ...item, qty: +e.target.value })}
+        style={{
+          border: "2px solid #f3f4f6",
+          background: "#f9fafb",
+          borderRadius: 8,
+          padding: "8px 10px",
+          fontSize: 12,
+          fontFamily: "Poppins,sans-serif",
+          outline: "none",
+          textAlign: "center",
+        }}
+      />
+      <input
+        type="number"
+        value={item.rate}
+        min={0}
+        onChange={(e) => onChange({ ...item, rate: +e.target.value })}
+        style={{
+          border: "2px solid #f3f4f6",
+          background: "#f9fafb",
+          borderRadius: 8,
+          padding: "8px 10px",
+          fontSize: 12,
+          fontFamily: "Poppins,sans-serif",
+          outline: "none",
+          textAlign: "right",
+        }}
+      />
+      <button
+        onClick={onRemove}
+        style={{
+          background: "none",
+          border: "none",
+          color: "#ef4444",
+          cursor: "pointer",
+          padding: "8px",
+        }}
+      >
+        <i className="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  );
+}
+
+/* ═══════════════════════ INVOICES PAGE ═══════════════════════ */
+function InvoicesPage({ showToast }) {
+  const [view, setView] = useState("list"); // list | form | preview
+  const [savedInvoices, setSavedInvoices] = useState([]);
+  const [counter, setCounter] = useState(1);
+  const [form, setForm] = useState({
+    customer: "",
+    phone: "",
+    address: "",
+    pan: "",
+    date: today(),
+    due: daysAhead(7),
+  });
+  const [items, setItems] = useState([{ id: 1, desc: "", qty: 1, rate: 0 }]);
+  const [preview, setPreview] = useState(null);
+
+  function addItem() {
+    setItems([...items, { id: Date.now(), desc: "", qty: 1, rate: 0 }]);
+  }
+  function updateItem(id, val) {
+    setItems(items.map((it) => (it.id === id ? val : it)));
+  }
+  function removeItem(id) {
+    setItems(items.filter((it) => it.id !== id));
+  }
+
+  function generate() {
+    if (!form.customer.trim()) {
+      alert("Customer name is required");
+      return;
+    }
+    const validItems = items.filter((it) => it.desc.trim());
+    if (!validItems.length) {
+      alert("Add at least one item");
+      return;
+    }
+    const sub = validItems.reduce((s, it) => s + it.qty * it.rate, 0);
+    const vat = Math.round(sub * 0.13);
+    const total = sub + vat;
+    setPreview({
+      form,
+      items: validItems,
+      sub,
+      vat,
+      total,
+      num: `#RA-INV-${String(counter).padStart(3, "0")}`,
+    });
+    setView("preview");
+  }
+
+  function save() {
+    setSavedInvoices([
+      ...savedInvoices,
+      {
+        num: preview.num,
+        customer: preview.form.customer,
+        date: preview.form.date,
+        amount: `Rs. ${preview.total.toLocaleString()}`,
+        status: "Unpaid",
+      },
+    ]);
+    setCounter(counter + 1);
+    setView("list");
+    showToast("Invoice saved!");
+  }
+
+  const inputStyle = {
+    width: "100%",
+    border: "2px solid #f3f4f6",
+    background: "#f9fafb",
+    borderRadius: 10,
+    padding: "10px 14px",
+    fontSize: 13,
+    fontFamily: "Poppins,sans-serif",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+  const labelStyle = {
+    fontSize: 11,
+    fontWeight: 600,
+    color: "#6b7280",
+    display: "block",
+    marginBottom: 4,
+    textTransform: "uppercase",
+    letterSpacing: ".04em",
+    fontFamily: "Poppins,sans-serif",
+  };
+  const th = {
+    textAlign: "left",
+    padding: "10px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 10,
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: ".05em",
+    color: "#9ca3af",
+    background: "#f9fafb",
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 20,
+        }}
+      >
+        <div>
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: "Playfair Display,serif",
+              fontSize: 19,
+              color: "#1f2937",
+            }}
+          >
+            Tax Invoices
+          </h2>
+          <p
+            style={{
+              margin: "4px 0 0",
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 11,
+              color: "#9ca3af",
+            }}
+          >
+            Create and manage VAT invoices
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button
+            onClick={() => setView("list")}
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              border: "none",
+              padding: "10px 16px",
+              borderRadius: 10,
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 13,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <i className="fas fa-list"></i> All Invoices
+          </button>
+          <button
+            onClick={() => {
+              setView("form");
+              setItems([{ id: 1, desc: "", qty: 1, rate: 0 }]);
+              setForm({
+                customer: "",
+                phone: "",
+                address: "",
+                pan: "",
+                date: today(),
+                due: daysAhead(7),
+              });
+            }}
+            style={{
+              background: "#145faf",
+              color: "#fff",
+              border: "none",
+              padding: "10px 18px",
+              borderRadius: 10,
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 13,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <i className="fas fa-plus"></i> New Invoice
+          </button>
+        </div>
+      </div>
+
+      {/* List */}
+      {view === "list" && (
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            overflow: "hidden",
+          }}
+        >
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                {[
+                  "Invoice #",
+                  "Customer",
+                  "Date",
+                  "Amount",
+                  "Status",
+                  "Actions",
+                ].map((h) => (
+                  <th key={h} style={th}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {savedInvoices.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    style={{
+                      textAlign: "center",
+                      padding: 40,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#9ca3af",
+                    }}
+                  >
+                    No invoices yet.{" "}
+                    <button
+                      onClick={() => setView("form")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "#145faf",
+                        cursor: "pointer",
+                        fontFamily: "Poppins,sans-serif",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Create your first invoice
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                savedInvoices.map((inv, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: "#145faf",
+                      }}
+                    >
+                      {inv.num}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                      }}
+                    >
+                      {inv.customer}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 11,
+                        color: "#9ca3af",
+                      }}
+                    >
+                      {inv.date}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                      }}
+                    >
+                      {inv.amount}
+                    </td>
+                    <td style={{ padding: "12px 16px" }}>
+                      <StatusBadge status={inv.status} />
+                    </td>
+                    <td style={{ padding: "12px 16px" }}>
+                      <ActionBtn
+                        icon="fas fa-print"
+                        color="#145faf"
+                        bg="#eff6ff"
+                        onClick={() => window.print()}
+                        title="Print"
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Form */}
+      {view === "form" && (
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            padding: 24,
+            marginBottom: 20,
+          }}
+        >
+          <h3
+            style={{
+              margin: "0 0 20px",
+              fontFamily: "Playfair Display,serif",
+              fontSize: 17,
+              color: "#145faf",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <i className="fas fa-file-invoice"></i> Create Tax Invoice
+          </h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 16,
+              marginBottom: 20,
+            }}
+          >
+            {[
+              ["customer", "Customer Name *", "Customer full name", "text"],
+              ["phone", "Phone", "+977 98XXXXXXXX", "text"],
+              ["address", "Address", "Customer address", "text"],
+              ["pan", "Customer PAN", "PAN number (optional)", "text"],
+            ].map(([k, l, p, t]) => (
+              <div key={k}>
+                <label style={labelStyle}>{l}</label>
+                <input
+                  type={t}
+                  value={form[k]}
+                  onChange={(e) => setForm({ ...form, [k]: e.target.value })}
+                  placeholder={p}
+                  style={inputStyle}
+                />
+              </div>
+            ))}
+            <div>
+              <label style={labelStyle}>Invoice Date</label>
+              <input
+                type="date"
+                value={form.date}
+                onChange={(e) => setForm({ ...form, date: e.target.value })}
+                style={inputStyle}
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Due Date</label>
+              <input
+                type="date"
+                value={form.due}
+                onChange={(e) => setForm({ ...form, due: e.target.value })}
+                style={inputStyle}
+              />
+            </div>
+          </div>
+
+          {/* Items */}
+          <div style={{ marginBottom: 20 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 10,
+              }}
+            >
+              <label style={labelStyle}>Invoice Items</label>
+              <button
+                onClick={addItem}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#145faf",
+                  cursor: "pointer",
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 12,
+                  fontWeight: 500,
+                }}
+              >
+                <i className="fas fa-plus-circle"></i> Add Item
+              </button>
+            </div>
+            <div
+              style={{
+                background: "#f9fafb",
+                borderRadius: 10,
+                padding: "10px 12px",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "5fr 2fr 3fr auto",
+                  gap: 8,
+                  marginBottom: 8,
+                }}
+              >
+                {["Description", "Qty", "Rate (Rs.)", "Del"].map((h) => (
+                  <span
+                    key={h}
+                    style={{
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: "#9ca3af",
+                      textTransform: "uppercase",
+                      letterSpacing: ".05em",
+                    }}
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
+              {items.map((it) => (
+                <ItemRow
+                  key={it.id}
+                  item={it}
+                  onChange={(val) => updateItem(it.id, val)}
+                  onRemove={() => removeItem(it.id)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <button
+              onClick={generate}
+              style={{
+                background: "#145faf",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <i className="fas fa-file-invoice"></i> Generate Invoice
+            </button>
+            <button
+              onClick={() => setView("list")}
+              style={{
+                border: "2px solid #f3f4f6",
+                background: "none",
+                color: "#6b7280",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Preview */}
+      {view === "preview" && preview && (
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 4px 20px rgba(0,0,0,.08)",
+          }}
+        >
+          <div style={{ padding: "40px 48px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginBottom: 40,
+                paddingBottom: 32,
+                borderBottom: "2px solid #f3f4f6",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 16,
+                    marginBottom: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 64,
+                      height: 64,
+                      background: "linear-gradient(135deg,#145faf,#D93A6A)",
+                      borderRadius: 16,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fff",
+                        fontFamily: "Playfair Display,serif",
+                        fontWeight: 700,
+                        fontSize: 22,
+                      }}
+                    >
+                      RA
+                    </span>
+                  </div>
+                  <div>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontFamily: "Playfair Display,serif",
+                        fontSize: 22,
+                        color: "#1f2937",
+                      }}
+                    >
+                      Radhana Art
+                    </h2>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 11,
+                        color: "#6b7280",
+                      }}
+                    >
+                      Premium Laser Engraving Services
+                    </p>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 12,
+                    color: "#6b7280",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  <p style={{ margin: 0 }}>📍 Sitapaila, Kathmandu, Nepal</p>
+                  <p style={{ margin: 0 }}>📞 +977 9823939106</p>
+                  <p style={{ margin: 0 }}>✉️ radhanaart@gmail.com</p>
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(20,95,175,.06)",
+                    border: "2px solid rgba(20,95,175,.15)",
+                    borderRadius: 16,
+                    padding: "16px 24px",
+                    marginBottom: 16,
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "Playfair Display,serif",
+                      color: "#145faf",
+                      fontSize: 20,
+                      fontWeight: 700,
+                    }}
+                  >
+                    TAX INVOICE
+                  </p>
+                  <p
+                    style={{
+                      margin: "4px 0 0",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#4b5563",
+                    }}
+                  >
+                    {preview.num}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 12,
+                    color: "#6b7280",
+                    lineHeight: 1.8,
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    Date:{" "}
+                    <strong style={{ color: "#374151" }}>
+                      {preview.form.date}
+                    </strong>
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    Due:{" "}
+                    <strong style={{ color: "#374151" }}>
+                      {preview.form.due}
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 40,
+                marginBottom: 32,
+              }}
+            >
+              <div>
+                <p
+                  style={{
+                    margin: "0 0 8px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: "#9ca3af",
+                    textTransform: "uppercase",
+                    letterSpacing: ".1em",
+                  }}
+                >
+                  Bill To
+                </p>
+                <p
+                  style={{
+                    margin: "0 0 4px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: 700,
+                    color: "#1f2937",
+                    fontSize: 15,
+                  }}
+                >
+                  {preview.form.customer}
+                </p>
+                {preview.form.address && (
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#6b7280",
+                    }}
+                  >
+                    {preview.form.address}
+                  </p>
+                )}
+                {preview.form.phone && (
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#6b7280",
+                    }}
+                  >
+                    {preview.form.phone}
+                  </p>
+                )}
+                {preview.form.pan && (
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#6b7280",
+                    }}
+                  >
+                    PAN: {preview.form.pan}
+                  </p>
+                )}
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <p
+                  style={{
+                    margin: "0 0 8px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: "#9ca3af",
+                    textTransform: "uppercase",
+                    letterSpacing: ".1em",
+                  }}
+                >
+                  Payment Status
+                </p>
+                <StatusBadge status="Unpaid" />
+              </div>
+            </div>
+
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                marginBottom: 32,
+              }}
+            >
+              <thead>
+                <tr style={{ background: "#145faf" }}>
+                  {["#", "Description", "Qty", "Unit Price", "Amount"].map(
+                    (h, i) => (
+                      <th
+                        key={h}
+                        style={{
+                          textAlign:
+                            i > 2 ? "right" : i === 2 ? "center" : "left",
+                          padding: "12px 16px",
+                          fontFamily: "Poppins,sans-serif",
+                          fontSize: 12,
+                          fontWeight: 600,
+                          color: "#fff",
+                          borderRadius:
+                            i === 0
+                              ? "10px 0 0 10px"
+                              : i === 4
+                                ? "0 10px 10px 0"
+                                : 0,
+                        }}
+                      >
+                        {h}
+                      </th>
+                    ),
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {preview.items.map((it, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        color: "#6b7280",
+                      }}
+                    >
+                      {i + 1}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        color: "#1f2937",
+                      }}
+                    >
+                      {it.desc}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        color: "#374151",
+                        textAlign: "center",
+                      }}
+                    >
+                      {it.qty}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        color: "#374151",
+                        textAlign: "right",
+                      }}
+                    >
+                      Rs. {it.rate.toLocaleString()}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: "#1f2937",
+                        textAlign: "right",
+                      }}
+                    >
+                      Rs. {(it.qty * it.rate).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: 40,
+              }}
+            >
+              <div style={{ width: 280 }}>
+                {[
+                  ["Subtotal", `Rs. ${preview.sub.toLocaleString()}`],
+                  ["VAT (13%)", `Rs. ${preview.vat.toLocaleString()}`],
+                ].map(([k, v]) => (
+                  <div
+                    key={k}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "#6b7280" }}>{k}</span>
+                    <span style={{ color: "#374151", fontWeight: 500 }}>
+                      {v}
+                    </span>
+                  </div>
+                ))}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    borderTop: "2px solid #f3f4f6",
+                    paddingTop: 12,
+                    marginTop: 4,
+                  }}
+                >
+                  <span style={{ color: "#1f2937" }}>Total Amount</span>
+                  <span style={{ color: "#145faf", fontSize: 20 }}>
+                    Rs. {preview.total.toLocaleString()}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    background: "#f9fafb",
+                    borderRadius: 10,
+                    padding: 12,
+                    marginTop: 12,
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0 0 4px",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 11,
+                      color: "#9ca3af",
+                    }}
+                  >
+                    Amount in Words:
+                  </p>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#374151",
+                      fontWeight: 500,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {numToWords(preview.total)} Rupees Only
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                borderTop: "2px solid #f3f4f6",
+                paddingTop: 24,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 11,
+                  color: "#9ca3af",
+                  lineHeight: 1.7,
+                }}
+              >
+                <p style={{ margin: 0 }}>
+                  <strong>Payment Methods:</strong> eSewa · Khalti · Bank
+                  Transfer · Cash
+                </p>
+                <p style={{ margin: 0 }}>
+                  Account: Radhana Art | Bank: Nepal Investment Bank
+                </p>
+                <p style={{ margin: "8px 0 0", color: "#6b7280" }}>
+                  Thank you for choosing Radhana Art 🙏 —{" "}
+                  <em>Divine Craftsmanship</em>
+                </p>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <div
+                  style={{
+                    width: 140,
+                    height: 56,
+                    borderBottom: "2px solid #d1d5db",
+                    marginBottom: 8,
+                  }}
+                ></div>
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 11,
+                    color: "#9ca3af",
+                  }}
+                >
+                  Authorized Signature
+                </p>
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 11,
+                    color: "#9ca3af",
+                  }}
+                >
+                  Radhana Art
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              borderTop: "1px solid #f3f4f6",
+              padding: "20px 24px",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 12,
+            }}
+          >
+            <button
+              onClick={() => window.print()}
+              style={{
+                background: "#145faf",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <i className="fas fa-print"></i> Print Invoice
+            </button>
+            <button
+              onClick={save}
+              style={{
+                background: "#16a34a",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <i className="fas fa-save"></i> Save to List
+            </button>
+            <button
+              onClick={() => setView("list")}
+              style={{
+                border: "2px solid #f3f4f6",
+                background: "none",
+                color: "#6b7280",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <i className="fas fa-arrow-left"></i> Back
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════ ESTIMATES PAGE ═══════════════════════ */
+function EstimatesPage({ showToast }) {
+  const [view, setView] = useState("list");
+  const [savedEstimates, setSavedEstimates] = useState([]);
+  const [counter, setCounter] = useState(1);
+  const [form, setForm] = useState({ customer: "", validDays: 30, notes: "" });
+  const [items, setItems] = useState([{ id: 1, desc: "", qty: 1, rate: 0 }]);
+  const [preview, setPreview] = useState(null);
+
+  function addItem() {
+    setItems([...items, { id: Date.now(), desc: "", qty: 1, rate: 0 }]);
+  }
+  function updateItem(id, val) {
+    setItems(items.map((it) => (it.id === id ? val : it)));
+  }
+  function removeItem(id) {
+    setItems(items.filter((it) => it.id !== id));
+  }
+
+  function generate() {
+    if (!form.customer.trim()) {
+      alert("Customer name is required");
+      return;
+    }
+    const validItems = items.filter((it) => it.desc.trim());
+    if (!validItems.length) {
+      alert("Add at least one item");
+      return;
+    }
+    const sub = validItems.reduce((s, it) => s + it.qty * it.rate, 0);
+    const vat = Math.round(sub * 0.13);
+    const total = sub + vat;
+    const todayDate = new Date();
+    const validDate = new Date();
+    validDate.setDate(validDate.getDate() + +form.validDays);
+    setPreview({
+      form,
+      items: validItems,
+      sub,
+      vat,
+      total,
+      num: `#RA-EST-${String(counter).padStart(3, "0")}`,
+      date: todayDate.toLocaleDateString("en-NP"),
+      valid: validDate.toLocaleDateString("en-NP"),
+    });
+    setView("preview");
+  }
+
+  function save() {
+    setSavedEstimates([
+      ...savedEstimates,
+      {
+        num: preview.num,
+        customer: preview.form.customer,
+        date: preview.date,
+        amount: `Rs. ${preview.total.toLocaleString()}`,
+        valid: preview.valid,
+      },
+    ]);
+    setCounter(counter + 1);
+    setView("list");
+    showToast("Estimate saved!");
+  }
+
+  const inputStyle = {
+    width: "100%",
+    border: "2px solid #f3f4f6",
+    background: "#f9fafb",
+    borderRadius: 10,
+    padding: "10px 14px",
+    fontSize: 13,
+    fontFamily: "Poppins,sans-serif",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+  const labelStyle = {
+    fontSize: 11,
+    fontWeight: 600,
+    color: "#6b7280",
+    display: "block",
+    marginBottom: 4,
+    textTransform: "uppercase",
+    letterSpacing: ".04em",
+    fontFamily: "Poppins,sans-serif",
+  };
+  const th = {
+    textAlign: "left",
+    padding: "10px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 10,
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: ".05em",
+    color: "#9ca3af",
+    background: "#f9fafb",
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 20,
+        }}
+      >
+        <div>
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: "Playfair Display,serif",
+              fontSize: 19,
+              color: "#1f2937",
+            }}
+          >
+            Estimates / Quotations
+          </h2>
+          <p
+            style={{
+              margin: "4px 0 0",
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 11,
+              color: "#9ca3af",
+            }}
+          >
+            Create quotations for customers
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button
+            onClick={() => setView("list")}
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              border: "none",
+              padding: "10px 16px",
+              borderRadius: 10,
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 13,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <i className="fas fa-list"></i> All Estimates
+          </button>
+          <button
+            onClick={() => {
+              setView("form");
+              setItems([{ id: 1, desc: "", qty: 1, rate: 0 }]);
+              setForm({ customer: "", validDays: 30, notes: "" });
+            }}
+            style={{
+              background: "#D93A6A",
+              color: "#fff",
+              border: "none",
+              padding: "10px 18px",
+              borderRadius: 10,
+              fontFamily: "Poppins,sans-serif",
+              fontSize: 13,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <i className="fas fa-plus"></i> New Estimate
+          </button>
+        </div>
+      </div>
+
+      {view === "list" && (
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            overflow: "hidden",
+          }}
+        >
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                {[
+                  "Estimate #",
+                  "Customer",
+                  "Date",
+                  "Amount",
+                  "Valid Until",
+                  "Actions",
+                ].map((h) => (
+                  <th key={h} style={th}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {savedEstimates.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    style={{
+                      textAlign: "center",
+                      padding: 40,
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      color: "#9ca3af",
+                    }}
+                  >
+                    No estimates yet.{" "}
+                    <button
+                      onClick={() => setView("form")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "#D93A6A",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                        fontFamily: "Poppins,sans-serif",
+                      }}
+                    >
+                      Create your first estimate
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                savedEstimates.map((e, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: "#D93A6A",
+                      }}
+                    >
+                      {e.num}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                      }}
+                    >
+                      {e.customer}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 11,
+                        color: "#9ca3af",
+                      }}
+                    >
+                      {e.date}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                      }}
+                    >
+                      {e.amount}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 11,
+                        color: "#d97706",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {e.valid}
+                    </td>
+                    <td style={{ padding: "12px 16px" }}>
+                      <ActionBtn
+                        icon="fas fa-print"
+                        color="#D93A6A"
+                        bg="#fdf2f8"
+                        onClick={() => window.print()}
+                        title="Print"
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {view === "form" && (
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            padding: 24,
+            marginBottom: 20,
+          }}
+        >
+          <h3
+            style={{
+              margin: "0 0 20px",
+              fontFamily: "Playfair Display,serif",
+              fontSize: 17,
+              color: "#D93A6A",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <i className="fas fa-file-alt"></i> Create Estimate / Quotation
+          </h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 16,
+              marginBottom: 20,
+            }}
+          >
+            <div>
+              <label style={labelStyle}>Customer Name *</label>
+              <input
+                value={form.customer}
+                onChange={(e) => setForm({ ...form, customer: e.target.value })}
+                placeholder="Customer name"
+                style={inputStyle}
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Valid For (Days)</label>
+              <input
+                type="number"
+                value={form.validDays}
+                onChange={(e) =>
+                  setForm({ ...form, validDays: e.target.value })
+                }
+                style={inputStyle}
+              />
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <label style={labelStyle}>Notes / Requirements</label>
+              <textarea
+                value={form.notes}
+                onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                rows={2}
+                placeholder="Special requirements..."
+                style={{ ...inputStyle, resize: "none" }}
+              />
+            </div>
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 10,
+              }}
+            >
+              <label style={labelStyle}>Items</label>
+              <button
+                onClick={addItem}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#D93A6A",
+                  cursor: "pointer",
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 12,
+                  fontWeight: 500,
+                }}
+              >
+                <i className="fas fa-plus-circle"></i> Add Item
+              </button>
+            </div>
+            <div
+              style={{
+                background: "#f9fafb",
+                borderRadius: 10,
+                padding: "10px 12px",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "5fr 2fr 3fr auto",
+                  gap: 8,
+                  marginBottom: 8,
+                }}
+              >
+                {["Description", "Qty", "Rate (Rs.)", "Del"].map((h) => (
+                  <span
+                    key={h}
+                    style={{
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: "#9ca3af",
+                      textTransform: "uppercase",
+                      letterSpacing: ".05em",
+                    }}
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
+              {items.map((it) => (
+                <ItemRow
+                  key={it.id}
+                  item={it}
+                  onChange={(val) => updateItem(it.id, val)}
+                  onRemove={() => removeItem(it.id)}
+                />
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button
+              onClick={generate}
+              style={{
+                background: "#D93A6A",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <i className="fas fa-file-alt"></i> Generate Estimate
+            </button>
+            <button
+              onClick={() => setView("list")}
+              style={{
+                border: "2px solid #f3f4f6",
+                background: "none",
+                color: "#6b7280",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {view === "preview" && preview && (
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 4px 20px rgba(0,0,0,.08)",
+          }}
+        >
+          <div style={{ padding: "40px 48px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginBottom: 40,
+                paddingBottom: 32,
+                borderBottom: "2px solid #f3f4f6",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 16,
+                    marginBottom: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 64,
+                      height: 64,
+                      background: "linear-gradient(135deg,#D93A6A,#e879a0)",
+                      borderRadius: 16,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fff",
+                        fontFamily: "Playfair Display,serif",
+                        fontWeight: 700,
+                        fontSize: 22,
+                      }}
+                    >
+                      RA
+                    </span>
+                  </div>
+                  <div>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontFamily: "Playfair Display,serif",
+                        fontSize: 22,
+                        color: "#1f2937",
+                      }}
+                    >
+                      Radhana Art
+                    </h2>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 11,
+                        color: "#6b7280",
+                      }}
+                    >
+                      Premium Laser Engraving Services
+                    </p>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 12,
+                    color: "#6b7280",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  <p style={{ margin: 0 }}>Sitapaila, Kathmandu, Nepal</p>
+                  <p style={{ margin: 0 }}>
+                    +977 9823939106 · radhanaart@gmail.com
+                  </p>
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(217,58,106,.06)",
+                    border: "2px solid rgba(217,58,106,.15)",
+                    borderRadius: 16,
+                    padding: "16px 24px",
+                    marginBottom: 16,
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "Playfair Display,serif",
+                      color: "#D93A6A",
+                      fontSize: 20,
+                      fontWeight: 700,
+                    }}
+                  >
+                    ESTIMATE
+                  </p>
+                  <p
+                    style={{
+                      margin: "4px 0 0",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#4b5563",
+                    }}
+                  >
+                    {preview.num}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 12,
+                    color: "#6b7280",
+                    lineHeight: 1.8,
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    Date:{" "}
+                    <strong style={{ color: "#374151" }}>{preview.date}</strong>
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    Valid Until:{" "}
+                    <strong style={{ color: "#d97706" }}>
+                      {preview.valid}
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 32 }}>
+              <p
+                style={{
+                  margin: "0 0 8px",
+                  fontFamily: "Poppins,sans-serif",
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: "#9ca3af",
+                  textTransform: "uppercase",
+                  letterSpacing: ".1em",
+                }}
+              >
+                Prepared For
+              </p>
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: "Poppins,sans-serif",
+                  fontWeight: 700,
+                  color: "#1f2937",
+                  fontSize: 16,
+                }}
+              >
+                {preview.form.customer}
+              </p>
+              {preview.form.notes && (
+                <p
+                  style={{
+                    margin: "4px 0 0",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    color: "#6b7280",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {preview.form.notes}
+                </p>
+              )}
+            </div>
+
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                marginBottom: 32,
+              }}
+            >
+              <thead>
+                <tr style={{ background: "#D93A6A" }}>
+                  {["#", "Description", "Qty", "Unit Price", "Total"].map(
+                    (h, i) => (
+                      <th
+                        key={h}
+                        style={{
+                          textAlign:
+                            i > 2 ? "right" : i === 2 ? "center" : "left",
+                          padding: "12px 16px",
+                          fontFamily: "Poppins,sans-serif",
+                          fontSize: 12,
+                          fontWeight: 600,
+                          color: "#fff",
+                          borderRadius:
+                            i === 0
+                              ? "10px 0 0 10px"
+                              : i === 4
+                                ? "0 10px 10px 0"
+                                : 0,
+                        }}
+                      >
+                        {h}
+                      </th>
+                    ),
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {preview.items.map((it, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        color: "#6b7280",
+                      }}
+                    >
+                      {i + 1}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        color: "#1f2937",
+                      }}
+                    >
+                      {it.desc}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        textAlign: "center",
+                      }}
+                    >
+                      {it.qty}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        textAlign: "right",
+                      }}
+                    >
+                      Rs. {it.rate.toLocaleString()}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px 16px",
+                        fontFamily: "Poppins,sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        textAlign: "right",
+                      }}
+                    >
+                      Rs. {(it.qty * it.rate).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: 32,
+              }}
+            >
+              <div style={{ width: 280 }}>
+                {[
+                  ["Subtotal", `Rs. ${preview.sub.toLocaleString()}`],
+                  ["VAT (13%)", `Rs. ${preview.vat.toLocaleString()}`],
+                ].map(([k, v]) => (
+                  <div
+                    key={k}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "Poppins,sans-serif",
+                      fontSize: 13,
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "#6b7280" }}>{k}</span>
+                    <span style={{ fontWeight: 500 }}>{v}</span>
+                  </div>
+                ))}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    borderTop: "2px solid #f3f4f6",
+                    paddingTop: 12,
+                    fontFamily: "Poppins,sans-serif",
+                    fontWeight: 700,
+                    fontSize: 16,
+                  }}
+                >
+                  <span>Estimated Total</span>
+                  <span style={{ color: "#D93A6A", fontSize: 20 }}>
+                    Rs. {preview.total.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                borderTop: "2px solid #f3f4f6",
+                paddingTop: 20,
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 11,
+                color: "#9ca3af",
+                lineHeight: 1.7,
+              }}
+            >
+              <p style={{ margin: 0 }}>
+                * This is an estimate only. Final pricing may vary based on
+                design complexity and material availability.
+              </p>
+              <p style={{ margin: 0 }}>
+                * This estimate is valid until the date mentioned above.
+              </p>
+              <p style={{ margin: "8px 0 0" }}>
+                📞 +977 9823939106 · 📧 radhanaart@gmail.com · WhatsApp: +977
+                9823939106
+              </p>
+            </div>
+          </div>
+          <div
+            style={{
+              borderTop: "1px solid #f3f4f6",
+              padding: "20px 24px",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 12,
+            }}
+          >
+            <button
+              onClick={() => window.print()}
+              style={{
+                background: "#D93A6A",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              <i className="fas fa-print"></i> Print Estimate
+            </button>
+            <button
+              onClick={save}
+              style={{
+                background: "#16a34a",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              <i className="fas fa-save"></i> Save to List
+            </button>
+            <button
+              onClick={() => setView("list")}
+              style={{
+                border: "2px solid #f3f4f6",
+                background: "none",
+                color: "#6b7280",
+                padding: "12px 24px",
+                borderRadius: 10,
+                fontFamily: "Poppins,sans-serif",
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              <i className="fas fa-arrow-left"></i> Back
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════ REPORTS PAGE ═══════════════════════ */
+function ReportsPage() {
+  const th = {
+    textAlign: "left",
+    padding: "10px 16px",
+    fontFamily: "Poppins,sans-serif",
+    fontSize: 10,
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: ".05em",
+    color: "#9ca3af",
+    background: "#f9fafb",
+  };
+  return (
+    <div>
+      <h2
+        style={{
+          margin: "0 0 24px",
+          fontFamily: "Playfair Display,serif",
+          fontSize: 19,
+          color: "#1f2937",
+        }}
+      >
+        Reports & Analytics
+      </h2>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+          gap: 20,
+          marginBottom: 24,
+        }}
+      >
+        {[
+          {
+            icon: "fas fa-calendar-month",
+            color: "#145faf",
+            bg: "#eff6ff",
+            label: "This Month Revenue",
+            value: "Rs. 1,23,450",
+            sub: "+18% from last month",
+            upColor: "#16a34a",
+          },
+          {
+            icon: "fas fa-box",
+            color: "#D93A6A",
+            bg: "#fdf2f8",
+            label: "Orders This Month",
+            value: "47",
+            sub: "+12% from last month",
+            upColor: "#16a34a",
+          },
+          {
+            icon: "fas fa-user-plus",
+            color: "#16a34a",
+            bg: "#f0fdf4",
+            label: "New Customers",
+            value: "23",
+            sub: "+8% from last month",
+            upColor: "#16a34a",
+          },
+        ].map((c, i) => (
+          <div
+            key={i}
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              padding: 20,
+              boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+              textAlign: "center",
+            }}
+          >
+            <i
+              className={c.icon}
+              style={{
+                color: c.color,
+                fontSize: 28,
+                display: "block",
+                marginBottom: 10,
+              }}
+            ></i>
+            <p
+              style={{
+                margin: "0 0 4px",
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 11,
+                color: "#9ca3af",
+              }}
+            >
+              {c.label}
+            </p>
+            <p
+              style={{
+                margin: "0 0 4px",
+                fontFamily: "Playfair Display,serif",
+                fontSize: 22,
+                fontWeight: 700,
+                color: "#1f2937",
+              }}
+            >
+              {c.value}
+            </p>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 11,
+                color: c.upColor,
+                fontWeight: 500,
+              }}
+            >
+              {c.sub}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 16,
+          boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+          padding: 24,
+          marginBottom: 20,
+        }}
+      >
+        <h3
+          style={{
+            margin: "0 0 20px",
+            fontFamily: "Playfair Display,serif",
+            fontSize: 16,
+            color: "#374151",
+          }}
+        >
+          Orders by Category
+        </h3>
+        {REPORT_CATEGORIES.map((c, i) => (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              marginBottom: 16,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 13,
+                color: "#4b5563",
+                width: 200,
+                flexShrink: 0,
+              }}
+            >
+              {c.name}
+            </span>
+            <div
+              style={{
+                flex: 1,
+                background: "#f3f4f6",
+                borderRadius: 999,
+                height: 12,
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: `${c.pct}%`,
+                  height: "100%",
+                  background: c.color,
+                  borderRadius: 999,
+                }}
+              ></div>
+            </div>
+            <span
+              style={{
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 13,
+                fontWeight: 700,
+                color: "#374151",
+                width: 40,
+                textAlign: "right",
+              }}
+            >
+              {c.pct}%
+            </span>
+            <span
+              style={{
+                fontFamily: "Poppins,sans-serif",
+                fontSize: 11,
+                color: "#9ca3af",
+                width: 70,
+                textAlign: "right",
+              }}
+            >
+              {c.orders} orders
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 16,
+          boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{ padding: "16px 24px", borderBottom: "1px solid #f9fafb" }}
+        >
+          <h3
+            style={{
+              margin: 0,
+              fontFamily: "Playfair Display,serif",
+              fontSize: 16,
+              color: "#374151",
+            }}
+          >
+            Monthly Revenue 2025
+          </h3>
+        </div>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              {["Month", "Orders", "Revenue", "Avg Order Value", "Growth"].map(
+                (h) => (
+                  <th key={h} style={th}>
+                    {h}
+                  </th>
+                ),
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {MONTHLY_REPORTS.map((r, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: "#1f2937",
+                  }}
+                >
+                  {r.month}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    color: "#374151",
+                  }}
+                >
+                  {r.orders}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    color: "#374151",
+                  }}
+                >
+                  {r.revenue}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    color: "#374151",
+                  }}
+                >
+                  {r.avg}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    fontFamily: "Poppins,sans-serif",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: r.up ? "#16a34a" : "#ef4444",
+                  }}
+                >
+                  {r.growth}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════ SETTINGS PAGE ═══════════════════════ */
+function SettingsPage() {
+  const inputStyle = {
+    width: "100%",
+    border: "2px solid #f3f4f6",
+    background: "#f9fafb",
+    borderRadius: 10,
+    padding: "10px 14px",
+    fontSize: 13,
+    fontFamily: "Poppins,sans-serif",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+  const labelStyle = {
+    fontSize: 11,
+    fontWeight: 600,
+    color: "#6b7280",
+    display: "block",
+    marginBottom: 4,
+    textTransform: "uppercase",
+    letterSpacing: ".04em",
+    fontFamily: "Poppins,sans-serif",
+  };
+  const sectionTitle = (icon, title) => (
+    <h3
+      style={{
+        margin: "0 0 20px",
+        fontFamily: "Playfair Display,serif",
+        fontSize: 17,
+        color: "#145faf",
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+      }}
+    >
+      <i className={icon} style={{ fontSize: 14 }}></i> {title}
+    </h3>
+  );
+  const saveBtn = (label, onClick) => (
+    <button
+      onClick={onClick}
+      style={{
+        background: "#145faf",
+        color: "#fff",
+        border: "none",
+        padding: "12px 24px",
+        borderRadius: 10,
+        fontFamily: "Poppins,sans-serif",
+        fontWeight: 600,
+        fontSize: 13,
+        cursor: "pointer",
+      }}
+    >
+      {label}
+    </button>
+  );
+
+  return (
+    <div>
+      <h2
+        style={{
+          margin: "0 0 24px",
+          fontFamily: "Playfair Display,serif",
+          fontSize: 19,
+          color: "#1f2937",
+        }}
+      >
+        Settings
+      </h2>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        {/* Business Info */}
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+            padding: 24,
+          }}
+        >
+          {sectionTitle("fas fa-building", "Business Information")}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {[
+              ["Business Name", "Radhana Art"],
+              ["Tagline", "Premium Laser Engraving Services"],
+              ["Phone", "+977 9823939106"],
+              ["Email", "radhanaart@gmail.com"],
+              ["Address", "Sitapaila, Kathmandu, Nepal"],
+              ["PAN Number", ""],
+            ].map(([label, val]) => (
+              <div key={label}>
+                <label style={labelStyle}>{label}</label>
+                <input
+                  type={label === "Email" ? "email" : "text"}
+                  defaultValue={val}
+                  placeholder={label === "PAN Number" ? "Your PAN number" : ""}
+                  style={inputStyle}
+                />
+              </div>
+            ))}
+            {saveBtn("Save Changes", () => alert("Settings saved!"))}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          {/* Invoice Settings */}
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+              padding: 24,
+            }}
+          >
+            {sectionTitle("fas fa-file-invoice", "Invoice Settings")}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <label style={labelStyle}>Invoice Prefix</label>
+                  <input defaultValue="RA-INV-" style={inputStyle} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Starting Number</label>
+                  <input type="number" defaultValue={1} style={inputStyle} />
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <label style={labelStyle}>VAT Rate (%)</label>
+                  <input type="number" defaultValue={13} style={inputStyle} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Payment Terms (Days)</label>
+                  <input type="number" defaultValue={7} style={inputStyle} />
+                </div>
+              </div>
+              <div>
+                <label style={labelStyle}>Invoice Footer Note</label>
+                <textarea
+                  rows={2}
+                  defaultValue="Thank you for choosing Radhana Art!"
+                  style={{ ...inputStyle, resize: "none" }}
+                />
+              </div>
+              <button
+                onClick={() => alert("Invoice settings saved!")}
+                style={{
+                  background: "#145faf",
+                  color: "#fff",
+                  border: "none",
+                  padding: "12px",
+                  borderRadius: 10,
+                  fontFamily: "Poppins,sans-serif",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+              >
+                Save Settings
+              </button>
+            </div>
+          </div>
+
+          {/* Change Password */}
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 1px 3px rgba(0,0,0,.07)",
+              padding: 24,
+            }}
+          >
+            {sectionTitle("fas fa-key", "Change Password")}
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {["Current Password", "New Password", "Confirm Password"].map(
+                (l) => (
+                  <div key={l}>
+                    <label style={labelStyle}>{l}</label>
+                    <input
+                      type="password"
+                      placeholder="••••••••"
+                      style={inputStyle}
+                    />
+                  </div>
+                ),
+              )}
+              <button
+                onClick={() => alert("Password updated!")}
+                style={{
+                  background: "#1f2937",
+                  color: "#fff",
+                  border: "none",
+                  padding: "12px",
+                  borderRadius: 10,
+                  fontFamily: "Poppins,sans-serif",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                Update Password
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════ ROOT APP ═══════════════════════ */
+export default function AdminDashboard() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activePage, setActivePage] = useState("dashboard");
+  const [orders] = useState(INITIAL_ORDERS);
+  const [products, setProducts] = useState(INITIAL_PRODUCTS);
+  const [toast, setToast] = useState({ msg: "", visible: false });
+
+  function showToast(msg) {
+    setToast({ msg, visible: true });
+    setTimeout(() => setToast((t) => ({ ...t, visible: false })), 2500);
+  }
+
+  const sidebarW = sidebarCollapsed ? 70 : 260;
+
+  return (
+    <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      />
+
+      <div
+        style={{
+          display: "flex",
+          minHeight: "100vh",
+          background: "#f3f4f6",
+          fontFamily: "Poppins,sans-serif",
+        }}
+      >
+        <Sidebar
+          collapsed={sidebarCollapsed}
+          setCollapsed={setSidebarCollapsed}
+          activePage={activePage}
+          setPage={setActivePage}
+        />
+
+        <div
+          style={{
+            flex: 1,
+            marginLeft: sidebarW,
+            transition: "margin-left .3s ease",
+          }}
+        >
+          <Topbar page={activePage} />
+          <main style={{ padding: 24 }}>
+            {activePage === "dashboard" && (
+              <DashboardPage orders={orders} setPage={setActivePage} />
+            )}
+            {activePage === "orders" && (
+              <OrdersPage orders={orders} setPage={setActivePage} />
+            )}
+            {activePage === "products" && (
+              <ProductsPage
+                products={products}
+                setProducts={setProducts}
+                showToast={showToast}
+              />
+            )}
+            {activePage === "customers" && <CustomersPage />}
+            {activePage === "invoices" && (
+              <InvoicesPage showToast={showToast} />
+            )}
+            {activePage === "estimates" && (
+              <EstimatesPage showToast={showToast} />
+            )}
+            {activePage === "reports" && <ReportsPage />}
+            {activePage === "settings" && <SettingsPage />}
+          </main>
+        </div>
+
+        <Toast msg={toast.msg} visible={toast.visible} />
+      </div>
+    </>
+  );
+}
