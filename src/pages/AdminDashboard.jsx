@@ -12,7 +12,7 @@ import ProductPage from "../components/admin/pages/ProductPage";
 import CustomersPage from "../components/admin/pages/CustomersPage";
 import GalleryPage from "../components/admin/pages/GalleryPage";
 import ContactsPage from "../components/admin/pages/ContactsPage";
-import InvoicePage from "../components/admin/pages/Invoicepage";
+import InvoicePage from "../components/admin/pages/InvoicePage";
 import QuotationPage from "../components/admin/pages/QuotationPage";
 import ReportsPage from "../components/admin/pages/ReportsPage";
 import SettingsPage from "../components/admin/pages/SettingsPage";
