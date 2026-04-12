@@ -1,19 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import logo1 from "../../assets/images/companyLogo/logo1.png";
-import logo2 from "../../assets/images/companyLogo/logo2.png";
-import logo3 from "../../assets/images/companyLogo/logo3.png";
-import logo4 from "../../assets/images/companyLogo/logo4.png";
-import logo5 from "../../assets/images/companyLogo/logo5.png";
-import logo6 from "../../assets/images/companyLogo/logo6.png";
-import logo7 from "../../assets/images/companyLogo/logo7.png";
-import logo8 from "../../assets/images/companyLogo/logo8.png";
-import logo9 from "../../assets/images/companyLogo/logo9.png";
-import logo10 from "../../assets/images/companyLogo/logo10.png";
-import logo11 from "../../assets/images/companyLogo/logo11.png";
-import logo12 from "../../assets/images/companyLogo/logo12.png";
-import logo13 from "../../assets/images/companyLogo/logo13.png";
-import logo14 from "../../assets/images/companyLogo/logo14.png";
+import logo1 from "../../Assets/images/companyLogo/logo1.png";
+import logo2 from "../../Assets/images/companyLogo/logo2.png";
+import logo3 from "../../Assets/images/companyLogo/logo3.png";
+import logo4 from "../../Assets/images/companyLogo/logo4.png";
+import logo5 from "../../Assets/images/companyLogo/logo5.png";
+import logo6 from "../../Assets/images/companyLogo/logo6.png";
+import logo7 from "../../Assets/images/companyLogo/logo7.png";
+import logo8 from "../../Assets/images/companyLogo/logo8.png";
+import logo9 from "../../Assets/images/companyLogo/logo9.png";
+import logo10 from "../../Assets/images/companyLogo/logo10.png";
+import logo11 from "../../Assets/images/companyLogo/logo11.png";
+import logo12 from "../../Assets/images/companyLogo/logo12.png";
+import logo13 from "../../Assets/images/companyLogo/logo13.png";
+import logo14 from "../../Assets/images/companyLogo/logo14.png";
 
 const companies = [
   {

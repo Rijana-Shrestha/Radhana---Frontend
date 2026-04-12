@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
-import logoImg from "../../assets/images/radhanalogo.png";
+import logoImg from "../../Assets/images/radhanalogo.png";
 
 const NavBar = () => {
   const { getCartCount } = useContext(CartContext);
