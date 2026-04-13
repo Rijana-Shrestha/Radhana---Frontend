@@ -50,39 +50,35 @@ export const AuthProvider = ({ children }) => {
     
     // Check if user is already logged in on mount
     useEffect(() => {
-        const token = getTokenFromCookie();
+        const token = localStorage.getItem('authToken') || getTokenFromCookie();
         const storedUser = localStorage.getItem('user');
         
         // If there's a stored user, set it immediately for better UX
-        if (storedUser) {
+        if (storedUser && token) {
             setUser(JSON.parse(storedUser));
             setIsLoggedIn(true);
             
             // Then verify with backend
-            if (token) {
-                fetchUserProfile();
-            } else {
-                // Token missing but user is stored - just stop loading
-                // Don't logout immediately, token might be there
-                setLoading(false);
-            }
+            fetchUserProfile();
         } else {
-            // No stored user - only verify if there's a token
-            if (token) {
-                fetchUserProfile();
-            } else {
-                // No stored user AND no token - definitely logged out
-                setUser(null);
-                setIsLoggedIn(false);
-                localStorage.removeItem('user');
-                localStorage.removeItem('isLoggedIn');
-                setLoading(false);
-            }
+            // No stored user AND no token - definitely logged out
+            setUser(null);
+            setIsLoggedIn(false);
+            localStorage.removeItem('user');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('authToken');
+            setLoading(false);
         }
     }, []);
     
     const loginUser = async (email, password) => {
         const res = await axiosInstance.post("/auth/login", { email, password });
+        
+        // Store the token from response (adjust based on your backend response structure)
+        if (res.data.token) {
+            localStorage.setItem('authToken', res.data.token);
+        }
+        
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', JSON.stringify(true));
         // Fetch user profile after login
@@ -92,6 +88,12 @@ export const AuthProvider = ({ children }) => {
 
     const registerUser = async (name, email, phone, password, confirmPassword) => {
         const res = await axiosInstance.post("/auth/register", { name, email, phone, password, confirmPassword });
+        
+        // Store the token from response (adjust based on your backend response structure)
+        if (res.data.token) {
+            localStorage.setItem('authToken', res.data.token);
+        }
+        
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', JSON.stringify(true));
         // Fetch user profile after register
@@ -104,6 +106,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         localStorage.removeItem('user');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('authToken');
     };
 
     return (
