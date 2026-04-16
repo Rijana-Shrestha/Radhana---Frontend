@@ -28,44 +28,59 @@ const WhatsAppLink = ({ name }) => (
 const SearchResult = () => {
     const [searchParams] = useSearchParams();
     const searchQuery = searchParams.get('search') || '';
-    const { searchProducts } = useContext(ProductContext);
+    const { searchProducts, fetchProducts, products } = useContext(ProductContext);
     const { addToCart } = useCart();
     
     const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [toast, setToast] = useState({ show: false, msg: "", type: "success" });
     const [quickView, setQuickView] = useState(null);
     const [qvQty, setQvQty] = useState(1);
     const toastTimer = useRef(null);
 
+    // Fetch all products on mount if not already loaded
     useEffect(() => {
-        const fetchSearchResults = async () => {
-            if (!searchQuery.trim()) {
-                setResults([]);
-                setError('');
-                return;
-            }
-            
-            setLoading(true);
-            setError('');
-            try {   
-                const data = await searchProducts(searchQuery);
-                setResults(Array.isArray(data) ? data : []);
-                if (!data || data.length === 0) {
-                    setError(`No products found for "${searchQuery}"`);
+        const loadAllProducts = async () => {
+            try {
+                if (products.length === 0) {
+                    await fetchProducts();
                 }
             } catch (err) {
-                console.error("Error fetching search results:", err);
-                setError('Failed to fetch search results. Please try again.');
-                setResults([]);
-            } finally {
-                setLoading(false);
+                console.error("Error fetching products:", err);
+                setError('Failed to fetch products. Please try again.');
             }
         };
         
-        fetchSearchResults();
-    }, [searchQuery, searchProducts]);
+        loadAllProducts();
+    }, []);
+
+    // Filter results when search query or products change
+    useEffect(() => {
+        setLoading(true);
+        setError('');
+        
+        if (!searchQuery.trim()) {
+            setResults([]);
+            setLoading(false);
+            return;
+        }
+        
+        try {
+            const filteredResults = searchProducts(searchQuery);
+            setResults(Array.isArray(filteredResults) ? filteredResults : []);
+            
+            if (!filteredResults || filteredResults.length === 0) {
+                setError(`No products found for "${searchQuery}"`);
+            }
+        } catch (err) {
+            console.error("Error filtering products:", err);
+            setError('Failed to filter products. Please try again.');
+            setResults([]);
+        } finally {
+            setLoading(false);
+        }
+    }, [searchQuery, searchProducts, products]);
 
     const showToast = (msg, type = "success") => {
         setToast({ show: true, msg, type });
