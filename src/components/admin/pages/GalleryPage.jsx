@@ -7,6 +7,7 @@ const GalleryPage = () => {
   const { getAllGallery, createGalleryItem, updateGalleryItem, deleteGalleryItem } = useContext(AdminContext)
   const [galleryItems, setGalleryItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -81,6 +82,7 @@ const GalleryPage = () => {
     }
 
     try {
+      setSubmitting(true)
       const formDataToSend = new FormData()
       formDataToSend.append('title', formData.title)
       formDataToSend.append('cat', formData.category)
@@ -105,7 +107,9 @@ const GalleryPage = () => {
       }
       
       resetForm()
+      setSubmitting(false)
     } catch (err) {
+      setSubmitting(false)
       alert('Failed to save gallery item: ' + (err.response?.data?.message || err.message))
     }
   }
@@ -314,15 +318,24 @@ const GalleryPage = () => {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex-1 border-2 border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-100"
+                  disabled={submitting}
+                  className="flex-1 border-2 border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700"
+                  disabled={submitting}
+                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {editingId ? 'Update' : 'Create'}
+                  {submitting ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin"></i>
+                      {editingId ? 'Updating...' : 'Creating...'}
+                    </>
+                  ) : (
+                    editingId ? 'Update' : 'Create'
+                  )}
                 </button>
               </div>
             </form>

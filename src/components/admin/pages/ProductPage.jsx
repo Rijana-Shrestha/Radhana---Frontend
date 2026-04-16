@@ -11,6 +11,7 @@ const ProductPage = () => {
   const { getAllProducts, createProduct, updateProduct, deleteProduct } = useContext(AdminContext)
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
@@ -90,6 +91,7 @@ const ProductPage = () => {
     }
 
     try {
+      setSubmitting(true)
       const formDataToSend = new FormData()
       formDataToSend.append('name', formData.name)
       formDataToSend.append('category', formData.category)
@@ -120,7 +122,9 @@ const ProductPage = () => {
       }
       
       resetForm()
+      setSubmitting(false)
     } catch (err) {
+      setSubmitting(false)
       alert('Failed to save product: ' + (err.response?.data?.message || err.message))
     }
   }
@@ -243,6 +247,7 @@ const ProductPage = () => {
         onInputChange={handleInputChange}
         onSubmit={handleSubmit}
         onClose={resetForm}
+        submitting={submitting}
       />
 
       {/* Delete Confirmation Modal Component */}
