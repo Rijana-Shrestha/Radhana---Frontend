@@ -108,7 +108,7 @@ const NavBar = () => {
       </div>
 
       {/* ── Main Header ── */}
-      <header className="bg-white shadow-sm sticky top-[40px] z-50 transition-shadow duration-300">
+      <header className="bg-white shadow-sm flex justify-between sticky top-[40px] z-50 transition-shadow duration-300">
         <div className="container mx-auto py-3 md:py-2 px-4 md:px-8 lg:px-12">
           <div className="flex justify-between items-center gap-4">
             {/* Logo */}
