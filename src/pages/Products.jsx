@@ -40,6 +40,7 @@ const Products = () => {
   const [toast, setToast] = useState({ show: false, msg: "", type: "success" });
   const [quickView, setQuickView] = useState(null);
   const [qvQty, setQvQty] = useState(1);
+  const [qvSelectedImage, setQvSelectedImage] = useState(0);
 
   /* ─── filter / sort state ─── */
   const [sortBy, setSortBy] = useState("default");
@@ -158,6 +159,7 @@ const Products = () => {
   const openQV = (product) => {
     setQuickView(product);
     setQvQty(1);
+    setQvSelectedImage(0);
   };
   const closeQV = () => setQuickView(null);
 
@@ -456,11 +458,36 @@ const Products = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <img
-                src={quickView.imageUrls?.[0] || quickView.images?.[0]}
-                alt={quickView.name}
-                className="w-full h-64 md:h-full object-cover"
-              />
+              <div className="bg-gray-50 flex flex-col">
+                {/* Main Image */}
+                <img
+                  src={quickView.imageUrls?.[qvSelectedImage] || quickView.images?.[qvSelectedImage]}
+                  alt={quickView.name}
+                  className="w-full h-64 md:h-96 object-cover"
+                />
+                {/* Thumbnails */}
+                {(quickView.imageUrls?.length || quickView.images?.length) > 1 && (
+                  <div className="flex gap-2 p-3 overflow-x-auto bg-gray-100">
+                    {(quickView.imageUrls || quickView.images || []).map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setQvSelectedImage(idx)}
+                        className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                          qvSelectedImage === idx
+                            ? "border-[#145faf] shadow-md"
+                            : "border-gray-200 hover:border-[#145faf]"
+                        }`}
+                      >
+                        <img
+                          src={img}
+                          alt={`${quickView.name} - variant ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <div className="p-6">
                 <p className="font-sub text-[10px] text-[#145faf] font-semibold uppercase tracking-wider mb-2">
                   {quickView.category}
