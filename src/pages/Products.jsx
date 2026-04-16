@@ -295,10 +295,6 @@ const Products = () => {
     return (
       <div
         className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col"
-        style={{
-          animation: "popIn 0.35s ease both",
-          animationDelay: `${idx * 50}ms`,
-        }}
       >
         {/* image */}
         <div className="relative overflow-hidden flex-shrink-0">
@@ -372,10 +368,6 @@ const Products = () => {
     return (
       <div
         className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex gap-4 p-4 group"
-        style={{
-          animation: "popIn 0.35s ease both",
-          animationDelay: `${idx * 50}ms`,
-        }}
       >
         <div className="relative overflow-hidden rounded-xl flex-shrink-0 w-32 h-32">
           <img
@@ -465,6 +457,22 @@ const Products = () => {
                   alt={quickView.name}
                   className="w-full h-64 md:h-96 object-cover"
                 />
+                {/* Dots Indicator */}
+                {(quickView.imageUrls?.length || quickView.images?.length) > 1 && (
+                  <div className="flex justify-center gap-2 py-3 bg-gray-50">
+                    {(quickView.imageUrls || quickView.images || []).map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setQvSelectedImage(idx)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          qvSelectedImage === idx
+                            ? "bg-[#145faf] w-8"
+                            : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
                 {/* Thumbnails */}
                 {(quickView.imageUrls?.length || quickView.images?.length) > 1 && (
                   <div className="flex gap-2 p-3 overflow-x-auto bg-gray-100">
