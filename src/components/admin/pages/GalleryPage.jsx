@@ -282,14 +282,24 @@ const GalleryPage = () => {
 
               <div>
                 <label className="block text-sm font-bold text-gray-800 mb-2">Category *</label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   className="w-full border-2 border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
                   required
-                />
+                >
+                  <option value="">Select category</option>
+                  <option value="wooden">Wooden</option>
+                  <option value="qr">QR</option>
+                  <option value="keyring">Keyring</option>
+                  <option value="award">Award</option>
+                  <option value="numberplate">Number Plate</option>
+                  <option value="signboard">Signboard</option>
+                  <option value="neon">Neon</option>
+                  <option value="mug">Mug</option>
+                  <option value="leafart">Leaf Art</option>
+                </select>
               </div>
 
               <ImageSelector 
