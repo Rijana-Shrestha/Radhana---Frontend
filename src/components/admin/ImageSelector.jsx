@@ -18,12 +18,22 @@ const ImageSelector = ({
     if (!files || files.length === 0) return
 
     if (multiple) {
-      // Handle multiple files
+      // Handle multiple files with 4 image limit
+      const MAX_IMAGES = 4
       const fileArray = Array.from(files)
-      const previews = []
+      const currentCount = Array.isArray(imagePreviews) ? imagePreviews.length : 0
+      const remainingSlots = MAX_IMAGES - currentCount
+
+      if (remainingSlots <= 0) {
+        alert(`Maximum ${MAX_IMAGES} images allowed`)
+        return
+      }
+
+      const filesToAdd = fileArray.slice(0, remainingSlots)
+      const previews = [...(Array.isArray(imagePreviews) ? imagePreviews : [])]
       let filesProcessed = 0
 
-      fileArray.forEach((file) => {
+      filesToAdd.forEach((file) => {
         if (file.type.startsWith('image/')) {
           if (returnFile) {
             previews.push(file)
@@ -32,7 +42,7 @@ const ImageSelector = ({
             reader.onload = (e) => {
               previews.push(e.target.result)
               filesProcessed++
-              if (filesProcessed === fileArray.length) {
+              if (filesProcessed === filesToAdd.length) {
                 setImagePreviews(previews)
                 onImageChange(previews)
               }
@@ -45,6 +55,10 @@ const ImageSelector = ({
       if (returnFile) {
         setImagePreviews(previews)
         onImageChange(previews)
+      }
+
+      if (fileArray.length > remainingSlots) {
+        alert(`Only ${remainingSlots} more image(s) can be added. Maximum ${MAX_IMAGES} images allowed.`)
       }
     } else {
       // Handle single file
@@ -160,18 +174,26 @@ const ImageSelector = ({
                     <p className="text-xs text-gray-500 mt-1 truncate">Image {index + 1}</p>
                   </div>
                 ))}
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="relative w-full h-32 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-primary-600 hover:bg-primary-50 transition flex items-center justify-center cursor-pointer group"
-                  title="Add more images"
-                >
-                  <div className="text-center">
-                    <Upload className="mx-auto mb-1 text-gray-400 group-hover:text-primary-600" size={20} />
-                    <p className="text-xs text-gray-500 group-hover:text-primary-600">Add</p>
-                  </div>
-                </button>
+                {Array.isArray(imagePreviews) && imagePreviews.length < 4 && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="relative w-full h-32 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-primary-600 hover:bg-primary-50 transition flex items-center justify-center cursor-pointer group"
+                    title="Add more images"
+                  >
+                    <div className="text-center">
+                      <Upload className="mx-auto mb-1 text-gray-400 group-hover:text-primary-600" size={20} />
+                      <p className="text-xs text-gray-500 group-hover:text-primary-600">Add</p>
+                    </div>
+                  </button>
+                )}
               </div>
+              {Array.isArray(imagePreviews) && imagePreviews.length >= 4 && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-blue-800 text-sm">
+                  <i className="fas fa-info-circle mr-2"></i>
+                  Maximum 4 images reached
+                </div>
+              )}
               <button
                 type="button"
                 onClick={() => handleClear()}

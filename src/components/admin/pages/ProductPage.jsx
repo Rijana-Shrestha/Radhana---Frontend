@@ -92,6 +92,7 @@ const ProductPage = () => {
 
     try {
       setSubmitting(true)
+      const startTime = Date.now()
       const formDataToSend = new FormData()
       formDataToSend.append('name', formData.name)
       formDataToSend.append('category', formData.category)
@@ -121,8 +122,15 @@ const ProductPage = () => {
         setProducts(updatedProducts)
       }
       
-      resetForm()
+      // Ensure loader shows for at least 500ms
+      const elapsedTime = Date.now() - startTime
+      const minLoadingTime = 500
+      if (elapsedTime < minLoadingTime) {
+        await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime))
+      }
+      
       setSubmitting(false)
+      resetForm()
     } catch (err) {
       setSubmitting(false)
       alert('Failed to save product: ' + (err.response?.data?.message || err.message))

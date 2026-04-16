@@ -83,6 +83,7 @@ const GalleryPage = () => {
 
     try {
       setSubmitting(true)
+      const startTime = Date.now()
       const formDataToSend = new FormData()
       formDataToSend.append('title', formData.title)
       formDataToSend.append('cat', formData.category)
@@ -106,8 +107,15 @@ const GalleryPage = () => {
         setGalleryItems(updatedItems)
       }
       
-      resetForm()
+      // Ensure loader shows for at least 500ms
+      const elapsedTime = Date.now() - startTime
+      const minLoadingTime = 500
+      if (elapsedTime < minLoadingTime) {
+        await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime))
+      }
+      
       setSubmitting(false)
+      resetForm()
     } catch (err) {
       setSubmitting(false)
       alert('Failed to save gallery item: ' + (err.response?.data?.message || err.message))
