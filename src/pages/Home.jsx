@@ -1,90 +1,90 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import logo1 from "../../Assets/images/companyLogo/logo1.png";
-import logo2 from "../../Assets/images/companyLogo/logo2.png";
-import logo3 from "../../Assets/images/companyLogo/logo3.png";
-import logo4 from "../../Assets/images/companyLogo/logo4.png";
-import logo5 from "../../Assets/images/companyLogo/logo5.png";
-import logo6 from "../../Assets/images/companyLogo/logo6.png";
-import logo7 from "../../Assets/images/companyLogo/logo7.png";
-import logo8 from "../../Assets/images/companyLogo/logo8.png";
-import logo9 from "../../Assets/images/companyLogo/logo9.png";
-import logo10 from "../../Assets/images/companyLogo/logo10.png";
-import logo11 from "../../Assets/images/companyLogo/logo11.png";
-import logo12 from "../../Assets/images/companyLogo/logo12.png";
-import logo13 from "../../Assets/images/companyLogo/logo13.png";
-import logo14 from "../../Assets/images/companyLogo/logo14.png";
+import HotelIdeal from "../../Assets/CompaniesWorkedWith/HotelIdeal.png";
+import DevalayaGriha from "../../Assets/CompaniesWorkedWith/devalayaGriha.png";
+import HotelHimalayan from "../../Assets/CompaniesWorkedWith/HotelHimalayan.png";
+import SharmaMedical from "../../Assets/CompaniesWorkedWith/SharmaMedical.png";
+import CarPlus from "../../Assets/CompaniesWorkedWith/CarPlus.png";
+import GitanjaliLiquor from "../../Assets/CompaniesWorkedWith/GitanjaliLiquor.png";
+import PokhariCottage from "../../Assets/CompaniesWorkedWith/PokhariCottage.png";
+import RiseRollBakery from "../../Assets/CompaniesWorkedWith/Rise&RollBakery.png";
+import TreadSora from "../../Assets/CompaniesWorkedWith/TreadSora.png";
+import KKSport from "../../Assets/CompaniesWorkedWith/KKSport.png";
+import Himalayan from "../../Assets/CompaniesWorkedWith/Himalayan.png";
+import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
+import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
+import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
 
 const companies = [
   {
     name: "Hotel Ideal",
     type: "Hotel",
-    logo: logo1,
+    logo: HotelIdeal,
   },
   {
     name: "Devalaya Griha",
     type: "Business",
-    logo: logo2,
+    logo: DevalayaGriha,
   },
   {
-    name: "Hotel Himalaya",
+    name: "Hotel Himalayan",
     type: "Hospitality",
-    logo: logo3,
+    logo: HotelHimalayan,
   },
   {
     name: "Sharma Medical",
     type: "Healthcare",
-    logo: logo4,
+    logo: SharmaMedical,
   },
   {
     name: "Car Plus",
     type: "Automobile",
-    logo: logo5,
+    logo: CarPlus,
   },
   {
-    name: "Gitanjali Liquors",
+    name: "Gitanjali Liquor",
     type: "Beverages",
-    logo: logo6,
+    logo: GitanjaliLiquor,
   },
   {
     name: "Pokhari Cottage",
     type: "Hospitality",
-    logo: logo7,
+    logo: PokhariCottage,
   },
   {
     name: "Rise & Roll Bakery",
     type: "Bakery",
-    logo: logo8,
+    logo: RiseRollBakery,
   },
   {
-    name: "Tread Sora International",
+    name: "Tread Sora",
     type: "International",
-    logo: logo9,
+    logo: TreadSora,
   },
   {
     name: "KK Sports",
     type: "Sports",
-    logo: logo10,
+    logo: KKSport,
   },
   {
     name: "Himalayan",
     type: "Business",
-    logo: logo11,
+    logo: Himalayan,
   },
   {
-    name: "Sindur",
+    name: "Sindoor",
     type: "Business",
-    logo: logo12,
+    logo: Sindoor,
   },
   {
     name: "Yamaha",
     type: "Automobile",
-    logo: logo13,
+    logo: Yamaha,
   },
   {
-    name: "Tech Solutions",
-    type: "Technology",
-    logo: logo14,
+    name: "Antu Cottage",
+    type: "Hospitality",
+    logo: AntuCottage,
   },
 ];
 
