@@ -60,6 +60,7 @@ const Products = () => {
       const data = await fetchProducts();
       if (Array.isArray(data) && data.length > 0) {
         setProducts(data);
+        console.log(data)
         setError(false);
         setServerError("");
       } else {
