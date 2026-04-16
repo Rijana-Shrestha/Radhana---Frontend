@@ -73,7 +73,7 @@ const NavBar = () => {
     saveToHistory(q.trim())
     setShowSuggestions(false)
     setSearchQuery(q)
-    navigate('/products?search=' + encodeURIComponent(q.trim()))
+    navigate('/searchRes?search=' + encodeURIComponent(q.trim()))
   }
 
   const handleKeyDown = (e) => {
