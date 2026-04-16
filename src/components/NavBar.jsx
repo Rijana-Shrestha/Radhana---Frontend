@@ -1,18 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import logoImg from "../../Assets/images/radhanalogo.png";
+import { Search, X } from "lucide-react";
+import { ProductContext } from "../context/ProductsContext";
 
 const NavBar = () => {
   const { getCartCount } = useContext(CartContext);
   const { user, isLoggedIn, logout, loading } = useContext(AuthContext);
+  const { fetchProducts } = useContext(ProductContext);
+
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isActive = (path) => location.pathname === path;
+
+   // Search state
+  const [searchQuery, setSearchQuery] = useState('')
+  const [suggestions, setSuggestions] = useState([])
+  const [allProducts, setAllProducts] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [searchHistory, setSearchHistory] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('searchHistory') || '[]') }
+    catch { return [] }
+  })
+  const searchRef = useRef(null)
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    fetchProducts().then(data => {
+      if (Array.isArray(data)) setAllProducts(data)
+    }).catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  useEffect(() => {
+    if (searchQuery.trim().length === 0) { setSuggestions([]); return }
+    const q = searchQuery.toLowerCase()
+    const matched = allProducts
+      .filter(p => p.name?.toLowerCase().includes(q) || p.category?.toLowerCase().includes(q))
+      .slice(0, 6)
+    setSuggestions(matched)
+  }, [searchQuery, allProducts])
+
+  const saveToHistory = (term) => {
+    if (!term.trim()) return
+    const updated = [term, ...searchHistory.filter(h => h !== term)].slice(0, 8)
+    setSearchHistory(updated)
+    localStorage.setItem('searchHistory', JSON.stringify(updated))
+  }
+
+  const clearHistory = () => {
+    setSearchHistory([])
+    localStorage.removeItem('searchHistory')
+  }
+
+  const handleSearch = (term) => {
+    const q = term || searchQuery
+    if (!q.trim()) return
+    saveToHistory(q.trim())
+    setShowSuggestions(false)
+    setSearchQuery(q)
+    navigate('/products?search=' + encodeURIComponent(q.trim()))
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleSearch()
+    if (e.key === 'Escape') setShowSuggestions(false)
+  }
+
+  const showingHistory = searchQuery.trim().length === 0 && searchHistory.length > 0
 
   const handleLogout = () => {
     logout();
@@ -71,7 +140,72 @@ const NavBar = () => {
               ></i>
             </button>
 
-           
+            <div className='flex-1 mx-8 relative' ref={searchRef}>
+          <div className={`flex gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
+            <input
+              ref={inputRef}
+              type='text'
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setShowSuggestions(true) }}
+              onFocus={() => setShowSuggestions(true)}
+              onKeyDown={handleKeyDown}
+              placeholder='Search products, categories...'
+              className='flex-1 px-4 py-2 bg-transparent rounded-lg focus:outline-none text-gray-700'
+            />
+            {searchQuery && (
+              <button onClick={() => { setSearchQuery(''); setSuggestions([]); inputRef.current?.focus() }} className='text-gray-400 hover:text-gray-600 px-1'>
+                <X size={16} />
+              </button>
+            )}
+            <button onClick={() => handleSearch()} className='bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 font-semibold flex items-center gap-2'>
+              <Search size={16} />Search
+            </button>
+          </div>
+
+          {showSuggestions && (showingHistory || suggestions.length > 0) && (
+            <div className='absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 overflow-hidden'>
+              {showingHistory && (
+                <div>
+                  <div className='flex items-center justify-between px-4 py-2 border-b border-gray-100'>
+                    <span className='text-xs font-semibold text-gray-500 uppercase tracking-wide'>Search History</span>
+                    <button onClick={clearHistory} className='text-xs text-blue-600 hover:text-blue-800 font-medium'>CLEAR</button>
+                  </div>
+                  {searchHistory.map((term, i) => (
+                    <button key={i} onClick={() => handleSearch(term)} className='suggestion-item w-full text-left px-4 py-3 text-sm text-gray-700 flex items-center gap-3 border-b border-gray-50 last:border-0'>
+                      <Search size={14} className='text-gray-400 flex-shrink-0' />
+                      <span>{term}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {suggestions.length > 0 && (
+                <div>
+                  {searchHistory.length > 0 && searchQuery && (
+                    <div className='px-4 py-2 border-b border-gray-100'>
+                      <span className='text-xs font-semibold text-gray-500 uppercase tracking-wide'>Products</span>
+                    </div>
+                  )}
+                  {suggestions.map((product) => (
+                    <button
+                      key={product._id || product.id}
+                      onClick={() => { saveToHistory(product.name); setShowSuggestions(false); setSearchQuery(product.name); navigate('/products?search=' + encodeURIComponent(product.name)) }}
+                      className='suggestion-item w-full text-left px-4 py-3 flex items-center gap-3 border-b border-gray-50 last:border-0'
+                    >
+                      <div className='w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0'>
+                        <img src={product.imageUrls?.[0] || product.images?.[0]} alt={product.name} className='w-full h-full object-cover' onError={(e) => e.target.style.display = 'none'} />
+                      </div>
+                      <div className='flex-1 min-w-0'>
+                        <p className='text-sm font-medium text-gray-800 truncate'>{product.name}</p>
+                        <p className='text-xs text-blue-600'>{product.category}</p>
+                      </div>
+                      <span className='text-sm font-bold text-red-600 flex-shrink-0'>Rs. {product.price}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
             {/* Right Icons - Desktop */}
             <div className="hidden lg:flex items-center gap-5">
