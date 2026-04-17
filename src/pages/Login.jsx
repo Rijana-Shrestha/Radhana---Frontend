@@ -142,9 +142,9 @@ const Login = () => {
             </div>
 
             {/* Social Login */}
-            <a href='/google' className='w-full border-2 border-gray-200 rounded-lg py-3 hover:bg-gray-50 transition font-medium text-gray-700 flex items-center justify-center gap-2'>
+            <button onClick={()=>axiosInstance.get("/auth/google")} className='w-full border-2 border-gray-200 rounded-lg py-3 hover:bg-gray-50 transition font-medium text-gray-700 flex items-center justify-center gap-2'>
               <i className='fab fa-google text-lg text-red-600'></i> Google
-            </a>
+            </button>
 
             {/* Sign Up Link */}
             <p className='text-center text-gray-600 text-sm mt-6'>
