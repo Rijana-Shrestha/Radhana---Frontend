@@ -2,16 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ImageSelector from "../ImageSelector";
 import { axiosInstance } from "../../../utils/axios";
 
-<<<<<<< HEAD
-const ProductModal = ({ 
-  isOpen, 
-  isEditing, 
-  formData, 
-  onInputChange, 
-  onSubmit, 
-  onClose,
-  submitting = false
-=======
+
 const ProductModal = ({
   isOpen,
   isEditing,
@@ -20,7 +11,7 @@ const ProductModal = ({
   onSubmit,
   onClose,
   submitting = false,
->>>>>>> 0e53bc9fa3958ca78a05f5b72c09de5ed58d2ffe
+
 }) => {
   const [categories, setCategories] = useState([]);
   const [loadingCats, setLoadingCats] = useState(false);
@@ -114,11 +105,9 @@ const ProductModal = ({
   const handleImageChange = (imageData) => {
     onInputChange({
       target: {
-<<<<<<< HEAD
+
         name: 'imageFiles',
-=======
-        name: "imageFiles",
->>>>>>> 0e53bc9fa3958ca78a05f5b72c09de5ed58d2ffe
+
         value: imageData,
         type: "file",
       },
@@ -344,13 +333,10 @@ const ProductModal = ({
               </select>
             </div>
 
-<<<<<<< HEAD
+
             {/* Image URL */}
             <ImageSelector 
-=======
-            {/* Images */}
-            <ImageSelector
->>>>>>> 0e53bc9fa3958ca78a05f5b72c09de5ed58d2ffe
+
               image={formData.imageFiles}
               onImageChange={handleImageChange}
               label="Product Images (Multiple)"
@@ -364,29 +350,20 @@ const ProductModal = ({
           <div className="pt-4 border-t border-gray-200 flex gap-3">
             <button
               type="submit"
-<<<<<<< HEAD
+
               disabled={submitting}
-=======
-              disabled={submitting || showAddInput}
->>>>>>> 0e53bc9fa3958ca78a05f5b72c09de5ed58d2ffe
+
               className="flex-1 bg-primary-600 text-black py-2 rounded-lg hover:bg-primary-700 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
                   <i className="fas fa-spinner fa-spin"></i>
-<<<<<<< HEAD
+
                   {isEditing ? 'Updating...' : 'Adding...'}
                 </>
               ) : (
                 isEditing ? 'Update Product' : 'Add Product'
-=======
-                  {isEditing ? "Updating..." : "Adding..."}
-                </>
-              ) : isEditing ? (
-                "Update Product"
-              ) : (
-                "Add Product"
->>>>>>> 0e53bc9fa3958ca78a05f5b72c09de5ed58d2ffe
+
               )}
             </button>
             <button
