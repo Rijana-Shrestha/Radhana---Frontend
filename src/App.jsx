@@ -19,6 +19,8 @@ import ProfilePage from './pages/ProfilePage'
 import EditPage from './pages/EditPage'
 import Footer from './components/Footer'
 import { AdminProvider } from './context/AdminContext'
+import { Search } from 'lucide-react'
+import SearchResult from './pages/SearchResult'
 
 const App = () => {
   const location = useLocation()
@@ -36,6 +38,7 @@ const App = () => {
           <Route path="/" element={<AdminHomeGuard><Home /></AdminHomeGuard>} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/products" element={<Products />} />
+          <Route path='/searchRes' element={<SearchResult />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />

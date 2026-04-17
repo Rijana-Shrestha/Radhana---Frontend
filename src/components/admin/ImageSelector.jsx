@@ -12,35 +12,81 @@ const ImageSelector = ({
   const fileInputRef = useRef(null)
   const dragRef = useRef(null)
   const [isDragging, setIsDragging] = React.useState(false)
-  const [imagePreview, setImagePreview] = React.useState(image)
+  const [imagePreviews, setImagePreviews] = React.useState(multiple ? (Array.isArray(image) ? image : []) : image)
 
-  const handleFileSelect = (file) => {
-    if (file) {
+  const handleFileSelect = (files) => {
+    if (!files || files.length === 0) return
+
+    if (multiple) {
+      // Handle multiple files with 4 image limit
+      const MAX_IMAGES = 4
+      const fileArray = Array.from(files)
+      const currentCount = Array.isArray(imagePreviews) ? imagePreviews.length : 0
+      const remainingSlots = MAX_IMAGES - currentCount
+
+      if (remainingSlots <= 0) {
+        alert(`Maximum ${MAX_IMAGES} images allowed`)
+        return
+      }
+
+      const filesToAdd = fileArray.slice(0, remainingSlots)
+      const previews = [...(Array.isArray(imagePreviews) ? imagePreviews : [])]
+      let filesProcessed = 0
+
+      filesToAdd.forEach((file) => {
+        if (file.type.startsWith('image/')) {
+          if (returnFile) {
+            previews.push(file)
+          } else {
+            const reader = new FileReader()
+            reader.onload = (e) => {
+              previews.push(e.target.result)
+              filesProcessed++
+              if (filesProcessed === filesToAdd.length) {
+                setImagePreviews(previews)
+                onImageChange(previews)
+              }
+            }
+            reader.readAsDataURL(file)
+          }
+        }
+      })
+
       if (returnFile) {
-        // Return the File object directly
-        onImageChange(file)
-        // Still create preview
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          setImagePreview(e.target.result)
+        setImagePreviews(previews)
+        onImageChange(previews)
+      }
+
+      if (fileArray.length > remainingSlots) {
+        alert(`Only ${remainingSlots} more image(s) can be added. Maximum ${MAX_IMAGES} images allowed.`)
+      }
+    } else {
+      // Handle single file
+      const file = files[0]
+      if (file) {
+        if (returnFile) {
+          onImageChange(file)
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            setImagePreviews(e.target.result)
+          }
+          reader.readAsDataURL(file)
+        } else {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            setImagePreviews(e.target.result)
+            onImageChange(e.target.result)
+          }
+          reader.readAsDataURL(file)
         }
-        reader.readAsDataURL(file)
-      } else {
-        // Convert to base64 data URI
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          setImagePreview(e.target.result)
-          onImageChange(e.target.result)
-        }
-        reader.readAsDataURL(file)
       }
     }
   }
 
   const handleFileInput = (e) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      handleFileSelect(file)
+    const files = e.target.files
+    if (files) {
+      handleFileSelect(files)
     }
   }
 
@@ -66,17 +112,25 @@ const ImageSelector = ({
     e.stopPropagation()
     setIsDragging(false)
     
-    const file = e.dataTransfer.files?.[0]
-    if (file && file.type.startsWith('image/')) {
-      handleFileSelect(file)
+    const files = e.dataTransfer.files
+    if (files) {
+      handleFileSelect(files)
     }
   }
 
-  const handleClear = () => {
-    setImagePreview(null)
-    onImageChange(null)
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+  const handleClear = (index = null) => {
+    if (multiple && index !== null) {
+      // Remove specific file from multiple
+      const newPreviews = imagePreviews.filter((_, i) => i !== index)
+      setImagePreviews(newPreviews)
+      onImageChange(newPreviews)
+    } else {
+      // Clear all
+      setImagePreviews(multiple ? [] : null)
+      onImageChange(multiple ? [] : null)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
@@ -93,33 +147,90 @@ const ImageSelector = ({
         className="hidden"
       />
 
-      {preview && imagePreview ? (
-        <div className="relative inline-block w-full">
-          <div className="relative w-full h-40 rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-50">
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute top-2 right-2 flex gap-2">
+      {preview && (multiple ? (Array.isArray(imagePreviews) && imagePreviews.length > 0) : imagePreviews) ? (
+        <div className="w-full">
+          {multiple ? (
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative group">
+                    <div className="relative w-full h-32 rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-50">
+                      <img
+                        src={typeof preview === 'string' ? preview : (preview instanceof File ? URL.createObjectURL(preview) : preview)}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+                        <button
+                          type="button"
+                          onClick={() => handleClear(index)}
+                          className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
+                          title="Remove image"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1 truncate">Image {index + 1}</p>
+                  </div>
+                ))}
+                {Array.isArray(imagePreviews) && imagePreviews.length < 4 && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="relative w-full h-32 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-primary-600 hover:bg-primary-50 transition flex items-center justify-center cursor-pointer group"
+                    title="Add more images"
+                  >
+                    <div className="text-center">
+                      <Upload className="mx-auto mb-1 text-gray-400 group-hover:text-primary-600" size={20} />
+                      <p className="text-xs text-gray-500 group-hover:text-primary-600">Add</p>
+                    </div>
+                  </button>
+                )}
+              </div>
+              {Array.isArray(imagePreviews) && imagePreviews.length >= 4 && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-blue-800 text-sm">
+                  <i className="fas fa-info-circle mr-2"></i>
+                  Maximum 4 images reached
+                </div>
+              )}
               <button
                 type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="bg-primary-600 hover:bg-primary-700 text-white p-2 rounded-lg transition"
-                title="Change image"
+                onClick={() => handleClear()}
+                className="w-full bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg transition text-sm"
               >
-                <ImageIcon size={16} />
-              </button>
-              <button
-                type="button"
-                onClick={handleClear}
-                className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
-                title="Remove image"
-              >
-                <X size={16} />
+                Clear All
               </button>
             </div>
-          </div>
+          ) : (
+            <div className="relative inline-block w-full">
+              <div className="relative w-full h-40 rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-50">
+                <img
+                  src={imagePreviews}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="bg-primary-600 hover:bg-primary-700 text-white p-2 rounded-lg transition"
+                    title="Change image"
+                  >
+                    <ImageIcon size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleClear()}
+                    className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
+                    title="Remove image"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div

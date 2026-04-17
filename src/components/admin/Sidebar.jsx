@@ -15,7 +15,7 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
       id: "orders",
       icon: <ListOrdered />,
       label: "Orders",
-      badge: "12",
+      badge: '',
       section: null,
     },
     { id: "products", icon: <Package />, label: "Products", section: null },

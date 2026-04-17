@@ -40,6 +40,7 @@ const Products = () => {
   const [toast, setToast] = useState({ show: false, msg: "", type: "success" });
   const [quickView, setQuickView] = useState(null);
   const [qvQty, setQvQty] = useState(1);
+  const [qvSelectedImage, setQvSelectedImage] = useState(0);
 
   /* ─── filter / sort state ─── */
   const [sortBy, setSortBy] = useState("default");
@@ -60,6 +61,7 @@ const Products = () => {
       const data = await fetchProducts();
       if (Array.isArray(data) && data.length > 0) {
         setProducts(data);
+        console.log(data)
         setError(false);
         setServerError("");
       } else {
@@ -157,6 +159,7 @@ const Products = () => {
   const openQV = (product) => {
     setQuickView(product);
     setQvQty(1);
+    setQvSelectedImage(0);
   };
   const closeQV = () => setQuickView(null);
 
@@ -284,7 +287,7 @@ const Products = () => {
   );
 
   /* ══ GRID CARD ══ */
-  const GridCard = ({ product, idx }) => {
+  const GridCard = React.memo(({ product, idx }) => {
     const img = product.imageUrls?.[0] || product.images?.[0];
     const fallback =
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23ccc' font-size='40'%3E🎨%3C/text%3E%3C/svg%3E";
@@ -292,10 +295,6 @@ const Products = () => {
     return (
       <div
         className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col"
-        style={{
-          animation: "popIn 0.35s ease both",
-          animationDelay: `${idx * 50}ms`,
-        }}
       >
         {/* image */}
         <div className="relative overflow-hidden flex-shrink-0">
@@ -359,20 +358,16 @@ const Products = () => {
         </div>
       </div>
     );
-  };
+  });
 
   /* ══ LIST CARD ══ */
-  const ListCard = ({ product, idx }) => {
+  const ListCard = React.memo(({ product, idx }) => {
     const img = product.imageUrls?.[0] || product.images?.[0];
     const fallback =
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3C/svg%3E";
     return (
       <div
         className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex gap-4 p-4 group"
-        style={{
-          animation: "popIn 0.35s ease both",
-          animationDelay: `${idx * 50}ms`,
-        }}
       >
         <div className="relative overflow-hidden rounded-xl flex-shrink-0 w-32 h-32">
           <img
@@ -416,7 +411,7 @@ const Products = () => {
         </div>
       </div>
     );
-  };
+  });
 
   /* ══════════════ RENDER ══════════════ */
   return (
@@ -455,11 +450,52 @@ const Products = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <img
-                src={quickView.imageUrls?.[0] || quickView.images?.[0]}
-                alt={quickView.name}
-                className="w-full h-64 md:h-full object-cover"
-              />
+              <div className="bg-gray-50 flex flex-col">
+                {/* Main Image */}
+                <img
+                  src={quickView.imageUrls?.[qvSelectedImage] || quickView.images?.[qvSelectedImage]}
+                  alt={quickView.name}
+                  className="w-full h-64 md:h-96 object-cover"
+                />
+                {/* Dots Indicator */}
+                {(quickView.imageUrls?.length || quickView.images?.length) > 1 && (
+                  <div className="flex justify-center gap-2 py-3 bg-gray-50">
+                    {(quickView.imageUrls || quickView.images || []).map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setQvSelectedImage(idx)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          qvSelectedImage === idx
+                            ? "bg-[#145faf] w-8"
+                            : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+                {/* Thumbnails */}
+                {(quickView.imageUrls?.length || quickView.images?.length) > 1 && (
+                  <div className="flex gap-2 p-3 overflow-x-auto bg-gray-100">
+                    {(quickView.imageUrls || quickView.images || []).map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setQvSelectedImage(idx)}
+                        className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                          qvSelectedImage === idx
+                            ? "border-[#145faf] shadow-md"
+                            : "border-gray-200 hover:border-[#145faf]"
+                        }`}
+                      >
+                        <img
+                          src={img}
+                          alt={`${quickView.name} - variant ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <div className="p-6">
                 <p className="font-sub text-[10px] text-[#145faf] font-semibold uppercase tracking-wider mb-2">
                   {quickView.category}

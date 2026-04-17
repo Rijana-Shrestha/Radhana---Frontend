@@ -11,6 +11,7 @@ const ProductPage = () => {
   const { getAllProducts, createProduct, updateProduct, deleteProduct } = useContext(AdminContext)
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
@@ -25,7 +26,7 @@ const ProductPage = () => {
     stock: '',
     description: '',
     isActive: true,
-    imageFile: null,
+    imageFiles: [],
   })
 
   // Fetch products on component mount
@@ -84,12 +85,14 @@ const ProductPage = () => {
       return
     }
 
-    if (!editingId && !formData.imageFile) {
-      alert('Please select a product image')
+    if (!editingId && (!formData.imageFiles || formData.imageFiles.length === 0)) {
+      alert('Please select at least one product image')
       return
     }
 
     try {
+      setSubmitting(true)
+      const startTime = Date.now()
       const formDataToSend = new FormData()
       formDataToSend.append('name', formData.name)
       formDataToSend.append('category', formData.category)
@@ -98,9 +101,13 @@ const ProductPage = () => {
       formDataToSend.append('description', formData.description)
       formDataToSend.append('isActive', formData.isActive)
       
-      // Append the image file
-      if (formData.imageFile instanceof File) {
-        formDataToSend.append('images', formData.imageFile)
+      // Append multiple image files
+      if (Array.isArray(formData.imageFiles) && formData.imageFiles.length > 0) {
+        formData.imageFiles.forEach((file) => {
+          if (file instanceof File) {
+            formDataToSend.append('images', file)
+          }
+        })
       }
 
       if (editingId) {
@@ -115,13 +122,22 @@ const ProductPage = () => {
         setProducts(updatedProducts)
       }
       
+      // Ensure loader shows for at least 500ms
+      const elapsedTime = Date.now() - startTime
+      const minLoadingTime = 500
+      if (elapsedTime < minLoadingTime) {
+        await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime))
+      }
+      
+      setSubmitting(false)
       resetForm()
     } catch (err) {
+      setSubmitting(false)
       alert('Failed to save product: ' + (err.response?.data?.message || err.message))
     }
   }
 
-  // HandleFile: null
+  // Handle edit
   const handleEdit = (product) => {
     setFormData({
       name: product.name,
@@ -130,7 +146,7 @@ const ProductPage = () => {
       stock: product.stock,
       description: product.description || '',
       isActive: product.isActive,
-      images: product.images || [],
+      imageFiles: product.images || [],
     })
     setEditingId(product._id || product.id)
     setShowModal(true)
@@ -157,7 +173,7 @@ const ProductPage = () => {
       stock: '',
       description: '',
       isActive: true,
-      imageFile: null,
+      imageFiles: [],
     })
     setEditingId(null)
     setShowModal(false)
@@ -239,6 +255,7 @@ const ProductPage = () => {
         onInputChange={handleInputChange}
         onSubmit={handleSubmit}
         onClose={resetForm}
+        submitting={submitting}
       />
 
       {/* Delete Confirmation Modal Component */}

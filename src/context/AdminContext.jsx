@@ -58,7 +58,7 @@ export const AdminProvider = ({ children }) => {
 
   const updateProduct = useCallback(async (productId, productData) => {
     try {
-      const res = await axiosInstance.patch(
+      const res = await axiosInstance.put(
         `/products/${productId}`,
         productData,
       );
@@ -102,7 +102,7 @@ export const AdminProvider = ({ children }) => {
 
   const updateUser = useCallback(async (userId, userData) => {
     try {
-      const res = await axiosInstance.patch(`/users/${userId}`, userData);
+      const res = await axiosInstance.put(`/users/${userId}`, userData);
       return res.data;
     } catch (error) {
       console.error("Failed to update user:", error);
@@ -143,7 +143,7 @@ export const AdminProvider = ({ children }) => {
 
   const updateGalleryItem = useCallback(async (galleryId, galleryData) => {
     try {
-      const res = await axiosInstance.patch(
+      const res = await axiosInstance.put(
         `/gallery/${galleryId}`,
         galleryData,
       );

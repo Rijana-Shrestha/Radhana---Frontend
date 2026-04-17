@@ -7,14 +7,15 @@ const ProductModal = ({
   formData, 
   onInputChange, 
   onSubmit, 
-  onClose 
+  onClose,
+  submitting = false
 }) => {
   const categories = ['wooden', 'qr', 'keyring', 'award', 'numberplate', 'signboard']
 
   const handleImageChange = (imageData) => {
     onInputChange({
       target: {
-        name: 'imageFile',
+        name: 'imageFiles',
         value: imageData,
         type: 'file'
       }
@@ -142,10 +143,11 @@ const ProductModal = ({
 
             {/* Image URL */}
             <ImageSelector 
-              image={formData.imageFile}
+              image={formData.imageFiles}
               onImageChange={handleImageChange}
-              label="Product Image"
+              label="Product Images (Multiple)"
               preview={true}
+              multiple={true}
               returnFile={true}
             />
           </div>
@@ -154,14 +156,23 @@ const ProductModal = ({
           <div className="pt-4 border-t border-gray-200 flex gap-3">
             <button
               type="submit"
-              className="flex-1 bg-primary-600 text-black py-2 rounded-lg hover:bg-primary-700 font-medium transition"
+              disabled={submitting}
+              className="flex-1 bg-primary-600 text-black py-2 rounded-lg hover:bg-primary-700 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isEditing ? 'Update Product' : 'Add Product'}
+              {submitting ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                  {isEditing ? 'Updating...' : 'Adding...'}
+                </>
+              ) : (
+                isEditing ? 'Update Product' : 'Add Product'
+              )}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 font-medium transition"
+              disabled={submitting}
+              className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancel
             </button>

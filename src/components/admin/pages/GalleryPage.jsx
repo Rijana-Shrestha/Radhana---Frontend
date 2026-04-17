@@ -7,6 +7,7 @@ const GalleryPage = () => {
   const { getAllGallery, createGalleryItem, updateGalleryItem, deleteGalleryItem } = useContext(AdminContext)
   const [galleryItems, setGalleryItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -81,6 +82,8 @@ const GalleryPage = () => {
     }
 
     try {
+      setSubmitting(true)
+      const startTime = Date.now()
       const formDataToSend = new FormData()
       formDataToSend.append('title', formData.title)
       formDataToSend.append('cat', formData.category)
@@ -104,8 +107,17 @@ const GalleryPage = () => {
         setGalleryItems(updatedItems)
       }
       
+      // Ensure loader shows for at least 500ms
+      const elapsedTime = Date.now() - startTime
+      const minLoadingTime = 500
+      if (elapsedTime < minLoadingTime) {
+        await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime))
+      }
+      
+      setSubmitting(false)
       resetForm()
     } catch (err) {
+      setSubmitting(false)
       alert('Failed to save gallery item: ' + (err.response?.data?.message || err.message))
     }
   }
@@ -270,14 +282,24 @@ const GalleryPage = () => {
 
               <div>
                 <label className="block text-sm font-bold text-gray-800 mb-2">Category *</label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   className="w-full border-2 border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
                   required
-                />
+                >
+                  <option value="">Select category</option>
+                  <option value="wooden">Wooden</option>
+                  <option value="qr">QR</option>
+                  <option value="keyring">Keyring</option>
+                  <option value="award">Award</option>
+                  <option value="numberplate">Number Plate</option>
+                  <option value="signboard">Signboard</option>
+                  <option value="neon">Neon</option>
+                  <option value="mug">Mug</option>
+                  <option value="leafart">Leaf Art</option>
+                </select>
               </div>
 
               <ImageSelector 
@@ -314,15 +336,24 @@ const GalleryPage = () => {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex-1 border-2 border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-100"
+                  disabled={submitting}
+                  className="flex-1 border-2 border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700"
+                  disabled={submitting}
+                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {editingId ? 'Update' : 'Create'}
+                  {submitting ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin"></i>
+                      {editingId ? 'Updating...' : 'Creating...'}
+                    </>
+                  ) : (
+                    editingId ? 'Update' : 'Create'
+                  )}
                 </button>
               </div>
             </form>
