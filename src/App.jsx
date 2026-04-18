@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ProtectedAuthRoute from "./components/ProtectedRoute";
+import ProtectedCheckoutRoute from "./components/ProtectedCheckoutRoute";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import AdminHomeGuard from "./components/AdminHomeGuard";
 import Home from "./pages/Home";
@@ -19,6 +20,8 @@ import ProfilePage from "./pages/ProfilePage";
 import EditPage from "./pages/EditPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import PaymentVerify from "./pages/PaymentVerify";
+import VerifyEmail from "./pages/VerifyEmail";
 import Footer from "./components/Footer";
 import { AdminProvider } from "./context/AdminContext";
 import { Search } from "lucide-react";
@@ -26,12 +29,16 @@ import SearchResult from "./pages/SearchResult";
 
 const App = () => {
   const location = useLocation();
-  const isAuthPage =
-    location.pathname === "/login" ||
-    location.pathname === "/register" ||
-    location.pathname === "/admin-dashboard" ||
-    location.pathname === "/forgot-password" ||
-    location.pathname === "/reset-password";
+  const isAuthPage = [
+    "/login",
+    "/register",
+    "/admin-dashboard",
+    "/forgot-password",
+    "/reset-password",
+    "/verify-email",
+    "/payment/verify",
+    "/payment/fonepay-verify",
+  ].includes(location.pathname);
 
   // Scroll to top when route changes
   useEffect(() => {
@@ -77,8 +84,24 @@ const App = () => {
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route
+          path="/payment/verify"
+          element={<PaymentVerify gateway="khalti" />}
+        />
+        <Route
+          path="/payment/fonepay-verify"
+          element={<PaymentVerify gateway="fonepay" />}
+        />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedCheckoutRoute>
+              <Checkout />
+            </ProtectedCheckoutRoute>
+          }
+        />
         <Route
           path="/admin-dashboard"
           element={
