@@ -98,6 +98,11 @@ const Login = () => {
         setPendingUserId(res.userId);
         setTwoFactorStep(true);
         setResendCooldown(60);
+      } else if (res?.pending_verification) {
+        // Redirect to email verification page
+        navigate(
+          `/verify-email?email=${encodeURIComponent(formData.email)}&token=${encodeURIComponent(res.token || "")}`
+        );
       } else {
         navigate("/");
       }
