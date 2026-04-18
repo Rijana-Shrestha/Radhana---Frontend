@@ -14,9 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Message passed from ProtectedCheckoutRoute
   const redirectMessage = location.state?.message || "";
-  // Where to go after login (default: home)
   const redirectTo = location.state?.from?.pathname || "/";
 
   const handleChange = (e) => {
@@ -32,7 +30,6 @@ const Login = () => {
     }
     setLoading(true);
     setError("");
-    setNotVerifiedEmail("");
     try {
       await axiosInstance.post("/auth/login", formData);
       await fetchUserProfile();
@@ -49,7 +46,6 @@ const Login = () => {
     <main>
       <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-purple-50 to-indigo-50">
         <div className="w-full max-w-md">
-          {/* Logo */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-pink-500 rounded-xl mb-4 shadow-lg">
               <span className="text-white text-2xl">🪷</span>
@@ -62,21 +58,18 @@ const Login = () => {
 
           <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Checkout redirect message */}
               {redirectMessage && !error && (
                 <div className="p-3 bg-amber-50 border border-amber-200 text-amber-700 rounded-xl text-sm flex items-center gap-2">
                   🛒 {redirectMessage}
                 </div>
               )}
 
-              {/* Error / not verified */}
               {error && (
                 <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm">
                   <p>⚠️ {error}</p>
                 </div>
               )}
 
-              {/* Email */}
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">
                   Email Address
@@ -98,7 +91,6 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Password */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-sm font-bold text-gray-700">
@@ -131,7 +123,6 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
