@@ -153,13 +153,13 @@ const Checkout = () => {
     setError("");
     try {
       const items = cartItems.map((item) => ({
-        product: item._id || item.id,
-        quantity: item.qty || 1,
-        price: Math.max(0, item.price),
+        product: item.product?._id || item._id || item.id,
+        quantity: item.quantity || item.qty || 1,
+        price: Math.max(0, item.product?.price || item.price || 0),
       }));
 
       const totalPrice = cartItems.reduce(
-        (sum, i) => sum + (i.price || 0) * (i.qty || 1),
+        (sum, i) => sum + (i.product?.price || i.price || 0) * (i.quantity || i.qty || 1),
         0,
       );
 
@@ -614,14 +614,30 @@ const Checkout = () => {
               </h2>
               <div className="bg-gray-50 rounded-2xl p-6 sticky top-20">
                 <div className="space-y-4 mb-6 pb-6 border-b border-gray-200 max-h-80 overflow-y-auto">
-                  {cartItems.map((item) => (
+                  {cartItems.map((item) => {
+                    const productId = item.product?._id || item._id || item.id;
+                    const productName = item.product?.name || item.name;
+                    const productPrice = item.product?.price || item.price || 0;
+                    const quantity = item.quantity || item.qty || 1;
+
+                    // Safely get image URL
+                    let image = null;
+                    if (item.product?.imageUrls && Array.isArray(item.product.imageUrls) && item.product.imageUrls.length > 0) {
+                      image = item.product.imageUrls[0];
+                    } else if (item.imageUrls && Array.isArray(item.imageUrls) && item.imageUrls.length > 0) {
+                      image = item.imageUrls[0];
+                    } else if (item.image) {
+                      image = item.image;
+                    }
+
+                    return (
                     <div
-                      key={item._id || item.id}
+                      key={productId}
                       className="flex items-center gap-4"
                     >
                       <img
-                        src={item.image || item.imageUrls?.[0]}
-                        alt={item.name}
+                        src={image}
+                        alt={productName}
                         className="w-16 h-16 object-cover rounded-xl"
                         onError={(e) =>
                           (e.target.src =
@@ -630,15 +646,16 @@ const Checkout = () => {
                       />
                       <div className="flex-1">
                         <p className="font-bold text-gray-800 text-sm">
-                          {item.name}
+                          {productName}
                         </p>
-                        <p className="text-xs text-gray-500">Qty: {item.qty}</p>
+                        <p className="text-xs text-gray-500">Qty: {quantity}</p>
                       </div>
                       <p className="font-bold text-gray-800">
-                        Rs. {(item.price * item.qty).toLocaleString()}
+                        Rs. {(productPrice * quantity).toLocaleString()}
                       </p>
                     </div>
-                  ))}
+                    );
+                  })
                 </div>
 
                 <div className="space-y-3">
