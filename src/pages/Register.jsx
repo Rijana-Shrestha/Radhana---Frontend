@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Eye, EyeOff, UserPlus, Mail, Phone, User, Lock } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  UserPlus,
+  Mail,
+  Phone,
+  User,
+  Lock,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 import { axiosInstance } from "../utils/axios";
 
+// ── Reusable text/email/tel input ────────────────────────────
 const InputField = ({
   label,
   name,
@@ -37,6 +48,7 @@ const InputField = ({
   </div>
 );
 
+// ── Password input with show/hide toggle ─────────────────────
 const PwField = ({ label, name, value, onChange, placeholder }) => {
   const [show, setShow] = useState(false);
   return (
@@ -70,6 +82,108 @@ const PwField = ({ label, name, value, onChange, placeholder }) => {
   );
 };
 
+// ── Password strength meter ───────────────────────────────────
+const PasswordStrength = ({ password }) => {
+  if (!password) return null;
+
+  const checks = [
+    { label: "At least 6 characters", pass: password.length >= 6 },
+    { label: "Contains a number", pass: /\d/.test(password) },
+    { label: "Contains uppercase", pass: /[A-Z]/.test(password) },
+    { label: "Contains symbol", pass: /[^a-zA-Z0-9]/.test(password) },
+  ];
+  const score = checks.filter((c) => c.pass).length;
+  const barColors = [
+    "bg-red-400",
+    "bg-orange-400",
+    "bg-yellow-400",
+    "bg-green-500",
+  ];
+  const labels = ["Weak", "Fair", "Good", "Strong"];
+  const textColors = [
+    "text-red-500",
+    "text-orange-500",
+    "text-yellow-600",
+    "text-green-600",
+  ];
+
+  return (
+    <div className="mt-2 space-y-2">
+      {/* Bar + label */}
+      <div className="flex items-center gap-2">
+        <div className="flex gap-1 flex-1">
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i < score ? barColors[score - 1] : "bg-gray-200"}`}
+            />
+          ))}
+        </div>
+        {score > 0 && (
+          <span className={`text-xs font-bold ${textColors[score - 1]}`}>
+            {labels[score - 1]}
+          </span>
+        )}
+      </div>
+      {/* Checklist */}
+      <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+        {checks.map((c) => (
+          <p
+            key={c.label}
+            className={`text-xs flex items-center gap-1 ${c.pass ? "text-green-600" : "text-gray-400"}`}
+          >
+            {c.pass ? <CheckCircle size={11} /> : <XCircle size={11} />}{" "}
+            {c.label}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ── Resend verification button (60s cooldown) ─────────────────
+const ResendButton = ({ email }) => {
+  const [cooldown, setCooldown] = useState(0);
+  const [msg, setMsg] = useState("");
+
+  React.useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  const resend = async () => {
+    if (cooldown > 0) return;
+    try {
+      await axiosInstance.post("/auth/resend-verification", { email });
+      setMsg("Verification email resent! Check your inbox.");
+      setCooldown(60);
+    } catch (err) {
+      setMsg(err.response?.data?.message || "Failed to resend. Try again.");
+    }
+  };
+
+  return (
+    <div>
+      <button
+        onClick={resend}
+        disabled={cooldown > 0}
+        className="text-sm font-semibold text-blue-600 hover:text-blue-700 disabled:text-gray-400 disabled:cursor-not-allowed transition"
+      >
+        {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend verification email"}
+      </button>
+      {msg && (
+        <p
+          className={`text-xs mt-2 ${msg.includes("resent") ? "text-green-600" : "text-red-500"}`}
+        >
+          {msg}
+        </p>
+      )}
+    </div>
+  );
+};
+
+// ── Main Register component ───────────────────────────────────
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -81,7 +195,7 @@ const Register = () => {
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [sent, setSent] = useState(false); // show "check email" screen
+  const [sent, setSent] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
 
   const handleChange = (e) => {
@@ -89,18 +203,38 @@ const Register = () => {
     setError("");
   };
 
+  const validateNepaliPhone = (phone) => {
+    const cleaned = phone.replace(/[\s\-]/g, "");
+    return /^(\+977|977)?(98|97|96)\d{8}$/.test(cleaned);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!agreed) {
       setError("Please agree to the Terms of Service.");
       return;
     }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+
+    // Frontend email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address.");
       return;
     }
+
+    // Frontend Nepali phone check
+    if (!validateNepaliPhone(formData.phone)) {
+      setError("Please enter a valid Nepali phone number (e.g. 9812345678).");
+      return;
+    }
+
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters.");
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -119,18 +253,16 @@ const Register = () => {
     }
   };
 
-  // ── Check your email screen ───────────────────────────────
+  // ── "Check your email" screen shown after successful register ──
   if (sent) {
     return (
       <main>
         <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-purple-50 to-indigo-50">
           <div className="w-full max-w-md">
             <div className="bg-white rounded-2xl shadow-lg p-10 border border-gray-100 text-center">
-              {/* Email icon */}
               <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Mail size={48} className="text-blue-600" />
               </div>
-
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 Check Your Email!
               </h2>
@@ -145,31 +277,40 @@ const Register = () => {
                 <p className="text-sm font-semibold text-blue-700 mb-2">
                   What to do next:
                 </p>
-                <p className="text-sm text-blue-600 flex items-center gap-2">
-                  <span>📧</span> Open your email inbox
-                </p>
-                <p className="text-sm text-blue-600 flex items-center gap-2">
-                  <span>🔍</span> Look for an email from{" "}
-                  <strong>noreply@radhanaenterprises.com.np</strong>
-                </p>
-                <p className="text-sm text-blue-600 flex items-center gap-2">
-                  <span>✅</span> Click <strong>"Verify My Email"</strong> in
-                  the email
-                </p>
-                <p className="text-sm text-blue-600 flex items-center gap-2">
-                  <span>🎉</span> You'll be logged in automatically!
-                </p>
+                {[
+                  ["📧", "Open your email inbox"],
+                  [
+                    "🔍",
+                    <>
+                      Look for email from{" "}
+                      <strong>noreply@radhanaenterprises.com.np</strong>
+                    </>,
+                  ],
+                  [
+                    "✅",
+                    <>
+                      Click <strong>"Verify My Email"</strong> in the email
+                    </>,
+                  ],
+                  ["🎉", "You'll be logged in automatically!"],
+                ].map(([icon, text], i) => (
+                  <p
+                    key={i}
+                    className="text-sm text-blue-600 flex items-start gap-2"
+                  >
+                    <span>{icon}</span> <span>{text}</span>
+                  </p>
+                ))}
               </div>
 
-              <p className="text-xs text-gray-400 mb-5">
+              <p className="text-xs text-gray-400 mb-3">
                 Didn't receive it? Check your <strong>spam folder</strong>, or
               </p>
-
               <ResendButton email={sentEmail} />
 
               <Link
                 to="/login"
-                className="block mt-5 text-sm text-gray-500 hover:text-gray-700 transition"
+                className="block mt-6 text-sm text-gray-500 hover:text-gray-700 transition"
               >
                 ← Back to Login
               </Link>
@@ -180,7 +321,7 @@ const Register = () => {
     );
   }
 
-  // ── Registration form ─────────────────────────────────────
+  // ── Registration form ─────────────────────────────────────────
   return (
     <main>
       <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-purple-50 to-indigo-50">
@@ -217,43 +358,85 @@ const Register = () => {
                 required
                 type="email"
               />
-              <InputField
-                label="Phone Number"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="+977 98xxxxxxxx"
-                icon={Phone}
-                required
-                type="tel"
-              />
-              <PwField
-                label="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Min. 6 characters"
-              />
-              <PwField
-                label="Confirm Password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Re-enter password"
-              />
 
-              {/* Match indicator — simple, no strength meter */}
-              {formData.confirmPassword && (
-                <p
-                  className={`text-xs font-medium flex items-center gap-1 ${formData.password === formData.confirmPassword ? "text-green-600" : "text-red-500"}`}
-                >
-                  {formData.password === formData.confirmPassword
-                    ? "✓ Passwords match"
-                    : "✗ Passwords do not match"}
-                </p>
-              )}
+              {/* Phone with live Nepali validation */}
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">
+                  Phone Number
+                </label>
+                <div className="relative">
+                  <Phone
+                    size={17}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+977 98XXXXXXXX or 98XXXXXXXX"
+                    required
+                    className={`w-full border-2 bg-gray-50 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:bg-white transition text-sm ${
+                      formData.phone && !validateNepaliPhone(formData.phone)
+                        ? "border-red-400 focus:border-red-500"
+                        : formData.phone && validateNepaliPhone(formData.phone)
+                          ? "border-green-400 focus:border-green-500"
+                          : "border-gray-200 focus:border-blue-600"
+                    }`}
+                  />
+                </div>
+                {formData.phone && !validateNepaliPhone(formData.phone) && (
+                  <p className="text-xs text-red-500 mt-1">
+                    ✗ Enter a valid Nepali number e.g.{" "}
+                    <strong>9812345678</strong>
+                  </p>
+                )}
+                {formData.phone && validateNepaliPhone(formData.phone) && (
+                  <p className="text-xs text-green-600 mt-1">
+                    ✓ Valid Nepali phone number
+                  </p>
+                )}
+              </div>
 
-              {/* Terms */}
+              {/* Password with strength meter below it */}
+              <div>
+                <PwField
+                  label="Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Min. 6 characters"
+                />
+                <PasswordStrength password={formData.password} />
+              </div>
+
+              {/* Confirm password with match indicator */}
+              <div>
+                <PwField
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Re-enter your password"
+                />
+                {formData.confirmPassword && (
+                  <p
+                    className={`text-xs font-medium flex items-center gap-1 mt-2 ${formData.password === formData.confirmPassword ? "text-green-600" : "text-red-500"}`}
+                  >
+                    {formData.password === formData.confirmPassword ? (
+                      <>
+                        <CheckCircle size={11} /> Passwords match
+                      </>
+                    ) : (
+                      <>
+                        <XCircle size={11} /> Passwords do not match
+                      </>
+                    )}
+                  </p>
+                )}
+              </div>
+
+              {/* Terms checkbox */}
               <label className="flex items-start gap-3 cursor-pointer pt-1">
                 <input
                   type="checkbox"
@@ -273,6 +456,7 @@ const Register = () => {
                 </span>
               </label>
 
+              {/* Error message */}
               {error && (
                 <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm flex items-center gap-2">
                   ⚠️ {error}
@@ -310,42 +494,6 @@ const Register = () => {
         </div>
       </section>
     </main>
-  );
-};
-
-// Resend button with 60s cooldown
-const ResendButton = ({ email }) => {
-  const [cooldown, setCooldown] = useState(0);
-  const [msg, setMsg] = useState("");
-
-  React.useEffect(() => {
-    if (cooldown <= 0) return;
-    const t = setTimeout(() => setCooldown((s) => s - 1), 1000);
-    return () => clearTimeout(t);
-  }, [cooldown]);
-
-  const resend = async () => {
-    if (cooldown > 0) return;
-    try {
-      await axiosInstance.post("/auth/resend-verification", { email });
-      setMsg("Email resent! Check your inbox.");
-      setCooldown(60);
-    } catch (err) {
-      setMsg(err.response?.data?.message || "Failed to resend. Try again.");
-    }
-  };
-
-  return (
-    <div>
-      <button
-        onClick={resend}
-        disabled={cooldown > 0}
-        className="text-sm font-semibold text-blue-600 hover:text-blue-700 disabled:text-gray-400 disabled:cursor-not-allowed transition"
-      >
-        {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend verification email"}
-      </button>
-      {msg && <p className="text-xs text-green-600 mt-2">{msg}</p>}
-    </div>
   );
 };
 

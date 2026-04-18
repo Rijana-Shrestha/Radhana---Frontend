@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ProtectedAuthRoute from "./components/ProtectedRoute";
+import ProtectedCheckoutRoute from "./components/ProtectedCheckoutRoute";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import AdminHomeGuard from "./components/AdminHomeGuard";
 import Home from "./pages/Home";
@@ -34,6 +35,10 @@ const App = () => {
     "/admin-dashboard",
     "/forgot-password",
     "/reset-password",
+<<<<<<< HEAD
+=======
+    "/verify-email",
+>>>>>>> 59a4ae99967cb506889ed09948870305d515e698
     "/payment/verify",
     "/payment/fonepay-verify",
   ].includes(location.pathname);
@@ -92,7 +97,14 @@ const App = () => {
           element={<PaymentVerify gateway="fonepay" />}
         />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedCheckoutRoute>
+              <Checkout />
+            </ProtectedCheckoutRoute>
+          }
+        />
         <Route
           path="/admin-dashboard"
           element={
