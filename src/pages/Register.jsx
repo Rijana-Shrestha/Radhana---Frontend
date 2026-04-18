@@ -84,6 +84,7 @@ const PwField = ({ label, name, value, onChange, placeholder }) => {
 };
 
 // ── Password strength meter ───────────────────────────────────
+const PasswordStrength = ({ password }) => {
   if (!password) return null;
 
   const checks = [
@@ -138,6 +139,9 @@ const PwField = ({ label, name, value, onChange, placeholder }) => {
         ))}
       </div>
     </div>
+  );
+};
+
 // ── Main Register component ───────────────────────────────────
 const Register = () => {
   const navigate = useNavigate();
@@ -227,7 +231,6 @@ const Register = () => {
               <p className="text-gray-500 text-sm mb-6">
                 Welcome to Radhana! Redirecting to home...
               </p>
-
             </div>
           </div>
         </section>
