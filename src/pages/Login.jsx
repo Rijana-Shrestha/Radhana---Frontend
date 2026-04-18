@@ -48,7 +48,6 @@ const Login = () => {
     setError("");
     setNotVerifiedEmail("");
     try {
-<<<<<<< HEAD
       const res = await loginUser(formData.email, formData.password);
       if (res?.twoFactorRequired) {
         setPendingUserId(res.userId);
@@ -62,11 +61,6 @@ const Login = () => {
       } else {
         navigate("/");
       }
-=======
-      await axiosInstance.post("/auth/login", formData);
-      await fetchUserProfile();
-      navigate(redirectTo, { replace: true });
->>>>>>> 59a4ae99967cb506889ed09948870305d515e698
     } catch (err) {
       const data = err.response?.data || {};
       if (data.emailNotVerified) {

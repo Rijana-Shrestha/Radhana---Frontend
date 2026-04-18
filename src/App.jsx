@@ -34,6 +34,7 @@ const App = () => {
     "/register",
     "/admin-dashboard",
     "/forgot-password",
+
     "/reset-password",
     "/verify-email",
     "/payment/verify",
