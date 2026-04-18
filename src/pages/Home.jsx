@@ -286,7 +286,7 @@ const Home = () => {
               <div className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 animate-float">
                   <img
-                    src="/Assets/hero.png"
+                    src="../../Assets/hero.png"
                     className="w-full h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
