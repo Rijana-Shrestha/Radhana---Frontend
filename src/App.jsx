@@ -12,7 +12,6 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import VerifyEmail from "./pages/VerifyEmail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -20,6 +19,8 @@ import ProfilePage from "./pages/ProfilePage";
 import EditPage from "./pages/EditPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import PaymentVerify from "./pages/PaymentVerify";
+import VerifyEmail from "./pages/VerifyEmail";
 import Footer from "./components/Footer";
 import { AdminProvider } from "./context/AdminContext";
 import { Search } from "lucide-react";
@@ -27,13 +28,15 @@ import SearchResult from "./pages/SearchResult";
 
 const App = () => {
   const location = useLocation();
-  const isAuthPage =
-    location.pathname === "/login" ||
-    location.pathname === "/register" ||
-    location.pathname === "/admin-dashboard" ||
-    location.pathname === "/forgot-password" ||
-    location.pathname === "/reset-password" ||
-    location.pathname === "/verify-email";
+  const isAuthPage = [
+    "/login",
+    "/register",
+    "/admin-dashboard",
+    "/forgot-password",
+    "/reset-password",
+    "/payment/verify",
+    "/payment/fonepay-verify",
+  ].includes(location.pathname);
 
   // Scroll to top when route changes
   useEffect(() => {
@@ -80,6 +83,14 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route
+          path="/payment/verify"
+          element={<PaymentVerify gateway="khalti" />}
+        />
+        <Route
+          path="/payment/fonepay-verify"
+          element={<PaymentVerify gateway="fonepay" />}
+        />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route
