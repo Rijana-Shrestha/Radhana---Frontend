@@ -48,19 +48,9 @@ const Login = () => {
     setError("");
     setNotVerifiedEmail("");
     try {
-      const res = await loginUser(formData.email, formData.password);
-      if (res?.twoFactorRequired) {
-        setPendingUserId(res.userId);
-        setTwoFactorStep(true);
-        setResendCooldown(60);
-      } else if (res?.pending_verification) {
-        // Redirect to email verification page
-        navigate(
-          `/verify-email?email=${encodeURIComponent(formData.email)}&token=${encodeURIComponent(res.token || "")}`
-        );
-      } else {
-        navigate("/");
-      }
+      await axiosInstance.post("/auth/login", formData);
+      await fetchUserProfile();
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       const data = err.response?.data || {};
       if (data.emailNotVerified) {
