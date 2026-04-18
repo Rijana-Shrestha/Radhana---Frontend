@@ -11,10 +11,83 @@ import {
   EyeOff,
   CheckCircle,
   XCircle,
+  Shield,
 } from "lucide-react";
 import { AuthContext } from "../../../context/AuthContext";
 import { axiosInstance } from "../../../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
+
+/* ── 2FA Toggle Card ── */
+const TwoFactorToggle = ({ user }) => {
+  const { fetchUserProfile } = useContext(AuthContext);
+  const [enabled, setEnabled] = useState(user?.twoFactorEnabled || false);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState({ text: "", type: "" });
+
+  const toggle = async () => {
+    setLoading(true);
+    setMsg({ text: "", type: "" });
+    try {
+      const res = await axiosInstance.patch("/auth/toggle-2fa", {
+        enable: !enabled,
+      });
+      setEnabled(res.data.twoFactorEnabled);
+      setMsg({
+        text: `Two-factor authentication ${res.data.twoFactorEnabled ? "enabled" : "disabled"}.`,
+        type: "success",
+      });
+      await fetchUserProfile();
+    } catch (err) {
+      setMsg({
+        text: err.response?.data?.message || "Failed to update 2FA.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <Shield size={20} className="text-blue-600" />
+        <h3 className="text-lg font-bold text-gray-800">Two-Factor Auth</h3>
+      </div>
+      <p className="text-sm text-gray-500 mb-4">
+        When enabled, you'll receive a 6-digit OTP to your email every time you
+        log in.
+      </p>
+      {msg.text && (
+        <p
+          className={`text-xs mb-3 flex items-center gap-1 ${msg.type === "success" ? "text-green-600" : "text-red-500"}`}
+        >
+          {msg.type === "success" ? (
+            <CheckCircle size={12} />
+          ) : (
+            <XCircle size={12} />
+          )}{" "}
+          {msg.text}
+        </p>
+      )}
+      <div className="flex items-center justify-between">
+        <span
+          className={`text-sm font-semibold ${enabled ? "text-green-600" : "text-gray-400"}`}
+        >
+          {enabled ? "🟢 Enabled" : "⚪ Disabled"}
+        </span>
+        <button
+          onClick={toggle}
+          disabled={loading}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${enabled ? "bg-blue-600" : "bg-gray-300"} disabled:opacity-60`}
+        >
+          <span
+            className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${enabled ? "translate-x-6" : "translate-x-1"}`}
+          />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 /* ── tiny inline toast ── */
 const Toast = ({ msg, type }) => {
@@ -399,6 +472,8 @@ const SettingsPage = () => {
 
       {/* Other settings placeholders */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* 2FA Toggle — real feature */}
+        <TwoFactorToggle user={user} />
         {[
           {
             icon: "🔔",
@@ -409,15 +484,6 @@ const SettingsPage = () => {
             icon: "⚙️",
             title: "System",
             items: ["Theme preference", "Language settings", "Timezone"],
-          },
-          {
-            icon: "💳",
-            title: "Billing",
-            items: [
-              "Subscription status",
-              "Invoice history",
-              "License information",
-            ],
           },
         ].map(({ icon, title, items }) => (
           <div key={title} className="bg-white rounded-lg shadow p-6">

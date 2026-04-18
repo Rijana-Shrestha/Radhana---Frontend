@@ -14,9 +14,100 @@ import {
   EyeOff,
   CheckCircle,
   XCircle,
+  Shield,
 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 import { axiosInstance } from "../utils/axios";
+
+/* ── 2FA Toggle Card ── */
+const TwoFactorToggle = ({ user }) => {
+  const { fetchUserProfile } = useContext(AuthContext);
+  const [enabled, setEnabled] = useState(user?.twoFactorEnabled || false);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState({ text: "", type: "" });
+
+  const toggle = async () => {
+    setLoading(true);
+    setMsg({ text: "", type: "" });
+    try {
+      const res = await axiosInstance.patch("/auth/toggle-2fa", {
+        enable: !enabled,
+      });
+      setEnabled(res.data.twoFactorEnabled);
+      setMsg({
+        text: `Two-factor authentication ${res.data.twoFactorEnabled ? "enabled" : "disabled"}.`,
+        type: "success",
+      });
+      await fetchUserProfile();
+    } catch (err) {
+      setMsg({
+        text: err.response?.data?.message || "Failed to update 2FA.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-100">
+        <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
+          <Shield size={20} className="text-indigo-600" />
+        </div>
+        <div>
+          <h3 className="text-base font-bold text-gray-800">
+            Two-Factor Authentication
+          </h3>
+          <p className="text-xs text-gray-500">
+            Add an extra layer of security to your account
+          </p>
+        </div>
+      </div>
+      <div className="px-6 py-5">
+        <p className="text-sm text-gray-500 mb-4">
+          When enabled, you'll receive a <strong>6-digit OTP</strong> to your
+          email every time you sign in. This keeps your account safe even if
+          your password is compromised.
+        </p>
+        {msg.text && (
+          <p
+            className={`text-xs mb-4 flex items-center gap-1.5 font-medium ${msg.type === "success" ? "text-green-600" : "text-red-500"}`}
+          >
+            {msg.type === "success" ? (
+              <CheckCircle size={13} />
+            ) : (
+              <XCircle size={13} />
+            )}
+            {msg.text}
+          </p>
+        )}
+        <div className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3">
+          <div>
+            <p className="text-sm font-semibold text-gray-800">
+              {enabled ? "🟢 Currently Enabled" : "⚪ Currently Disabled"}
+            </p>
+            <p className="text-xs text-gray-400 mt-0.5">
+              {enabled
+                ? "OTP required on every login"
+                : "Login with password only"}
+            </p>
+          </div>
+          <button
+            onClick={toggle}
+            disabled={loading}
+            title={enabled ? "Disable 2FA" : "Enable 2FA"}
+            className={`relative inline-flex h-7 w-13 w-12 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${enabled ? "bg-blue-600" : "bg-gray-300"} disabled:opacity-60 disabled:cursor-not-allowed`}
+          >
+            <span
+              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-200 ${enabled ? "translate-x-6" : "translate-x-1"}`}
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /* ── inline toast ── */
 const Toast = ({ msg, type, onDismiss }) => {
@@ -460,6 +551,9 @@ const ProfilePage = () => {
             </form>
           )}
         </div>
+
+        {/* ── 2FA Toggle Card ── */}
+        <TwoFactorToggle user={user} />
       </div>
     </main>
   );
