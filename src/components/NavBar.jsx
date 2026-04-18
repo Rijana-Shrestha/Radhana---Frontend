@@ -411,41 +411,113 @@ const NavBar = () => {
                   </Link>
                 ))}
               </nav>
-              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100">
-                <button
-                  onClick={() => {
-                    navigate("/login");
-                    setMobileOpen(false);
-                  }}
-                  className="text-gray-600"
-                >
-                  <i className="text-2xl fa-solid fa-circle-user"></i>
-                  {user && <span className="ml-2 text-sm font-sub">{user.name}</span>}
-                </button>
-                <a
-                  href="https://wa.me/9779823939106"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-green-600 font-sub text-sm font-medium"
-                >
-                  <i className="fa-brands fa-whatsapp text-2xl"></i>
-                  <span>+977 9823939106</span>
-                </a>
-                <button
-                  onClick={() => {
-                    navigate("/cart");
-                    setMobileOpen(false);
-                  }}
-                  className="relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-3 py-2 rounded-xl font-sub text-sm font-medium transition-all hover:shadow-lg flex items-center gap-2"
-                >
-                  <i className="fas fa-shopping-cart"></i>
-                  <span>Cart</span>
-                  {getCartCount() > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                      {getCartCount()}
-                    </span>
-                  )}
-                </button>
+              <div className="flex flex-col items-start gap-4 mt-4 pt-4 border-t border-gray-100">
+                {/* User Profile Section */}
+                {loading ? (
+                  <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+                ) : isLoggedIn && user ? (
+                  <div className="w-full">
+                    <button
+                      onClick={() => setShowProfileMenu(!showProfileMenu)}
+                      className="flex items-center gap-2 bg-gradient-to-br from-pink-500 to-blue-600 text-white rounded-full px-3 py-2 hover:shadow-lg transition w-full justify-start"
+                    >
+                      {user.profileImageUrl ? (
+                        <img
+                          src={user.profileImageUrl}
+                          alt={user.name}
+                          className="w-6 h-6 rounded-full object-cover"
+                        />
+                      ) : (
+                        <i className="fa-solid fa-circle-user text-xl"></i>
+                      )}
+                      <span className="text-sm font-medium truncate font-sub">
+                        {user.name}
+                      </span>
+                    </button>
+                    {showProfileMenu && (
+                      <div className="mt-2 w-full bg-white rounded-xl shadow-xl border border-gray-100 py-2">
+                        <div className="px-4 py-2 border-b border-gray-100">
+                          <p className="text-sm font-bold text-gray-800 font-sub">
+                            {user.name}
+                          </p>
+                          <p className="text-xs text-gray-500 font-sub">
+                            {user.email}
+                          </p>
+                        </div>
+                        <Link
+                          to="/profile"
+                          onClick={() => {
+                            setShowProfileMenu(false);
+                            setMobileOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 font-sub transition border-b border-gray-100"
+                        >
+                          <i className="fas fa-user mr-2 text-primary"></i> View Profile
+                        </Link>
+                        {user.roles && user.roles.includes("ADMIN") && (
+                          <Link
+                            to="/admin-dashboard"
+                            onClick={() => {
+                              setShowProfileMenu(false);
+                              setMobileOpen(false);
+                            }}
+                            className="block px-4 py-2 text-sm text-primary hover:bg-blue-50 font-sub font-semibold transition border-b border-gray-100"
+                          >
+                            <i className="fas fa-chart-bar mr-2"></i> Admin Dashboard
+                          </Link>
+                        )}
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setShowProfileMenu(false);
+                            setMobileOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-sub flex items-center gap-2 transition"
+                        >
+                          <i className="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      navigate("/login");
+                      setMobileOpen(false);
+                    }}
+                    className="text-gray-600 hover:text-primary transition"
+                  >
+                    <i className="text-2xl fa-solid fa-circle-user"></i>
+                  </button>
+                )}
+
+                {/* Quick Actions */}
+                <div className="flex items-center gap-3 w-full">
+                  <a
+                    href="https://wa.me/9779823939106"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-green-600 font-sub text-sm font-medium hover:text-green-700 transition"
+                  >
+                    <i className="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Chat</span>
+                  </a>
+                  <button
+                    onClick={() => {
+                      navigate("/cart");
+                      setMobileOpen(false);
+                    }}
+                    className="relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-3 py-2 rounded-xl font-sub text-sm font-medium transition-all hover:shadow-lg flex items-center gap-2"
+                  >
+                    <i className="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    {getCartCount() > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                        {getCartCount()}
+                      </span>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           )}
