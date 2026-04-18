@@ -14,7 +14,6 @@ import {
 import { axiosInstance } from "../utils/axios";
 import { AuthContext } from "../context/AuthContext";
 
-// ── Reusable text/email/tel input ────────────────────────────
 const InputField = ({
   label,
   name,
@@ -49,7 +48,6 @@ const InputField = ({
   </div>
 );
 
-// ── Password input with show/hide toggle ─────────────────────
 const PwField = ({ label, name, value, onChange, placeholder }) => {
   const [show, setShow] = useState(false);
   return (
@@ -83,10 +81,8 @@ const PwField = ({ label, name, value, onChange, placeholder }) => {
   );
 };
 
-// ── Password strength meter ───────────────────────────────────
 const PasswordStrength = ({ password }) => {
   if (!password) return null;
-
   const checks = [
     { label: "At least 6 characters", pass: password.length >= 6 },
     { label: "Contains a number", pass: /\d/.test(password) },
@@ -107,10 +103,8 @@ const PasswordStrength = ({ password }) => {
     "text-yellow-600",
     "text-green-600",
   ];
-
   return (
     <div className="mt-2 space-y-2">
-      {/* Bar + label */}
       <div className="flex items-center gap-2">
         <div className="flex gap-1 flex-1">
           {[0, 1, 2, 3].map((i) => (
@@ -126,7 +120,6 @@ const PasswordStrength = ({ password }) => {
           </span>
         )}
       </div>
-      {/* Checklist */}
       <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
         {checks.map((c) => (
           <p
@@ -142,10 +135,8 @@ const PasswordStrength = ({ password }) => {
   );
 };
 
-// ── Main Register component ───────────────────────────────────
 const Register = () => {
   const navigate = useNavigate();
-  const { fetchUserProfile } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -156,39 +147,32 @@ const Register = () => {
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  // After submit: show "check your email" screen with the email they used
+  const [verifyEmail, setVerifyEmail] = useState("");
 
   const handleChange = (e) => {
     setFormData((f) => ({ ...f, [e.target.name]: e.target.value }));
     setError("");
   };
-
   const validateNepaliPhone = (phone) => {
-    const cleaned = phone.replace(/[\s\-]/g, "");
-    return /^(\+977|977)?(98|97|96)\d{8}$/.test(cleaned);
+    const c = phone.replace(/[\s\-]/g, "");
+    return /^(\+977|977)?(98|97|96)\d{8}$/.test(c);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!agreed) {
       setError("Please agree to the Terms of Service.");
       return;
     }
-
-    // Frontend email format check
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailRegex.test(formData.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) {
       setError("Please enter a valid email address.");
       return;
     }
-
-    // Frontend Nepali phone check
     if (!validateNepaliPhone(formData.phone)) {
       setError("Please enter a valid Nepali phone number (e.g. 9812345678).");
       return;
     }
-
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
@@ -202,10 +186,7 @@ const Register = () => {
     setError("");
     try {
       await axiosInstance.post("/auth/register", formData);
-      // Fetch user profile to update context
-      await fetchUserProfile();
-      setSuccess(true);
-      setTimeout(() => navigate("/"), 2000);
+      setVerifyEmail(formData.email);
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Please try again.",
@@ -215,21 +196,41 @@ const Register = () => {
     }
   };
 
-  // ── Success screen ──
-  if (success) {
+  // ── Check your email screen ──
+  if (verifyEmail) {
     return (
       <main>
         <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-purple-50 to-indigo-50">
           <div className="w-full max-w-md">
             <div className="bg-white rounded-2xl shadow-lg p-10 border border-gray-100 text-center">
-              <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle size={48} className="text-green-600" />
+              <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Mail size={48} className="text-blue-600" />
               </div>
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                Registration Successful!
+                Check Your Email!
               </h2>
+              <p className="text-gray-500 text-sm mb-2">
+                We sent a verification link to:
+              </p>
+              <p className="font-bold text-blue-600 mb-6 break-all">
+                {verifyEmail}
+              </p>
               <p className="text-gray-500 text-sm mb-6">
-                Welcome to Radhana! Redirecting to home...
+                Click the link in the email to verify your account and log in.
+                The link expires in <strong>24 hours</strong>.
+              </p>
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-700 mb-6">
+                💡 Don't see it? Check your <strong>spam/junk</strong> folder.
+              </div>
+              <ResendButton email={verifyEmail} />
+              <p className="text-center text-gray-400 text-xs mt-6">
+                Wrong email?{" "}
+                <button
+                  onClick={() => setVerifyEmail("")}
+                  className="text-blue-600 hover:underline font-semibold"
+                >
+                  Go back
+                </button>
               </p>
             </div>
           </div>
@@ -238,12 +239,10 @@ const Register = () => {
     );
   }
 
-  // ── Registration form ─────────────────────────────────────────
   return (
     <main>
       <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-purple-50 to-indigo-50">
         <div className="w-full max-w-md">
-          {/* Logo */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-pink-500 rounded-xl mb-4 shadow-lg">
               <span className="text-white text-2xl">🪷</span>
@@ -276,7 +275,6 @@ const Register = () => {
                 type="email"
               />
 
-              {/* Phone with live Nepali validation */}
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1.5">
                   Phone Number
@@ -315,7 +313,6 @@ const Register = () => {
                 )}
               </div>
 
-              {/* Password with strength meter below it */}
               <div>
                 <PwField
                   label="Password"
@@ -327,7 +324,6 @@ const Register = () => {
                 <PasswordStrength password={formData.password} />
               </div>
 
-              {/* Confirm password with match indicator */}
               <div>
                 <PwField
                   label="Confirm Password"
@@ -353,7 +349,6 @@ const Register = () => {
                 )}
               </div>
 
-              {/* Terms checkbox */}
               <label className="flex items-start gap-3 cursor-pointer pt-1">
                 <input
                   type="checkbox"
@@ -373,7 +368,6 @@ const Register = () => {
                 </span>
               </label>
 
-              {/* Error message */}
               {error && (
                 <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm flex items-center gap-2">
                   ⚠️ {error}
@@ -411,6 +405,47 @@ const Register = () => {
         </div>
       </section>
     </main>
+  );
+};
+
+// Resend verification email button
+const ResendButton = ({ email }) => {
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const resend = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      await axiosInstance.post("/auth/resend-verification", { email });
+      setSent(true);
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to resend. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (sent)
+    return (
+      <p className="text-green-600 text-sm font-semibold">
+        ✅ Verification email resent!
+      </p>
+    );
+  return (
+    <div>
+      <button
+        onClick={resend}
+        disabled={loading}
+        className="w-full border-2 border-blue-600 text-blue-600 py-2.5 rounded-xl font-bold hover:bg-blue-50 transition text-sm disabled:opacity-60"
+      >
+        {loading ? "Resending..." : "Resend Verification Email"}
+      </button>
+      {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+    </div>
   );
 };
 

@@ -25,6 +25,7 @@ import Footer from "./components/Footer";
 import { AdminProvider } from "./context/AdminContext";
 import { Search } from "lucide-react";
 import SearchResult from "./pages/SearchResult";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const App = () => {
     "/reset-password",
     "/payment/verify",
     "/payment/fonepay-verify",
+    "/verify-email",
   ].includes(location.pathname);
 
   // Scroll to top when route changes
@@ -82,6 +84,7 @@ const App = () => {
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route
           path="/payment/verify"
           element={<PaymentVerify gateway="khalti" />}
