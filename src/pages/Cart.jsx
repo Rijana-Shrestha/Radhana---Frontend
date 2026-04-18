@@ -9,10 +9,7 @@ const Cart = () => {
     if (newQty <= 0) {
       removeFromCart(productId)
     } else {
-      const currentItem = cartItems.find(item => (item._id || item.id) === productId)
-      if (currentItem) {
-        updateQuantity(productId, newQty - currentItem.qty)
-      }
+      updateQuantity(productId, newQty)
     }
   }
   const removeItem = (productId) => {
