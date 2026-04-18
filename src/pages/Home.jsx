@@ -14,6 +14,7 @@ import Himalayan from "../../Assets/CompaniesWorkedWith/Himalayan.png";
 import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
 import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
+import heroImage from "../../Assets/hero.png";
 
 const companies = [
   {
@@ -194,9 +195,7 @@ const Home = () => {
         <div
           className="absolute top-10 right-10 text-[120px] leading-none pointer-events-none select-none font-main"
           style={{ color: "rgba(20,95,175,0.05)" }}
-        >
-           
-        </div>
+        ></div>
 
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-12 lg:gap-16">
@@ -288,7 +287,7 @@ const Home = () => {
               <div className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 animate-float">
                   <img
-                    src="/assets/hero.png"
+                    src={heroImage}
                     className="w-full h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
@@ -728,9 +727,7 @@ const Home = () => {
         <div
           className="absolute inset-0 flex items-center justify-center font-main leading-none pointer-events-none select-none text-white/5"
           style={{ fontSize: "300px" }}
-        >
-      
-        </div>
+        ></div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white stagger">
             {[
