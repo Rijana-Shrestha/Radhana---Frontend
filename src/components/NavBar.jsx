@@ -140,7 +140,7 @@ const NavBar = () => {
               ></i>
             </button>
 
-            <div className='flex-1 mx-8 relative' ref={searchRef}>
+            <div className='hidden md:flex flex-1 mx-8 relative' ref={searchRef}>
           <div className={`flex gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
             <input
               ref={inputRef}
@@ -325,15 +325,72 @@ const NavBar = () => {
 
           {/* ── Mobile Menu ── */}
           {mobileOpen && (
-            <div className="lg:hidden mt-4 pb-4 border-t border-gray-100 pt-4">
+            <div className="lg:hidden mt-4 pb-4 border-t border-gray-100 pt-4" onClick={(e) => e.stopPropagation()}>
               {/* Mobile Search */}
-              <div className="relative mb-4">
-                <i className="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="font-sub w-full py-2.5 pl-9 pr-4 border-2 border-gray-100 rounded-xl text-sm focus:outline-none focus:border-primary bg-gray-50"
-                />
+              <div className="relative mb-4" ref={searchRef}>
+                <div className={`flex gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => { setSearchQuery(e.target.value); setShowSuggestions(true) }}
+                    onFocus={() => setShowSuggestions(true)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Search products..."
+                    className="font-sub flex-1 px-3 py-2 bg-transparent rounded-lg focus:outline-none text-gray-700 text-sm"
+                  />
+                  {searchQuery && (
+                    <button onClick={() => { setSearchQuery(''); setSuggestions([]); }} className="text-gray-400 hover:text-gray-600 px-1">
+                      <X size={16} />
+                    </button>
+                  )}
+                  <button onClick={() => handleSearch()} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-semibold flex items-center gap-1">
+                    <Search size={14} />
+                  </button>
+                </div>
+                
+                {showSuggestions && (showingHistory || suggestions.length > 0) && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
+                    {showingHistory && (
+                      <div>
+                        <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100">
+                          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Search History</span>
+                          <button onClick={clearHistory} className="text-xs text-blue-600 hover:text-blue-800 font-medium">CLEAR</button>
+                        </div>
+                        {searchHistory.map((term, i) => (
+                          <button key={i} onClick={() => { handleSearch(term); setMobileOpen(false) }} className="suggestion-item w-full text-left px-4 py-3 text-sm text-gray-700 flex items-center gap-3 border-b border-gray-50 last:border-0">
+                            <Search size={14} className="text-gray-400 flex-shrink-0" />
+                            <span>{term}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {suggestions.length > 0 && (
+                      <div>
+                        {searchHistory.length > 0 && searchQuery && (
+                          <div className="px-4 py-2 border-b border-gray-100">
+                            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Products</span>
+                          </div>
+                        )}
+                        {suggestions.map((product) => (
+                          <button
+                            key={product._id || product.id}
+                            onClick={() => { saveToHistory(product.name); setShowSuggestions(false); setSearchQuery(product.name); navigate('/products?search=' + encodeURIComponent(product.name)); setMobileOpen(false) }}
+                            className="suggestion-item w-full text-left px-4 py-3 flex items-center gap-3 border-b border-gray-50 last:border-0"
+                          >
+                            <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                              <img src={product.imageUrls?.[0] || product.images?.[0]} alt={product.name} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-800 truncate">{product.name}</p>
+                              <p className="text-xs text-blue-600">{product.category}</p>
+                            </div>
+                            <span className="text-sm font-bold text-red-600 flex-shrink-0">Rs. {product.price}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
               <nav className="font-sub flex flex-col">
                 {[
