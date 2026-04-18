@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import VerifyEmail from "./pages/VerifyEmail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -31,7 +32,8 @@ const App = () => {
     location.pathname === "/register" ||
     location.pathname === "/admin-dashboard" ||
     location.pathname === "/forgot-password" ||
-    location.pathname === "/reset-password";
+    location.pathname === "/reset-password" ||
+    location.pathname === "/verify-email";
 
   // Scroll to top when route changes
   useEffect(() => {
@@ -77,6 +79,7 @@ const App = () => {
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route
