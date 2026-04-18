@@ -35,10 +35,7 @@ const App = () => {
     "/admin-dashboard",
     "/forgot-password",
     "/reset-password",
-<<<<<<< HEAD
-=======
     "/verify-email",
->>>>>>> 59a4ae99967cb506889ed09948870305d515e698
     "/payment/verify",
     "/payment/fonepay-verify",
   ].includes(location.pathname);
