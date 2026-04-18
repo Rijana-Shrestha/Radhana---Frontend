@@ -73,7 +73,6 @@ const NavBar = () => {
     saveToHistory(q.trim())
     setShowSuggestions(false)
     setSearchQuery(q)
-    setMobileOpen(false)
     navigate('/searchRes?search=' + encodeURIComponent(q.trim()))
   }
 
@@ -97,19 +96,19 @@ const NavBar = () => {
         <div className="flex whitespace-nowrap announcement-scroll">
           <p className="font-sub text-xs md:text-sm font-medium inline-block pr-20">
             🎨 Premium Laser Engraving | 📦 Custom Wooden &amp; Acrylic Products
-            | 🎁 Perfect Gifts | 📞 +977 9823939106 | 🚚 Fast Delivery Kathmandu
+            | 🎁 Perfect Gifts | 📞 +977 9823939106,  +977 9746679242 | 🚚 Fast Delivery Kathmandu
             | 💳 eSewa · Khalti · FonePay Accepted
           </p>
           <p className="font-sub text-xs md:text-sm font-medium inline-block pr-20">
             🎨 Premium Laser Engraving | 📦 Custom Wooden &amp; Acrylic Products
-            | 🎁 Perfect Gifts | 📞 +977 9823939106 | 🚚 Fast Delivery Kathmandu
+            | 🎁 Perfect Gifts | 📞 +977 9823939106,  +977 9746679242 | 🚚 Fast Delivery Kathmandu
             | 💳 eSewa · Khalti · FonePay Accepted
           </p>
         </div>
       </div>
 
       {/* ── Main Header ── */}
-      <header className="bg-white shadow-sm flex justify-between sticky top-[40px] z-50 transition-shadow duration-300">
+      <header className="bg-white shadow-sm sticky top-[40px] z-50 transition-shadow duration-300">
         <div className="container mx-auto py-3 md:py-2 px-4 md:px-8 lg:px-12">
           <div className="flex justify-between items-center gap-4">
             {/* Logo */}
@@ -133,7 +132,7 @@ const NavBar = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden absolute right-10 text-gray-700 hover:text-primary transition"
+              className="lg:hidden text-gray-700 hover:text-primary transition"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               <i
@@ -142,7 +141,7 @@ const NavBar = () => {
             </button>
 
             <div className='flex-1 mx-8 relative' ref={searchRef}>
-          <div className={`hidden lg:flex gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
+          <div className={`flex gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
             <input
               ref={inputRef}
               type='text'
@@ -332,9 +331,6 @@ const NavBar = () => {
                 <i className="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
                 <input
                   type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { handleSearch() } }}
                   placeholder="Search products..."
                   className="font-sub w-full py-2.5 pl-9 pr-4 border-2 border-gray-100 rounded-xl text-sm focus:outline-none focus:border-primary bg-gray-50"
                 />
