@@ -420,6 +420,7 @@ const NavBar = () => {
                   className="text-gray-600"
                 >
                   <i className="text-2xl fa-solid fa-circle-user"></i>
+                  {user && <span className="ml-2 text-sm font-sub">{user.name}</span>}
                 </button>
                 <a
                   href="https://wa.me/9779823939106"
@@ -438,7 +439,7 @@ const NavBar = () => {
                   className="relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-3 py-2 rounded-xl font-sub text-sm font-medium transition-all hover:shadow-lg flex items-center gap-2"
                 >
                   <i className="fas fa-shopping-cart"></i>
-                  <span>Add Cart</span>
+                  <span>Cart</span>
                   {getCartCount() > 0 && (
                     <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                       {getCartCount()}
