@@ -48,6 +48,7 @@ export const CartProvider = ({ children }) => {
                     price: item.price || 0,
                     name: item.name || 'Unknown Product',
                     quantity: item.qty || 1,
+                    imageUrls: item.imageUrls || item.images || [],
                   });
                 } catch (e) {
                   console.error(`Failed to sync item ${item.name} to cart:`, e.message);
@@ -122,6 +123,7 @@ export const CartProvider = ({ children }) => {
           price: product.price || 0,
           name: product.name || 'Unknown Product',
           quantity: 1,
+          imageUrls: product.imageUrls || product.images || [],
         });
         setCartItems(response.data?.items || []);
       } else {

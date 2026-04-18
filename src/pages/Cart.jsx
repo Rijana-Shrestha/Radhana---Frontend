@@ -50,45 +50,48 @@ const Cart = () => {
               <div className='lg:col-span-2'>
                 <div className='bg-white border border-gray-200 rounded-lg overflow-hidden'>
                   {cartItems.map((item) => {
-                    const productId = item._id || item.id
-                    const image = item.imageUrls?.[0] || item.images?.[0] || item.imageUrls?.[0]
+                    const productId = item.product?._id || item._id || item.id
+                    const productName = item.product?.name || item.name
+                    const productPrice = item.product?.price || item.price
+                    const quantity = item.quantity || item.qty || 1
+                    const image = item.product?.imageUrls?.[0] || item.imageUrls?.[0] || item.images?.[0] || item.image
                     return (
                     <div key={productId} className='flex items-center gap-6 p-6 border-b border-gray-200 hover:bg-gray-50'>
                       <img 
                         src={image} 
-                        alt={item.name} 
+                        alt={productName} 
                         className='w-24 h-24 object-cover rounded-lg'
                         onError={(e) => e.target.src = 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Crect fill=%27%23f0f0f0%27 width=%27100%27 height=%27100%27/%3E%3C/svg%3E'}
                       />
 
                       <div className='flex-1'>
-                        <h3 className='font-bold text-gray-800 mb-1'>{item.name}</h3>
-                        <p className='text-blue-600 font-bold'>Rs. {(item.price || 0).toLocaleString()}</p>
+                        <h3 className='font-bold text-gray-800 mb-1'>{productName}</h3>
+                        <p className='text-blue-600 font-bold'>Rs. {(productPrice || 0).toLocaleString()}</p>
                       </div>
 
                       <div className='flex items-center gap-3'>
                         <button
-                          onClick={() => handleQuantityChange(productId, item.qty - 1)}
+                          onClick={() => handleQuantityChange(productId, quantity - 1)}
                           className='w-8 h-8 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-100'
                         >
                           <i className='fas fa-minus text-sm'></i>
                         </button>
                         <input
                           type='number'
-                          value={item.qty}
+                          value={quantity}
                           onChange={(e) => handleQuantityChange(productId, parseInt(e.target.value))}
                           className='w-12 border border-gray-300 rounded text-center py-1'
                           min='1'
                         />
                         <button
-                          onClick={() => handleQuantityChange(productId, item.qty + 1)}
+                          onClick={() => handleQuantityChange(productId, quantity + 1)}
                           className='w-8 h-8 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-100'
                         >
                           <i className='fas fa-plus text-sm'></i>
                         </button>
                       </div>
 
-                      <p className='font-bold text-gray-800 w-24 text-right'>Rs. {((item.price || 0) * (item.qty || 1)).toLocaleString()}</p>
+                      <p className='font-bold text-gray-800 w-24 text-right'>Rs. {((productPrice || 0) * quantity).toLocaleString()}</p>
 
                       <button
                         onClick={() => removeItem(productId)}
