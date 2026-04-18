@@ -51,7 +51,7 @@ const Cart = () => {
                 <div className='bg-white border border-gray-200 rounded-lg overflow-hidden'>
                   {cartItems.map((item) => {
                     const productId = item._id || item.id
-                    const image = item.imageUrls[0] || item.images?.[0] || item.imageUrls?.[0]
+                    const image = item.imageUrls?.[0] || item.images?.[0] || item.imageUrls?.[0]
                     return (
                     <div key={productId} className='flex items-center gap-6 p-6 border-b border-gray-200 hover:bg-gray-50'>
                       <img 
