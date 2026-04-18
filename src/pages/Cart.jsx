@@ -54,7 +54,19 @@ const Cart = () => {
                     const productName = item.product?.name || item.name
                     const productPrice = item.product?.price || item.price
                     const quantity = item.quantity || item.qty || 1
-                    const image = item.product?.imageUrls?.[0] || item.imageUrls?.[0] || item.images?.[0] || item.image
+                    
+                    // Safely get image URL
+                    let image = null
+                    if (item.product?.imageUrls && Array.isArray(item.product.imageUrls) && item.product.imageUrls.length > 0) {
+                      image = item.product.imageUrls[0]
+                    } else if (item.imageUrls && Array.isArray(item.imageUrls) && item.imageUrls.length > 0) {
+                      image = item.imageUrls[0]
+                    } else if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+                      image = item.images[0]
+                    } else if (item.image) {
+                      image = item.image
+                    }
+                    
                     return (
                     <div key={productId} className='flex items-center gap-6 p-6 border-b border-gray-200 hover:bg-gray-50'>
                       <img 

@@ -177,14 +177,14 @@ export const CartProvider = ({ children }) => {
       } else {
         // Local storage for non-logged-in users
         setCartItems((prevItems) => 
-          prevItems.filter((item) => (item._id || item.id) !== productId)
+          prevItems.filter((item) => (item.product?._id || item._id || item.id) !== productId)
         );
       }
     } catch (error) {
       console.error('Failed to remove from cart:', error.message);
       // Fallback: remove from local state if API fails
       setCartItems((prevItems) => 
-        prevItems.filter((item) => (item._id || item.id) !== productId)
+        prevItems.filter((item) => (item.product?._id || item._id || item.id) !== productId)
       );
     } finally {
       setIsSyncing(false);
@@ -257,11 +257,18 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + ((item.price || 0) * (item.qty || 1)), 0);
+    return cartItems.reduce((total, item) => {
+      const price = item.product?.price || item.price || 0;
+      const qty = item.quantity || item.qty || 1;
+      return total + (price * qty);
+    }, 0);
   };
 
   const getCartCount = () => {
-    return cartItems.reduce((count, item) => count + (item.qty || 1), 0);
+    return cartItems.reduce((count, item) => {
+      const qty = item.quantity || item.qty || 1;
+      return count + qty;
+    }, 0);
   };
 
   // Get cart summary for display
