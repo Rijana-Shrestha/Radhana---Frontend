@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -12,6 +12,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { axiosInstance } from "../utils/axios";
+import { AuthContext } from "../context/AuthContext";
 
 // ── Reusable text/email/tel input ────────────────────────────
 const InputField = ({
@@ -83,7 +84,6 @@ const PwField = ({ label, name, value, onChange, placeholder }) => {
 };
 
 // ── Password strength meter ───────────────────────────────────
-const PasswordStrength = ({ password }) => {
   if (!password) return null;
 
   const checks = [
@@ -138,53 +138,10 @@ const PasswordStrength = ({ password }) => {
         ))}
       </div>
     </div>
-  );
-};
-
-// ── Resend verification button (60s cooldown) ─────────────────
-const ResendButton = ({ email }) => {
-  const [cooldown, setCooldown] = useState(0);
-  const [msg, setMsg] = useState("");
-
-  React.useEffect(() => {
-    if (cooldown <= 0) return;
-    const t = setTimeout(() => setCooldown((s) => s - 1), 1000);
-    return () => clearTimeout(t);
-  }, [cooldown]);
-
-  const resend = async () => {
-    if (cooldown > 0) return;
-    try {
-      await axiosInstance.post("/auth/resend-verification", { email });
-      setMsg("Verification email resent! Check your inbox.");
-      setCooldown(60);
-    } catch (err) {
-      setMsg(err.response?.data?.message || "Failed to resend. Try again.");
-    }
-  };
-
-  return (
-    <div>
-      <button
-        onClick={resend}
-        disabled={cooldown > 0}
-        className="text-sm font-semibold text-blue-600 hover:text-blue-700 disabled:text-gray-400 disabled:cursor-not-allowed transition"
-      >
-        {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend verification email"}
-      </button>
-      {msg && (
-        <p
-          className={`text-xs mt-2 ${msg.includes("resent") ? "text-green-600" : "text-red-500"}`}
-        >
-          {msg}
-        </p>
-      )}
-    </div>
-  );
-};
-
 // ── Main Register component ───────────────────────────────────
 const Register = () => {
+  const navigate = useNavigate();
+  const { fetchUserProfile } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -195,8 +152,7 @@ const Register = () => {
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [sent, setSent] = useState(false);
-  const [sentEmail, setSentEmail] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -241,9 +197,11 @@ const Register = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axiosInstance.post("/auth/register", formData);
-      setSentEmail(res.data.email);
-      setSent(true);
+      await axiosInstance.post("/auth/register", formData);
+      // Fetch user profile to update context
+      await fetchUserProfile();
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Please try again.",
@@ -253,67 +211,23 @@ const Register = () => {
     }
   };
 
-  // ── "Check your email" screen shown after successful register ──
-  if (sent) {
+  // ── Success screen ──
+  if (success) {
     return (
       <main>
         <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-purple-50 to-indigo-50">
           <div className="w-full max-w-md">
             <div className="bg-white rounded-2xl shadow-lg p-10 border border-gray-100 text-center">
-              <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mail size={48} className="text-blue-600" />
+              <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle size={48} className="text-green-600" />
               </div>
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                Check Your Email!
+                Registration Successful!
               </h2>
-              <p className="text-gray-500 text-sm mb-1">
-                We've sent a verification link to
-              </p>
-              <p className="font-bold text-blue-600 text-sm mb-6 break-all">
-                {sentEmail}
+              <p className="text-gray-500 text-sm mb-6">
+                Welcome to Radhana! Redirecting to home...
               </p>
 
-              <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 text-left space-y-2 mb-6">
-                <p className="text-sm font-semibold text-blue-700 mb-2">
-                  What to do next:
-                </p>
-                {[
-                  ["📧", "Open your email inbox"],
-                  [
-                    "🔍",
-                    <>
-                      Look for email from{" "}
-                      <strong>noreply@radhanaenterprises.com.np</strong>
-                    </>,
-                  ],
-                  [
-                    "✅",
-                    <>
-                      Click <strong>"Verify My Email"</strong> in the email
-                    </>,
-                  ],
-                  ["🎉", "You'll be logged in automatically!"],
-                ].map(([icon, text], i) => (
-                  <p
-                    key={i}
-                    className="text-sm text-blue-600 flex items-start gap-2"
-                  >
-                    <span>{icon}</span> <span>{text}</span>
-                  </p>
-                ))}
-              </div>
-
-              <p className="text-xs text-gray-400 mb-3">
-                Didn't receive it? Check your <strong>spam folder</strong>, or
-              </p>
-              <ResendButton email={sentEmail} />
-
-              <Link
-                to="/login"
-                className="block mt-6 text-sm text-gray-500 hover:text-gray-700 transition"
-              >
-                ← Back to Login
-              </Link>
             </div>
           </div>
         </section>

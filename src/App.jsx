@@ -21,7 +21,6 @@ import EditPage from "./pages/EditPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import PaymentVerify from "./pages/PaymentVerify";
-import VerifyEmail from "./pages/VerifyEmail";
 import Footer from "./components/Footer";
 import { AdminProvider } from "./context/AdminContext";
 import { Search } from "lucide-react";
@@ -34,9 +33,7 @@ const App = () => {
     "/register",
     "/admin-dashboard",
     "/forgot-password",
-
     "/reset-password",
-    "/verify-email",
     "/payment/verify",
     "/payment/fonepay-verify",
   ].includes(location.pathname);
@@ -85,7 +82,6 @@ const App = () => {
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route
           path="/payment/verify"
           element={<PaymentVerify gateway="khalti" />}
