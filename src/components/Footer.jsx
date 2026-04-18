@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  
   MapPin, 
   PhoneCall, 
   Mail, 
@@ -18,9 +17,7 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-xl p-2 font-bold text-xl w-12 h-12 flex items-center justify-center shrink-0">
-                RA
-              </div>
+              <img src='/fonts/assets/Logo.png' alt='Radhana Art Logo' className='w-12 h-12 rounded-xl object-cover shrink-0' />
               <div>
                 <h3 className="text-xl font-bold text-yellow-500">Radhana Art</h3>
                 <p className="text-sm text-gray-400">Laser Engraving • Kathmandu</p>
@@ -29,31 +26,26 @@ const Footer = () => {
             <p className="text-gray-400 mb-8 leading-relaxed">
               Crafting premium laser engravings inspired by the divine love of Radha & Krishna.
             </p>
-            
-          
 
             <div>
               <h4 className="text-xs font-bold text-gray-400 tracking-wider mb-3 uppercase">We Accept</h4>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
-                  <span className="text-green-500 font-bold text-xs">eSewa</span>
-                </span>
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
-                  <span className="text-purple-500 font-bold text-xs">Khalti</span>
-                </span>
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
-                  <span className="text-orange-500 font-bold text-xs">FonePay</span>
-                </span>
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
-                  <span className="text-blue-500 font-bold text-xs">ConnectIPS</span>
-                </span>
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm">
-                  Bank
-                </span>
                 <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm text-yellow-500">
                   Cash
                 </span>
+                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
+                  <span className="text-green-500 font-bold text-xs">Khalti</span>
+                </span>
+                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
+                  <span className="text-purple-500 font-bold text-xs">Fonepay</span>
+                </span>
               </div>
+
+             {/* ✅ PAN Card Added Here */}
+            <div className="mt-4 border border-yellow-500/40 rounded-lg p-3 bg-gray-900/40">
+            <p className="text-xs font-bold text-yellow-400 uppercase tracking-wide mb-1">PAN Card No</p>
+            <p className="text-sm font-semibold text-white tracking-widest"> 128464005</p>
+            </div>
             </div>
           </div>
 
@@ -116,7 +108,8 @@ const Footer = () => {
               <li className="flex items-center gap-3">
                 <PhoneCall className="text-green-500 shrink-0" size={18} />
                 <a href="tel:+9779823939106" className="text-gray-400 hover:text-white transition">
-                  +977 9823939106
+                +977 9823939106, +977 9746679242
+
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -152,9 +145,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      
-      {/* Floating WhatsApp Button */}
-     
     </footer>
   );
 };

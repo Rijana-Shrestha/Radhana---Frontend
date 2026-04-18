@@ -251,7 +251,7 @@ const Login = () => {
             </div>
 
             {/* Social Login */}
-            <button onClick={()=>axiosInstance.get("/google")} className='w-full border-2 border-gray-200 rounded-lg py-3 hover:bg-gray-50 transition font-medium text-gray-700 flex items-center justify-center gap-2'>
+            <button onClick={()=> window.location.href = "https://radhana-art.onrender.com/api/auth/google"} className='w-full border-2 border-gray-200 rounded-lg py-3 hover:bg-gray-50 transition font-medium text-gray-700 flex items-center justify-center gap-2'>
               <i className='fab fa-google text-lg text-red-600'></i> Google
             </button>
 

@@ -367,7 +367,11 @@ const Gallery = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-14 bg-white border border-gray-100 px-6 mt-6">
+      <section 
+      className="py-14 px-6 relative overflow-hidden"
+        style={{
+          background: "linear-gradient(to right, var(--primary), #1d4ed8)",
+        }}>
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -389,14 +393,14 @@ const Gallery = () => {
               },
             ].map((s) => (
               <div key={s.label}>
-                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <i className={`fas ${s.icon} text-white text-xl`} />
-                </div>
-                <p className="font-main text-gray-900 text-3xl md:text-4xl font-bold mb-1">
-                  {s.num}
-                </p>
-                <p className="font-sub text-gray-500 text-sm">{s.label}</p>
+              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+              <i className={`fas ${s.icon} text-white text-xl`} />
               </div>
+              <p className="font-main text-white text-3xl md:text-4xl font-bold mb-1">
+            {s.num}
+            </p>
+          <p className="font-sub text-gray-200 text-sm">{s.label}</p>
+          </div>
             ))}
           </div>
         </div>
@@ -406,13 +410,13 @@ const Gallery = () => {
       <section className="py-14 bg-white border border-gray-100 px-6 text-center">
         <div className="container mx-auto relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.06] text-gray-200 text-[300px] font-main leading-none flex items-center justify-center pointer-events-none select-none">
-            ॐ
+      
           </div>
           <div className="relative z-10">
             <h2 className="font-main text-gray-900 text-2xl md:text-3xl mb-3">
               Want Your Creation Featured Here?
             </h2>
-            <p className="font-sub text-pink-100 text-[15px] mb-7 max-w-lg mx-auto">
+            <p className="font-sub text-gray-400 text-[15px] mb-7 max-w-lg mx-auto">
               Share your order photos with us on WhatsApp and join our gallery
               of happy customers!
             </p>

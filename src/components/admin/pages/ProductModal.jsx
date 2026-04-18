@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ImageSelector from "../ImageSelector";
 import { axiosInstance } from "../../../utils/axios";
 
+
 const ProductModal = ({
   isOpen,
   isEditing,
@@ -10,6 +11,7 @@ const ProductModal = ({
   onSubmit,
   onClose,
   submitting = false,
+
 }) => {
   const [categories, setCategories] = useState([]);
   const [loadingCats, setLoadingCats] = useState(false);
@@ -103,7 +105,9 @@ const ProductModal = ({
   const handleImageChange = (imageData) => {
     onInputChange({
       target: {
-        name: "imageFiles",
+
+        name: 'imageFiles',
+
         value: imageData,
         type: "file",
       },
@@ -329,8 +333,10 @@ const ProductModal = ({
               </select>
             </div>
 
-            {/* Images */}
-            <ImageSelector
+
+            {/* Image URL */}
+            <ImageSelector 
+
               image={formData.imageFiles}
               onImageChange={handleImageChange}
               label="Product Images (Multiple)"
@@ -344,18 +350,20 @@ const ProductModal = ({
           <div className="pt-4 border-t border-gray-200 flex gap-3">
             <button
               type="submit"
-              disabled={submitting || showAddInput}
+
+              disabled={submitting}
+
               className="flex-1 bg-primary-600 text-black py-2 rounded-lg hover:bg-primary-700 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
                   <i className="fas fa-spinner fa-spin"></i>
-                  {isEditing ? "Updating..." : "Adding..."}
+
+                  {isEditing ? 'Updating...' : 'Adding...'}
                 </>
-              ) : isEditing ? (
-                "Update Product"
               ) : (
-                "Add Product"
+                isEditing ? 'Update Product' : 'Add Product'
+
               )}
             </button>
             <button
