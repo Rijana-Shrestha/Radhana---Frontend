@@ -655,7 +655,7 @@ const Checkout = () => {
                       </p>
                     </div>
                     );
-                  })
+                  })}
                 </div>
 
                 <div className="space-y-3">
