@@ -111,31 +111,35 @@ const Login = () => {
                 </div>
               )}
 
-              {/* Error / not verified */}
-              {error && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm">
-                  <p>⚠️ {error}</p>
-                  {notVerifiedEmail && (
-                    <div className="mt-2 pt-2 border-t border-red-200">
-                      <button
-                        type="button"
-                        onClick={handleResendVerification}
-                        disabled={resendCooldown > 0}
-                        className="text-blue-600 font-semibold hover:underline disabled:text-gray-400 text-xs"
-                      >
-                        {resendCooldown > 0
-                          ? `Resend verification email in ${resendCooldown}s`
-                          : "→ Click here to resend verification email"}
-                      </button>
-                      {resendMsg && (
-                        <p
-                          className={`text-xs mt-1 ${resendMsg.includes("resent") ? "text-green-600" : "text-red-500"}`}
-                        >
-                          {resendMsg}
-                        </p>
-                      )}
-                    </div>
+              {/* Email Not Verified - Prominent Alert */}
+              {notVerifiedEmail && error && (
+                <div className="p-4 bg-amber-50 border-2 border-amber-400 text-amber-900 rounded-xl text-sm">
+                  <p className="font-bold mb-2">📧 Email Verification Required</p>
+                  <p className="mb-3">{error}</p>
+                  <button
+                    type="button"
+                    onClick={handleResendVerification}
+                    disabled={resendCooldown > 0}
+                    className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-gray-300 text-white font-semibold py-2 rounded-lg transition text-sm"
+                  >
+                    {resendCooldown > 0
+                      ? `⏱️ Resend email in ${resendCooldown}s`
+                      : "📧 Resend Verification Email"}
+                  </button>
+                  {resendMsg && (
+                    <p
+                      className={`text-xs mt-2 ${resendMsg.includes("resent") ? "text-green-700 font-semibold" : "text-red-600"}`}
+                    >
+                      {resendMsg}
+                    </p>
                   )}
+                </div>
+              )}
+
+              {/* Other Errors */}
+              {error && !notVerifiedEmail && (
+                <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm">
+                  <p>❌ {error}</p>
                 </div>
               )}
 
