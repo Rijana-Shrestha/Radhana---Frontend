@@ -453,7 +453,7 @@ const Contact = () => {
                   We Accept
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {["eSewa", "Khalti", "FonePay", "Bank Transfer"].map(
+                  {["Cash", "Khalti", "FonePay"].map(
                     (pay) => (
                       <span
                         key={pay}
@@ -474,25 +474,25 @@ const Contact = () => {
                         icon: "fa-brands fa-facebook",
                         color: "text-blue-600",
                         bg: "bg-blue-50",
-                        href: "#",
+                        href: "https://www.facebook.com/share/1Go1y2doCB/?mibextid=wwXIfr",
                       },
                       {
                         icon: "fa-brands fa-instagram",
                         color: "text-pink-500",
                         bg: "bg-pink-50",
-                        href: "#",
+                        href: "https://www.instagram.com/radhanaart?igsh=NWk0ejEzNmExd3l0",
                       },
                       {
                         icon: "fa-brands fa-tiktok",
                         color: "text-gray-800",
                         bg: "bg-gray-50",
-                        href: "#",
+                        href: "https://www.tiktok.com/@radhanaart?_r=1&_t=ZS-95aNwJdy5uj",
                       },
                       {
-                        icon: "fa-brands fa-whatsapp",
-                        color: "text-green-600",
-                        bg: "bg-green-50",
-                        href: "https://wa.me/9779823939106",
+                        icon: "fa-brands fa-youtube",
+                        color: "text-red-600",
+                        bg: "bg-red-50",
+                        href: "https://youtube.com/@radhanaart?si=CWYFvbR-ZuuIK-bq",
                       },
                     ].map((s, i) => (
                       <a

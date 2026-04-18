@@ -195,7 +195,7 @@ const Home = () => {
           className="absolute top-10 right-10 text-[120px] leading-none pointer-events-none select-none font-main"
           style={{ color: "rgba(20,95,175,0.05)" }}
         >
-          ॐ
+           
         </div>
 
         <div className="container mx-auto">
@@ -288,56 +288,11 @@ const Home = () => {
               <div className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 animate-float">
                   <img
-                    src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=800&auto=format&fit=crop"
+                    src="/assets/hero.png"
                     className="w-full h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white/90 backdrop-blur-md rounded-xl p-3.5 flex items-center justify-between shadow-lg">
-                      <div>
-                        <p
-                          className="font-main text-sm font-semibold"
-                          style={{ color: "var(--primary)" }}
-                        >
-                          Custom Wooden Engraving
-                        </p>
-                        <div className="flex items-center gap-0.5 mt-0.5">
-                          {[1, 2, 3, 4, 5].map((i) => (
-                            <i
-                              key={i}
-                              className="fas fa-star text-amber-400 text-xs"
-                            ></i>
-                          ))}
-                          <span className="font-sub text-gray-400 text-xs ml-1">
-                            5.0
-                          </span>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-sub text-gray-400 text-[10px]">
-                          Starting from
-                        </p>
-                        <p
-                          className="font-sub font-bold text-base"
-                          style={{ color: "var(--secondary)" }}
-                        >
-                          Rs. 500
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute -top-5 -left-5 bg-white rounded-2xl shadow-xl p-3.5 text-center min-w-[90px] border border-gray-100">
-                  <div
-                    className="font-main text-2xl font-bold"
-                    style={{ color: "var(--primary)" }}
-                  >
-                    5K+
-                  </div>
-                  <div className="font-sub text-xs text-gray-500 mt-0.5">
-                    Happy Clients
-                  </div>
                 </div>
                 <div
                   className="absolute -bottom-5 -right-5 text-white rounded-2xl shadow-xl p-3.5 text-center min-w-[90px]"
@@ -774,7 +729,7 @@ const Home = () => {
           className="absolute inset-0 flex items-center justify-center font-main leading-none pointer-events-none select-none text-white/5"
           style={{ fontSize: "300px" }}
         >
-          ॐ
+      
         </div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white stagger">

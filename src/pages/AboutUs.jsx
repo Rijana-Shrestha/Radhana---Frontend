@@ -316,7 +316,11 @@ const AboutUs = () => {
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-14 bg-white border border-gray-100 px-6">
+      <section 
+      className="py-14 bg-white border border-gray-100 px-6"
+        style={{
+          background: "linear-gradient(to right, var(--primary), #1d4ed8)",
+        }}>
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -337,15 +341,15 @@ const AboutUs = () => {
                 icon: "fa-calendar-check",
               },
             ].map((s) => (
-              <div key={s.label}>
-                <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <i className={`fas ${s.icon} text-gray-900 text-xl`} />
-                </div>
-                <p className="font-main text-4xl md:text-5xl font-bold mb-1 text-gray-900">
-                  {s.num}
-                </p>
-                <p className="font-sub text-sm text-gray-500">{s.label}</p>
+               <div key={s.label}>
+              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+              <i className={`fas ${s.icon} text-white text-xl`} />
               </div>
+              <p className="font-main text-white text-3xl md:text-4xl font-bold mb-1">
+            {s.num}
+            </p>
+          <p className="font-sub text-gray-200 text-sm">{s.label}</p>
+          </div>
             ))}
           </div>
         </div>
