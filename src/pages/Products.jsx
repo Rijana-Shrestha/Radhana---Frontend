@@ -40,6 +40,7 @@ const Products = () => {
   const [toast, setToast] = useState({ show: false, msg: "", type: "success" });
   const [quickView, setQuickView] = useState(null);
   const [qvQty, setQvQty] = useState(1);
+  const [qvImageIndex, setQvImageIndex] = useState(0);
 
   /* ─── filter / sort state ─── */
   const [sortBy, setSortBy] = useState("default");
@@ -158,6 +159,7 @@ const Products = () => {
   const openQV = (product) => {
     setQuickView(product);
     setQvQty(1);
+    setQvImageIndex(0);
   };
   const closeQV = () => setQuickView(null);
 
@@ -441,7 +443,7 @@ const Products = () => {
           onClick={closeQV}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[92vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center p-5 border-b sticky top-0 bg-white z-10">
@@ -456,11 +458,84 @@ const Products = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <img
-                src={quickView.imageUrls?.[0] || quickView.images?.[0]}
-                alt={quickView.name}
-                className="w-full h-64 md:h-full object-cover"
-              />
+              {/* Multi-Image Gallery */}
+              <div className="bg-gray-50 flex flex-col">
+                {/* Main Image */}
+                <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={
+                      quickView.imageUrls?.[qvImageIndex] ||
+                      quickView.images?.[qvImageIndex] ||
+                      quickView.imageUrls?.[0] ||
+                      quickView.images?.[0]
+                    }
+                    alt={`${quickView.name} - ${qvImageIndex + 1}`}
+                    className="w-full h-full object-contain"
+                  />
+                  
+                  {/* Navigation Arrows */}
+                  {(quickView.imageUrls?.length > 1 || quickView.images?.length > 1) && (
+                    <>
+                      <button
+                        onClick={() => {
+                          const images = quickView.imageUrls || quickView.images || [];
+                          setQvImageIndex((i) =>
+                            i === 0 ? images.length - 1 : i - 1
+                          );
+                        }}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#145faf] w-10 h-10 rounded-full flex items-center justify-center transition shadow-lg"
+                      >
+                        <i className="fas fa-chevron-left text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const images = quickView.imageUrls || quickView.images || [];
+                          setQvImageIndex((i) =>
+                            i === images.length - 1 ? 0 : i + 1
+                          );
+                        }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#145faf] w-10 h-10 rounded-full flex items-center justify-center transition shadow-lg"
+                      >
+                        <i className="fas fa-chevron-right text-sm" />
+                      </button>
+                    </>
+                  )}
+                  
+                  {/* Image Counter */}
+                  {(quickView.imageUrls?.length > 1 || quickView.images?.length > 1) && (
+                    <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs font-sub px-3 py-1.5 rounded-full">
+                      {qvImageIndex + 1} / {(quickView.imageUrls?.length || quickView.images?.length || 1)}
+                    </div>
+                  )}
+                </div>
+
+                {/* Thumbnails */}
+                {(quickView.imageUrls?.length > 1 || quickView.images?.length > 1) && (
+                  <div className="flex gap-2 p-3 bg-white border-t border-gray-200 overflow-x-auto">
+                    {(quickView.imageUrls || quickView.images || []).map(
+                      (img, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setQvImageIndex(idx)}
+                          className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${
+                            qvImageIndex === idx
+                              ? "border-[#145faf] shadow-md"
+                              : "border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          <img
+                            src={img}
+                            alt={`Thumbnail ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Product Details */}
               <div className="p-6">
                 <p className="font-sub text-[10px] text-[#145faf] font-semibold uppercase tracking-wider mb-2">
                   {quickView.category}
