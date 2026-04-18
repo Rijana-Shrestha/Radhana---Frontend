@@ -48,26 +48,18 @@ const Register = () => {
       const res = await registerUser(formData.name, formData.email, formData.phone, formData.password, formData.confirmPassword)
       console.log('Registration successful:', res)
       
-      // Check if email verification is required
-      if (res?.pending_verification) {
-        // Redirect to email verification page
-        navigate(
-          `/verify-email?email=${encodeURIComponent(formData.email)}&token=${encodeURIComponent(res.token || "")}`
-        );
-      } else {
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          password: '',
-          confirmPassword: '',
-        })
-        setAgreed(false)
-        
-        // Redirect to home page
-        navigate('/')
-      }
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+      })
+      setAgreed(false)
+      
+      // Redirect to home page
+      navigate('/')
     } catch (error) {
       console.error('Registration error:', error)
       setError(error.response?.data?.message || 'Registration failed. Please try again.')
