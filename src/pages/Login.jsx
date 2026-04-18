@@ -134,18 +134,6 @@ const Login = () => {
               </button>
             </form>
 
-            {/* Divider */}
-            <div className='my-6 flex items-center gap-3'>
-              <div className='flex-1 h-px bg-gray-200'></div>
-              <span className='text-sm text-gray-500'>Or continue with</span>
-              <div className='flex-1 h-px bg-gray-200'></div>
-            </div>
-
-            {/* Social Login */}
-            <button onClick={()=> window.location.href = "https://radhana-art.onrender.com/api/auth/google"} className='w-full border-2 border-gray-200 rounded-lg py-3 hover:bg-gray-50 transition font-medium text-gray-700 flex items-center justify-center gap-2'>
-              <i className='fab fa-google text-lg text-red-600'></i> Google
-            </button>
-
             {/* Sign Up Link */}
             <p className='text-center text-gray-600 text-sm mt-6'>
               Don't have an account?{' '}
