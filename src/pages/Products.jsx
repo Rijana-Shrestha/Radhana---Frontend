@@ -293,7 +293,7 @@ const Products = () => {
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23ccc' font-size='40'%3E🎨%3C/text%3E%3C/svg%3E";
 
     return (
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col">
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col">
         {/* image */}
         <div className="relative overflow-hidden flex-shrink-0">
           <img
@@ -364,7 +364,7 @@ const Products = () => {
     const fallback =
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3C/svg%3E";
     return (
-      <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex gap-4 p-4 group">
+      <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition duration-300 overflow-hidden flex gap-4 p-4 group">
         <div className="relative overflow-hidden rounded-xl flex-shrink-0 w-32 h-32">
           <img
             src={img}
