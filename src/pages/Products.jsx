@@ -61,7 +61,7 @@ const Products = () => {
       const data = await fetchProducts();
       if (Array.isArray(data) && data.length > 0) {
         setProducts(data);
-        console.log(data)
+        console.log(data);
         setError(false);
         setServerError("");
       } else {
@@ -293,20 +293,14 @@ const Products = () => {
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23ccc' font-size='40'%3E🎨%3C/text%3E%3C/svg%3E";
 
     return (
-      <div
-        className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col"
-        style={{
-          animation: "popIn 0.35s ease both",
-          animationDelay: `${idx * 50}ms`,
-        }}
-      >
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col">
         {/* image */}
         <div className="relative overflow-hidden flex-shrink-0">
           <img
             src={img}
             alt={product.name}
             onError={(e) => (e.target.src = fallback)}
-            className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-36 sm:h-52 object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
           {product.inStock === false && (
@@ -323,11 +317,11 @@ const Products = () => {
         </div>
 
         {/* body */}
-        <div className="p-5 flex flex-col flex-1">
+        <div className="p-3 sm:p-5 flex flex-col flex-1">
           <p className="font-sub text-[10px] text-[#145faf] font-semibold uppercase tracking-wider mb-1">
             {product.category}
           </p>
-          <h3 className="font-main text-[16px] text-[#145faf] mb-1 group-hover:text-[#D93A6A] transition-colors line-clamp-1">
+          <h3 className="font-main text-[13px] sm:text-[16px] text-[#145faf] mb-1 group-hover:text-[#D93A6A] transition-colors line-clamp-1">
             {product.name}
           </h3>
           <p className="font-sub text-gray-400 text-xs leading-relaxed mb-2 line-clamp-2 flex-1">
@@ -345,12 +339,12 @@ const Products = () => {
               <p className="font-sub text-gray-400 text-[10px]">
                 Starting from
               </p>
-              <p className="font-sub text-[#D93A6A] font-bold text-xl">
+              <p className="font-sub text-[#D93A6A] font-bold text-base sm:text-xl">
                 Rs. {Number(product.price).toLocaleString()}
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-1.5 sm:gap-2">
             <button
               onClick={() => handleAddToCart(product)}
               className="flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2.5 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
@@ -370,13 +364,7 @@ const Products = () => {
     const fallback =
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3C/svg%3E";
     return (
-      <div
-        className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex gap-4 p-4 group"
-        style={{
-          animation: "popIn 0.35s ease both",
-          animationDelay: `${idx * 50}ms`,
-        }}
-      >
+      <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex gap-4 p-4 group">
         <div className="relative overflow-hidden rounded-xl flex-shrink-0 w-32 h-32">
           <img
             src={img}
@@ -472,15 +460,17 @@ const Products = () => {
                     alt={`${quickView.name} - ${qvImageIndex + 1}`}
                     className="w-full h-full object-contain"
                   />
-                  
+
                   {/* Navigation Arrows */}
-                  {(quickView.imageUrls?.length > 1 || quickView.images?.length > 1) && (
+                  {(quickView.imageUrls?.length > 1 ||
+                    quickView.images?.length > 1) && (
                     <>
                       <button
                         onClick={() => {
-                          const images = quickView.imageUrls || quickView.images || [];
+                          const images =
+                            quickView.imageUrls || quickView.images || [];
                           setQvImageIndex((i) =>
-                            i === 0 ? images.length - 1 : i - 1
+                            i === 0 ? images.length - 1 : i - 1,
                           );
                         }}
                         className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#145faf] w-10 h-10 rounded-full flex items-center justify-center transition shadow-lg"
@@ -489,9 +479,10 @@ const Products = () => {
                       </button>
                       <button
                         onClick={() => {
-                          const images = quickView.imageUrls || quickView.images || [];
+                          const images =
+                            quickView.imageUrls || quickView.images || [];
                           setQvImageIndex((i) =>
-                            i === images.length - 1 ? 0 : i + 1
+                            i === images.length - 1 ? 0 : i + 1,
                           );
                         }}
                         className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#145faf] w-10 h-10 rounded-full flex items-center justify-center transition shadow-lg"
@@ -500,17 +491,22 @@ const Products = () => {
                       </button>
                     </>
                   )}
-                  
+
                   {/* Image Counter */}
-                  {(quickView.imageUrls?.length > 1 || quickView.images?.length > 1) && (
+                  {(quickView.imageUrls?.length > 1 ||
+                    quickView.images?.length > 1) && (
                     <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs font-sub px-3 py-1.5 rounded-full">
-                      {qvImageIndex + 1} / {(quickView.imageUrls?.length || quickView.images?.length || 1)}
+                      {qvImageIndex + 1} /{" "}
+                      {quickView.imageUrls?.length ||
+                        quickView.images?.length ||
+                        1}
                     </div>
                   )}
                 </div>
 
                 {/* Thumbnails */}
-                {(quickView.imageUrls?.length > 1 || quickView.images?.length > 1) && (
+                {(quickView.imageUrls?.length > 1 ||
+                  quickView.images?.length > 1) && (
                   <div className="flex gap-2 p-3 bg-white border-t border-gray-200 overflow-x-auto">
                     {(quickView.imageUrls || quickView.images || []).map(
                       (img, idx) => (
@@ -529,7 +525,7 @@ const Products = () => {
                             className="w-full h-full object-cover"
                           />
                         </button>
-                      )
+                      ),
                     )}
                   </div>
                 )}
@@ -742,7 +738,7 @@ const Products = () => {
                   </button>
                 </div>
               ) : currentView === "grid" ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5">
                   {visible.map((p, i) => (
                     <GridCard key={p._id || p.id} product={p} idx={i} />
                   ))}
