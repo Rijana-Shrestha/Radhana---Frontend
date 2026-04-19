@@ -17,12 +17,15 @@ const PaymentVerify = ({ gateway = "khalti" }) => {
   useEffect(() => {
     const verify = async () => {
       try {
-        // Retrieve orderId — Khalti passes purchase_order_id, Fonepay passes PRN
+        // Retrieve orderId
+        // Khalti passes purchase_order_id in callback URL
+        // Fonepay: orderId is encoded in PRN (FP-{orderId}-{ts}), backend extracts it
         const orderId =
           searchParams.get("purchase_order_id") || // Khalti
-          sessionStorage.getItem("pendingOrderId"); // fallback stored at initiation
+          sessionStorage.getItem("pendingOrderId"); // Khalti fallback
 
-        if (!orderId)
+        // For Fonepay, orderId check is skipped — backend gets it from PRN
+        if (!orderId && gateway === "khalti")
           throw new Error("Order ID not found. Please contact support.");
 
         let res;
@@ -40,11 +43,10 @@ const PaymentVerify = ({ gateway = "khalti" }) => {
             params: { pidx },
           });
         } else {
-          // Fonepay — pass all query params to backend
+          // Fonepay — orderId is encoded in PRN (FP-{orderId}-{timestamp})
+          // No need to pass orderId in URL — backend extracts from PRN
           const params = Object.fromEntries(searchParams.entries());
-          res = await axiosInstance.get(`/orders/${orderId}/verify-fonepay`, {
-            params,
-          });
+          res = await axiosInstance.get(`/orders/verify-fonepay`, { params });
         }
 
         setOrder(res.data);
