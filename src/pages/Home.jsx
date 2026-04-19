@@ -14,7 +14,6 @@ import Himalayan from "../../Assets/CompaniesWorkedWith/Himalayan.png";
 import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
 import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
-import heroImage from "../../Assets/hero.png";
 
 const companies = [
   {
@@ -195,7 +194,9 @@ const Home = () => {
         <div
           className="absolute top-10 right-10 text-[120px] leading-none pointer-events-none select-none font-main"
           style={{ color: "rgba(20,95,175,0.05)" }}
-        ></div>
+        >
+           
+        </div>
 
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-12 lg:gap-16">
@@ -287,7 +288,7 @@ const Home = () => {
               <div className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 animate-float">
                   <img
-                    src={heroImage}
+                    src="/assets/hero.png"
                     className="w-full h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
@@ -576,10 +577,9 @@ const Home = () => {
       <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900"></div>
         <div
-          className="absolute inset-0 opacity-[0.07]"
+          className="absolute inset-0 opacity-[0.20]"
           style={{
-            backgroundImage:
-              'url("https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=1600&auto=format&fit=crop")',
+            backgroundImage: "url('/Assets/why choose background image.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -588,7 +588,7 @@ const Home = () => {
           className="absolute inset-0 flex items-center justify-center text-white/[0.03] font-main leading-none pointer-events-none select-none"
           style={{ fontSize: "500px" }}
         >
-          ॐ
+        
         </div>
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12 reveal">
@@ -607,9 +607,9 @@ const Home = () => {
             {[
               {
                 icon: "fa-award",
-                iconColor: "text-primary",
-                iconBg: "bg-primary/20 group-hover:bg-primary",
-                titleColor: "group-hover:text-primary",
+                iconColor: "text-yellow-400",
+                iconBg: "bg-yellow-500/20 group-hover:bg-yellow-500",
+                titleColor: "group-hover:text-yellow-600",
                 title: "Premium Quality",
                 desc: "Precision laser-engraved with sharp details and a flawless finish guaranteed on every piece",
               },
@@ -623,31 +623,31 @@ const Home = () => {
               },
               {
                 icon: "fa-hand-holding-dollar",
-                iconColor: "text-amber-400",
-                iconBg: "bg-amber-500/20 group-hover:bg-amber-500",
-                titleColor: "group-hover:text-amber-600",
+                iconColor: "text-yellow-400",
+                iconBg: "bg-yellow-500/20 group-hover:bg-yellow-500",
+                titleColor: "group-hover:text-yellow-600",
                 title: "Affordable Pricing",
                 desc: "Top craftsmanship at transparent prices — bulk order discounts always available",
               },
               {
                 icon: "fa-truck-fast",
-                iconColor: "text-secondary",
-                iconBg: "bg-secondary/20 group-hover:bg-secondary",
-                titleColor: "group-hover:text-secondary",
+                iconColor: "text-green-400",
+                iconBg: "bg-green-500/20 group-hover:bg-green-500",
+                titleColor: "group-hover:text-green-600",
                 title: "Fast & Reliable",
                 desc: "2–3 day turnaround with reliable delivery across Kathmandu valley",
               },
             ].map(({ icon, iconColor, iconBg, titleColor, title, desc }) => (
               <div
                 key={title}
-                className="reveal bg-white/[0.08] backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-white hover:shadow-2xl transition-all duration-500 group cursor-default"
+                className="reveal backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default"
               >
                 <div
-                  className={`w-14 h-14 ${iconBg} rounded-2xl flex items-center justify-center mb-5 transition-all`}
+                className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
                 >
-                  <i
-                    className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors`}
-                  ></i>
+                <i
+                className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
+                ></i>
                 </div>
                 <h3
                   className={`font-main text-white ${titleColor} text-lg mb-2 transition-colors`}
@@ -727,7 +727,9 @@ const Home = () => {
         <div
           className="absolute inset-0 flex items-center justify-center font-main leading-none pointer-events-none select-none text-white/5"
           style={{ fontSize: "300px" }}
-        ></div>
+        >
+      
+        </div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white stagger">
             {[

@@ -27,19 +27,19 @@ const Footer = () => {
               Crafting premium laser engravings inspired by the divine love of Radha & Krishna.
             </p>
 
-            <div>
-              <h4 className="text-xs font-bold text-gray-400 tracking-wider mb-3 uppercase">We Accept</h4>
-              <div className="flex flex-wrap gap-2">
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm text-yellow-500">
-                  Cash
-                </span>
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
-                  <span className="text-green-500 font-bold text-xs">Khalti</span>
-                </span>
-                <span className="bg-gray-800 border border-gray-700 px-3 py-1.5 rounded text-sm flex items-center gap-2">
-                  <span className="text-purple-500 font-bold text-xs">Fonepay</span>
-                </span>
-              </div>
+          <div>
+          <h4 className="text-xs font-bold text-gray-400 tracking-wider mb-3 uppercase">We Accept</h4>
+            <div className="flex flex-wrap gap-3">
+            <span className="bg-white border border-gray-600 px-4 py-3 rounded-lg flex items-center justify-center w-28 h-16">
+            <img src="/Assets/cash1.png" alt="Cash" className="h-10 w-auto object-contain" />
+            </span>
+            <span className="bg-white border border-gray-600 px-4 py-3 rounded-lg flex items-center justify-center w-28 h-16">
+            <img src="/Assets/khalti.jpeg" alt="Khalti" className="h-10 w-auto object-contain" />
+            </span>
+            <span className="bg-white border border-gray-600 px-4 py-3 rounded-lg flex items-center justify-center w-28 h-16">
+            <img src="/Assets/fonepay.png" alt="Fonepay" className="h-10 w-auto object-contain" />
+            </span>
+          </div>
 
              {/* ✅ PAN Card Added Here */}
             <div className="mt-4 border border-yellow-500/40 rounded-lg p-3 bg-gray-900/40">
