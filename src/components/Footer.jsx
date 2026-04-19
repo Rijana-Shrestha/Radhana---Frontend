@@ -8,9 +8,9 @@ import {
   ChevronRight
 } from 'lucide-react';
 
-import fonePay from '../../assets/fonepay.png';
-import khalti from '../../assets/khalti.jpeg';
-import cash from '../../assets/cash1.png';
+import fonePay from '../../Assets/fonepay.png';
+import khalti from '../../Assets/khalti.jpeg';
+import cash from '../../Assets/cash1.png';
 
 const Footer = () => {
   return (
