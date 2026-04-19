@@ -23,27 +23,33 @@ import ResetPassword from "./pages/ResetPassword";
 import PaymentVerify from "./pages/PaymentVerify";
 import Footer from "./components/Footer";
 import { AdminProvider } from "./context/AdminContext";
-import { Search } from "lucide-react";
 import SearchResult from "./pages/SearchResult";
 import VerifyEmail from "./pages/VerifyEmail";
 
+const AUTH_PATHS = [
+  "/login",
+  "/register",
+  "/admin-dashboard",
+  "/forgot-password",
+  "/reset-password",
+  "/payment/verify",
+  "/payment/fonepay-verify",
+  "/verify-email",
+];
+
 const App = () => {
   const location = useLocation();
-  const isAuthPage = [
-    "/login",
-    "/register",
-    "/admin-dashboard",
-    "/forgot-password",
-    "/reset-password",
-    "/payment/verify",
-    "/payment/fonepay-verify",
-    "/verify-email",
-  ].includes(location.pathname);
+
+  // ✅ Fix: With HashRouter, pathname is always "/".
+  // The actual route lives in location.hash e.g. "#/login"
+  // So we extract the path from the hash instead.
+  const hashPath = location.hash.replace(/^#/, "").split("?")[0] || "/";
+  const isAuthPage = AUTH_PATHS.includes(hashPath);
 
   // Scroll to top when route changes
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return (
     <div className="flex flex-col min-h-screen">
