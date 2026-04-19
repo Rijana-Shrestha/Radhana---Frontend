@@ -12,6 +12,7 @@ const ProductPage = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
@@ -155,12 +156,15 @@ const ProductPage = () => {
   // Handle delete
   const handleDelete = async (id) => {
     try {
+      setDeleting(true)
       await deleteProduct(id)
       const updatedProducts = await getAllProducts()
       setProducts(updatedProducts)
       setDeleteConfirm(null)
     } catch (err) {
       alert('Failed to delete product: ' + (err.response?.data?.message || err.message))
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -263,6 +267,7 @@ const ProductPage = () => {
         productId={deleteConfirm}
         onConfirm={handleDelete}
         onCancel={() => setDeleteConfirm(null)}
+        isDeleting={deleting}
       />
     </div>
   )

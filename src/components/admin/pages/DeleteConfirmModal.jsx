@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DeleteConfirmModal = ({ productId, onConfirm, onCancel }) => {
+const DeleteConfirmModal = ({ productId, onConfirm, onCancel, isDeleting }) => {
   if (!productId) return null
 
   return (
@@ -13,13 +13,22 @@ const DeleteConfirmModal = ({ productId, onConfirm, onCancel }) => {
         <div className="flex gap-3">
           <button
             onClick={() => onConfirm(productId)}
-            className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-medium transition"
+            disabled={isDeleting}
+            className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Delete
+            {isDeleting ? (
+              <>
+                <i className="fas fa-spinner fa-spin"></i>
+                Deleting...
+              </>
+            ) : (
+              'Delete'
+            )}
           </button>
           <button
             onClick={onCancel}
-            className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 font-medium transition"
+            disabled={isDeleting}
+            className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
