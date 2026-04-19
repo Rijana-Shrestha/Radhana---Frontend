@@ -43,9 +43,8 @@ const App = () => {
   // ✅ Fix: With HashRouter, pathname is always "/".
   // The actual route lives in location.hash e.g. "#/login"
   // So we extract the path from the hash instead.
-  const hashPath = location.hash.replace(/^#/, "").split("?")[0] || "/";
-  const isAuthPage = AUTH_PATHS.includes(hashPath);
-
+// ✅ Use this
+const isAuthPage = AUTH_PATHS.some(path => location.pathname.startsWith(path));
   // Scroll to top when route changes
   useEffect(() => {
     window.scrollTo(0, 0);

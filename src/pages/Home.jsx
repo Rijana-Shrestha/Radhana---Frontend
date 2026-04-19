@@ -579,10 +579,11 @@ const Home = () => {
       <section
         className="py-16 md:py-20 px-6 md:px-8 lg:px-12 relative overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(to bottom right, rgba(17,24,39,0.95), rgba(30,41,59,0.92), rgba(17,24,39,0.95)), url(${whyChooseBg})`,
+          backgroundImage: `linear-gradient(to bottom right, rgba(17,24,39,0.70), rgba(30,41,59,0.65), rgba(17,24,39,0.70)), url(${whyChooseBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          opacity:1
         }}
       >
         <div
