@@ -14,6 +14,8 @@ import Himalayan from "../../Assets/CompaniesWorkedWith/Himalayan.png";
 import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
 import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
+import HeroBg from "../../Assets/hero.png";
+import whyChooseBg from "../../Assets/why choose background image.png";
 
 const companies = [
   {
@@ -288,7 +290,7 @@ const Home = () => {
               <div className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 animate-float">
                   <img
-                    src="/assets/hero.png"
+                    src={HeroBg}
                     className="w-full h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
@@ -574,22 +576,20 @@ const Home = () => {
       </section>
 
       {/* ══════════════════ WHY CHOOSE US ══════════════════ */}
-      <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900"></div>
-        <div
-          className="absolute inset-0 opacity-[0.20]"
-          style={{
-            backgroundImage: "url('/Assets/why choose background image.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        ></div>
+      <section
+        className="py-16 md:py-20 px-6 md:px-8 lg:px-12 relative overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to bottom right, rgba(17,24,39,0.95), rgba(30,41,59,0.92), rgba(17,24,39,0.95)), url(${whyChooseBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div
           className="absolute inset-0 flex items-center justify-center text-white/[0.03] font-main leading-none pointer-events-none select-none"
           style={{ fontSize: "500px" }}
-        >
-        
-        </div>
+        ></div>
+
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12 reveal">
             <span className="font-sub text-amber-400 text-sm font-semibold uppercase tracking-widest">
@@ -599,10 +599,11 @@ const Home = () => {
               Why Choose Radhana Art?
             </h2>
             <p className="font-sub text-gray-300 text-[15px] max-w-xl mx-auto">
-              We combine traditional craftsmanship with modern laser technology
-              to deliver excellence
+              We combine traditional craftsmanship with modern laser technology to
+              deliver excellence
             </p>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger">
             {[
               {
@@ -643,11 +644,11 @@ const Home = () => {
                 className="reveal backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default"
               >
                 <div
-                className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
+                  className={`w-14 h-14 ${iconBg} rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
                 >
-                <i
-                className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
-                ></i>
+                  <i
+                    className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
+                  ></i>
                 </div>
                 <h3
                   className={`font-main text-white ${titleColor} text-lg mb-2 transition-colors`}
@@ -663,7 +664,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ══════════════════ COMPANIES MARQUEE ══════════════════ */}
+   
       <section className="py-12 md:py-14 bg-white border-y border-gray-100">
         <div className="container mx-auto px-6 mb-8 reveal">
           <div className="text-center">

@@ -8,6 +8,10 @@ import {
   ChevronRight
 } from 'lucide-react';
 
+import fonePay from '../../assets/fonepay.png';
+import khalti from '../../assets/khalti.jpeg';
+import cash from '../../assets/cash1.png';
+
 const Footer = () => {
   return (
     <footer className="bg-[#1a1e29] text-gray-300 pt-16 pb-8 border-t border-gray-800">
@@ -31,13 +35,13 @@ const Footer = () => {
           <h4 className="text-xs font-bold text-gray-400 tracking-wider mb-3 uppercase">We Accept</h4>
             <div className="flex flex-wrap gap-3">
             <span className="bg-white border border-gray-600 px-4 py-3 rounded-lg flex items-center justify-center w-28 h-16">
-            <img src="/Assets/cash1.png" alt="Cash" className="h-10 w-auto object-contain" />
+            <img src={cash} alt="Cash" className="h-10 w-auto object-contain" />
             </span>
             <span className="bg-white border border-gray-600 px-4 py-3 rounded-lg flex items-center justify-center w-28 h-16">
-            <img src="/Assets/khalti.jpeg" alt="Khalti" className="h-10 w-auto object-contain" />
+            <img src={khalti} alt="Khalti" className="h-10 w-auto object-contain" />
             </span>
             <span className="bg-white border border-gray-600 px-4 py-3 rounded-lg flex items-center justify-center w-28 h-16">
-            <img src="/Assets/fonepay.png" alt="Fonepay" className="h-10 w-auto object-contain" />
+            <img src={fonePay} alt="Fonepay" className="h-10 w-auto object-contain" />
             </span>
           </div>
 
