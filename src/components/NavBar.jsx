@@ -140,8 +140,8 @@ const NavBar = () => {
               ></i>
             </button>
 
-            <div className='hidden md:flex flex-1 mx-8 relative' ref={searchRef}>
-          <div className={`flex gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
+            <div className='hidden md:flex flex-1 w-50 mx-auto relative justify-center' ref={searchRef}>
+          <div className={`flex w-150 gap-2 bg-[#F9FAFB] p-1 rounded-xl border-2 transition-all ${showSuggestions ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
             <input
               ref={inputRef}
               type='text'
