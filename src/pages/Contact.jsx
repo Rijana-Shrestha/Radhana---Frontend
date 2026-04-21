@@ -103,8 +103,8 @@ const Contact = () => {
       color: "text-[#145faf]",
       bg: "bg-blue-50 border-blue-100",
       title: "Phone",
-      value: "+977 9823939106",
-      sub: "Monday – Saturday, 9 AM – 6 PM",
+      value: "+977 9823939106"+ "\n" + "+977 9746679242",
+      sub: "Monday – Friday, 10 AM – 6 PM",
       href: "tel:+9779823939106",
     },
     {
@@ -121,7 +121,7 @@ const Contact = () => {
       color: "text-green-600",
       bg: "bg-green-50 border-green-100",
       title: "WhatsApp",
-      value: "+977 9823939106",
+      value: "+977 9823939106" + "\n" + "+977 9746679242",
       sub: "Chat with us anytime",
       href: "https://wa.me/9779823939106",
     },
@@ -139,7 +139,7 @@ const Contact = () => {
   return (
     <main className="bg-white">
       {/* Hero */}
-      <section className="py-10 md:py-14 px-6 text-center bg-white border-b border-gray-100">
+      <section className="py-10 md:py-14 px-6 text-center bg-[#f6f2eb] border-b border-gray-100">
         <div className="container mx-auto max-w-2xl">
           <span className="font-sub text-[#D93A6A] text-sm font-semibold uppercase tracking-widest mb-3 block">
             Get in Touch
@@ -513,7 +513,7 @@ const Contact = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-12 bg-white border border-gray-100 px-6 text-center mt-4">
+      <section className="py-12 bg-[#f6f2ee] border border-gray-100 px-6 text-center mt-4">
         <div className="container mx-auto">
           <h2 className="font-main text-gray-900 text-2xl md:text-3xl mb-3">
             Prefer to Order Directly?

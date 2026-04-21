@@ -6,12 +6,17 @@
 :root {
   --primary: #145faf;
   --secondary: #d93a6a;
+  background-color:#f6f2eb;
 }
 
 body {
+  body {
   user-select: none;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
+  background-color:#f6f2eb;
+  
+}
 }
 
 /* Scroll Reveal */

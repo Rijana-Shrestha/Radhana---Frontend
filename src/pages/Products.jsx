@@ -622,7 +622,7 @@ const Products = () => {
       )}
 
       {/* Page Hero */}
-      <section className="py-8 md:py-10 px-6 md:px-8 lg:px-12 bg-white border-b border-gray-100">
+      <section className="py-8 md:py-10 px-6 md:px-8 lg:px-12 bg-[#f6f2eb] border-b border-gray-100">
         <div className="container mx-auto">
           <div className="flex items-center gap-2 font-sub text-sm text-gray-400 mb-3">
             <Link to="/" className="hover:text-[#145faf] transition">
@@ -768,7 +768,7 @@ const Products = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-14 bg-white border border-gray-100 px-6 text-center mt-6">
+      <section className="py-14 bg-[#f6f2ee] border border-gray-100 px-6 text-center mt-6">
         <div className="container mx-auto">
           <h2 className="font-main text-gray-900 text-2xl md:text-3xl mb-3">
             Can't Find What You're Looking For?

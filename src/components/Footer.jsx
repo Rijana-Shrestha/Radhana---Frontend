@@ -47,7 +47,8 @@ const Footer = () => {
 
              {/* ✅ PAN Card Added Here */}
             <div className="mt-4 border border-yellow-500/40 rounded-lg p-3 bg-gray-900/40">
-            <p className="text-xs font-bold text-yellow-400 uppercase tracking-wide mb-1">PAN Card No</p>
+            <p className="text-xs font-bold text-yellow-400 uppercase tracking-wide mb-1">PAN Card Details</p>
+            <p className="text-sm font-semibold text-white tracking-widest"> Radhana Enterprise</p>
             <p className="text-sm font-semibold text-white tracking-widest"> 128464005</p>
             </div>
             </div>

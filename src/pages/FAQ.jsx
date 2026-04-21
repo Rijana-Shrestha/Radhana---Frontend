@@ -154,7 +154,7 @@ const FAQ = () => {
   return (
     <main className="bg-white">
       {/* Hero */}
-      <section className="py-10 md:py-14 px-6 text-center bg-white border-b border-gray-100">
+      <section className="py-10 md:py-14 px-6 text-center bg-[#f6f2ee] border-b border-gray-100">
         <div className="container mx-auto max-w-2xl">
           <span className="font-sub text-[#D93A6A] text-sm font-semibold uppercase tracking-widest mb-3 block">
             Help Centre
@@ -381,7 +381,7 @@ const FAQ = () => {
       </section>
 
       {/* Contact cards */}
-      <section className="py-12 px-6 md:px-8 lg:px-12 bg-white border-t border-gray-100">
+      <section className="py-12 px-6 md:px-8 lg:px-12 bg-[#f6f2ee] border-t border-gray-100">
         <div className="container mx-auto max-w-3xl">
           <div className="text-center mb-8">
             <h2 className="font-main text-2xl md:text-3xl text-gray-800 mb-2">

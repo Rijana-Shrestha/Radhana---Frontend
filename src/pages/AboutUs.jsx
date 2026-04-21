@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import bibek from "../../Assets/bibek.jpeg";
 import sujit from "../../Assets/sujit.jpeg";
 import ajit from "../../Assets/ajit.jpeg";
+
 /* scroll-reveal hook */
 const useReveal = () => {
   const ref = useRef(null);
@@ -99,28 +100,28 @@ const AboutUs = () => {
   const team = [
     {
       name: "Bibek Shah",
-      role: "Founder & Creative Director",
+      role: "Founder & Managing Director",
       img: bibek,
-      desc: "Founder & MD expertise in laser Technology, custom signage production, & strong customer handling skills.",
+      desc: "Founder & MD expertise in laser Technology, custom signage production, and business leadership.",
     },
     {
       name: "Ajit Sah",
-      role: "Lead Engraving Technician",
+      role: "Business Development Partner",
       img: ajit     ,
       desc: "Business Development Partner Expertise Expands  business through clients and partnerships.",
     },
     {
       name: "Sujit Shretha",
-      role: "Designer Expertise ",
+      role: "Post Designer",
       img: sujit,
       desc: "Creates creative designs for engraving, signage, and branding projects",
     },
   ];
 
   return (
-    <main className="bg-white overflow-x-hidden">
+    <main className="bg-[#f6f2ee] overflow-x-hidden">
       {/* ── HERO ── */}
-      <section className="py-20 md:py-28 px-6 text-center bg-white">
+      <section className="py-20 md:py-28 px-6 text-center bg-[#f6f2ee]">
         <div className="container mx-auto max-w-3xl">
           <span className="font-sub text-[#D93A6A] text-sm font-semibold uppercase tracking-widest mb-4 block">
             Our Story
@@ -230,7 +231,7 @@ const AboutUs = () => {
       </section>
 
       {/* ── MISSION & VISION ── */}
-      <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 bg-gray-50">
+      <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 #f6f2eb">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <Reveal>
@@ -358,7 +359,7 @@ const AboutUs = () => {
       </section>
 
       {/* ── TIMELINE ── */}
-      <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 bg-gray-50">
+      <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 #f6f2eb">
         <div className="container mx-auto max-w-3xl">
           <div className="text-center mb-12">
             <Reveal>
@@ -458,7 +459,7 @@ const AboutUs = () => {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-14 bg-white border border-gray-100 px-6 text-center">
+      <section className="py-14 #f6f2eb border border-gray-100 px-6 text-center">
         <div className="container mx-auto">
           <h2 className="font-main text-gray-900 text-2xl md:text-3xl mb-3">
             Ready to Create Something Special?

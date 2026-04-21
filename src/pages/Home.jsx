@@ -288,7 +288,7 @@ const Home = () => {
             {/* RIGHT: Floating image */}
             <div className="lg:w-1/2 h-anim-6">
               <div className="relative">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 animate-float">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50">
                   <img
                     src={HeroBg}
                     className="w-full h-[380px] md:h-[460px] object-cover"

@@ -183,7 +183,7 @@ const Gallery = () => {
       )}
 
       {/* Page hero */}
-      <section className="py-10 md:py-14 px-6 md:px-8 lg:px-12 bg-white border-b border-gray-100 text-center">
+      <section className="py-10 md:py-14 px-6 md:px-8 lg:px-12 bg-[#f6f2ee] border-b border-gray-100 text-center">
         <div className="container mx-auto max-w-3xl">
           <span className="font-sub text-[#D93A6A] text-sm font-semibold uppercase tracking-widest mb-3 block">
             Our Portfolio
@@ -407,7 +407,7 @@ const Gallery = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-14 bg-white border border-gray-100 px-6 text-center">
+      <section className="py-14 bg-[#f6f2eb] border border-gray-100 px-6 text-center">
         <div className="container mx-auto relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.06] text-gray-200 text-[300px] font-main leading-none flex items-center justify-center pointer-events-none select-none">
       
@@ -431,10 +431,10 @@ const Gallery = () => {
                 Order &amp; Get Featured
               </a>
               <a
-                href="/products"
-                className="inline-flex items-center justify-center gap-2 bg-white/20 border border-white/30 text-white font-sub font-semibold px-8 py-3.5 rounded-xl hover:bg-white/30 transition hover:-translate-y-0.5"
-              >
-                <i className="fas fa-store text-xl" /> Browse Products
+                  href="/products"
+                  className="inline-flex items-center justify-center gap-2 bg-[#145faf] border border-[#145faf] text-white font-sub font-semibold px-8 py-3.5 rounded-xl hover:bg-[#D93A6A] transition hover:-translate-y-0.5"
+                  >
+                 <i className="fas fa-store text-xl" /> Browse Products
               </a>
             </div>
           </div>
