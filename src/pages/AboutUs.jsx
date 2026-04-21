@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-
+import bibek from "../../Assets/bibek.jpeg";
+import sujit from "../../Assets/sujit.jpeg";
+import ajit from "../../Assets/ajit.jpeg";
 /* scroll-reveal hook */
 const useReveal = () => {
   const ref = useRef(null);
@@ -98,19 +100,19 @@ const AboutUs = () => {
     {
       name: "Bibek Shah",
       role: "Founder & Creative Director",
-      img: "/assets/bibek.jpeg",
+      img: bibek,
       desc: "Founder & MD expertise in laser Technology, custom signage production, & strong customer handling skills.",
     },
     {
       name: "Ajit Sah",
       role: "Lead Engraving Technician",
-      img: "/assets/ajit.jpeg",
+      img: ajit     ,
       desc: "Business Development Partner Expertise Expands  business through clients and partnerships.",
     },
     {
       name: "Sujit Shretha",
       role: "Designer Expertise ",
-      img: "/assets/sujit.jpeg",
+      img: sujit,
       desc: "Creates creative designs for engraving, signage, and branding projects",
     },
   ];
