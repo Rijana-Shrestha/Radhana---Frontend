@@ -96,22 +96,22 @@ const AboutUs = () => {
 
   const team = [
     {
-      name: "Radhana Shrestha",
+      name: "Bibek Shah",
       role: "Founder & Creative Director",
-      img: "https://images.unsplash.com/photo-1494790108755-2616b2c0c08a?q=80&w=400",
-      desc: "8+ years of laser engraving expertise.",
+      img: "/assets/bibek.jpeg",
+      desc: "Founder & MD expertise in laser Technology, custom signage production, & strong customer handling skills.",
     },
     {
-      name: "Arjun Tamang",
+      name: "Ajit Sah",
       role: "Lead Engraving Technician",
-      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400",
-      desc: "Precision craftsman with a passion for detail.",
+      img: "/assets/ajit.jpeg",
+      desc: "Business Development Partner Expertise Expands  business through clients and partnerships.",
     },
     {
-      name: "Sita Maharjan",
-      role: "Design & Customer Relations",
-      img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400",
-      desc: "Turning ideas into beautiful visual designs.",
+      name: "Sujit Shretha",
+      role: "Designer Expertise ",
+      img: "/assets/sujit.jpeg",
+      desc: "Creates creative designs for engraving, signage, and branding projects",
     },
   ];
 
