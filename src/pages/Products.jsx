@@ -334,15 +334,22 @@ const Products = () => {
               ({product.reviews || 0})
             </span>
           </div>
-          <div className="flex items-end justify-between mb-3">
-            <div>
-              <p className="font-sub text-gray-400 text-[10px]">
-                Starting from
-              </p>
-              <p className="font-sub text-[#D93A6A] font-bold text-base sm:text-xl">
-                Rs. {Number(product.price).toLocaleString()}
+          <div className="mb-3">
+            <div className="flex items-center gap-2 mb-1">
+              {product.originalPrice && product.originalPrice > product.price && (
+                <p className="font-sub text-gray-400 text-xs line-through">
+                  Rs {Number(product.originalPrice).toLocaleString()}
+                </p>
+              )}
+              <p className="font-sub text-[#D93A6A] font-bold text-lg">
+                Rs {Number(product.price).toLocaleString()}
               </p>
             </div>
+            {product.originalPrice && product.originalPrice > product.price && (
+              <div className="inline-block bg-green-500 text-white px-2.5 py-1 rounded-full text-xs font-sub font-bold">
+                SAVE Rs {Number(product.originalPrice - product.price).toLocaleString()}
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-1.5 sm:gap-2">
             <button
