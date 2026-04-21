@@ -295,12 +295,12 @@ const Products = () => {
     return (
       <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col">
         {/* image */}
-        <div className="relative overflow-hidden flex-shrink-0">
+        <div className="relative overflow-hidden flex-shrink-0 h-64 sm:h-80">
           <img
             src={img}
             alt={product.name}
             onError={(e) => (e.target.src = fallback)}
-            className="w-full h-36 sm:h-52 object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
           {product.inStock === false && (
@@ -316,24 +316,12 @@ const Products = () => {
           </button>
         </div>
 
-        {/* body */}
-        <div className="p-3 sm:p-5 flex flex-col flex-1">
-          <p className="font-sub text-[10px] text-[#145faf] font-semibold uppercase tracking-wider mb-1">
-            {product.category}
-          </p>
-          <h3 className="font-main text-[13px] sm:text-[16px] text-[#145faf] mb-1 group-hover:text-[#D93A6A] transition-colors line-clamp-1">
+        {/* body - minimal */}
+        <div className="p-3 sm:p-4 flex flex-col flex-1">
+          <h3 className="font-main text-[13px] sm:text-[15px] text-[#145faf] mb-2 group-hover:text-[#D93A6A] transition-colors line-clamp-2">
             {product.name}
           </h3>
-          <p className="font-sub text-gray-400 text-xs leading-relaxed mb-2 line-clamp-2 flex-1">
-            {product.description ||
-              "Premium laser-engraved product crafted with precision."}
-          </p>
-          <div className="flex items-center gap-1.5 mb-3">
-            <Stars count={Math.floor(product.rating || 5)} />
-            <span className="font-sub text-xs text-gray-400">
-              ({product.reviews || 0})
-            </span>
-          </div>
+          
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-1">
               {product.originalPrice && product.originalPrice > product.price && (
@@ -341,22 +329,23 @@ const Products = () => {
                   Rs {Number(product.originalPrice).toLocaleString()}
                 </p>
               )}
-              <p className="font-sub text-[#D93A6A] font-bold text-lg">
+              <p className="font-sub text-[#D93A6A] font-bold text-base">
                 Rs {Number(product.price).toLocaleString()}
               </p>
             </div>
             {product.originalPrice && product.originalPrice > product.price && (
-              <div className="inline-block bg-green-500 text-white px-2.5 py-1 rounded-full text-xs font-sub font-bold">
+              <div className="inline-block bg-green-500 text-white px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold">
                 SAVE Rs {Number(product.originalPrice - product.price).toLocaleString()}
               </div>
             )}
           </div>
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-1.5 sm:gap-2">
+          
+          <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => handleAddToCart(product)}
-              className="flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2.5 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
+              className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
             >
-              <i className="fas fa-shopping-cart text-sm" /> Add to Cart
+              <i className="fas fa-shopping-cart text-sm" /> Cart
             </button>
             <WhatsAppLink name={product.name} />
           </div>
