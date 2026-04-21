@@ -8,9 +8,9 @@ import {
   ChevronRight
 } from 'lucide-react';
 
-import fonePay from '../../Assets/fonepay.png';
+import fonePay from '../../Assets/fonepay.jpeg';
 import khalti from '../../Assets/khalti.jpeg';
-import cash from '../../Assets/cash1.png';
+import cash from '../../Assets/cash1.jpeg';
 
 const Footer = () => {
   return (
@@ -130,7 +130,7 @@ const Footer = () => {
                 Workshop Hours
               </div>
               <div className="text-sm space-y-1 text-green-50">
-                <p>Sun - Fri: 10:00 AM - 7:00 PM</p>
+                <p>Sun - Fri: 10:00 AM - 5:00 PM</p>
                 <p>Saturday: <span className="text-red-300 font-semibold">Closed</span></p>
               </div>
             </div>

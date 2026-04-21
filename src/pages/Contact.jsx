@@ -393,17 +393,16 @@ const Contact = () => {
               {/* Map placeholder / working hours */}
               <div className="bg-white rounded-3xl shadow-sm p-6 border border-gray-50">
                 <h3 className="font-main text-[#145faf] text-xl mb-4">
-                  Business Hours
+                  Working Hours
                 </h3>
                 <div className="space-y-3">
                   {[
                     {
                       day: "Sunday – Friday",
-                      time: "9:00 AM – 6:00 PM",
+                      time: "10:00 AM – 5:00 PM",
                       open: true,
                     },
-                    { day: "Saturday", time: "10:00 AM – 4:00 PM", open: true },
-                    { day: "Public Holidays", time: "Closed", open: false },
+                    { day: "Saturday", time: "Closed", open: false },
                   ].map((h) => (
                     <div
                       key={h.day}

@@ -15,7 +15,7 @@ import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
 import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
 import HeroBg from "../../Assets/hero.png";
-import whyChooseBg from "../../Assets/why choose background image.png";
+import whyChooseBg from "../../Assets/why choose background image.jpeg";
 
 const companies = [
   {
@@ -576,21 +576,22 @@ const Home = () => {
       </section>
 
       {/* ══════════════════ WHY CHOOSE US ══════════════════ */}
-      <section
-        className="py-16 md:py-20 px-6 md:px-8 lg:px-12 relative overflow-hidden"
-        style={{
-          backgroundImage: `linear-gradient(to bottom right, rgba(17,24,39,0.70), rgba(30,41,59,0.65), rgba(17,24,39,0.70)), url(${whyChooseBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity:1
-        }}
-      >
+      <section className="py-16 md:py-20 px-6 md:px-8 lg:px-12 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900"></div>
+        <div
+          className="absolute inset-0 opacity-[0.25]"
+          style={{
+            backgroundImage: `url(${whyChooseBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
         <div
           className="absolute inset-0 flex items-center justify-center text-white/[0.03] font-main leading-none pointer-events-none select-none"
           style={{ fontSize: "500px" }}
-        ></div>
-
+        >
+        
+        </div>
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12 reveal">
             <span className="font-sub text-amber-400 text-sm font-semibold uppercase tracking-widest">
@@ -645,11 +646,11 @@ const Home = () => {
                 className="reveal backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default"
               >
                 <div
-                  className={`w-14 h-14 ${iconBg} rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
+                className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
                 >
-                  <i
-                    className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
-                  ></i>
+                <i
+                className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
+                ></i>
                 </div>
                 <h3
                   className={`font-main text-white ${titleColor} text-lg mb-2 transition-colors`}

@@ -118,7 +118,7 @@ body {
 }
 .marquee-track {
   display: flex;
-  animation: marqueeAnim 30s linear infinite;
+  animation: marqueeAnim 9s linear infinite;
   will-change: transform;
 }
 .marquee-track:hover {
