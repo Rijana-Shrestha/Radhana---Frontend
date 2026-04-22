@@ -277,7 +277,7 @@ const Gallery = () => {
           ) : currentView === "masonry" ? (
             <div
               style={{ columns: "2", columnGap: "14px" }}
-              className="masonry-wrap"
+              className="masonry-wrap overflow-hidden"
             >
               {visible.map((item, idx) => (
                 <div
@@ -293,7 +293,8 @@ const Gallery = () => {
                     src={getImg(item)}
                     alt={item.title || "Gallery"}
                     onError={(e) => (e.target.src = fallback)}
-                    className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full object-cover group-hover:scale-105 transition-transform duration-500 block"
+                    style={{ display: "block" }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">
                     <span className="font-sub text-[10px] text-white/70 uppercase tracking-wider mb-1 capitalize">
@@ -367,11 +368,12 @@ const Gallery = () => {
       </section>
 
       {/* Stats */}
-      <section 
-      className="py-14 px-6 relative overflow-hidden"
+      <section
+        className="py-14 px-6 relative overflow-hidden"
         style={{
           background: "linear-gradient(to right, var(--primary), #1d4ed8)",
-        }}>
+        }}
+      >
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -393,14 +395,14 @@ const Gallery = () => {
               },
             ].map((s) => (
               <div key={s.label}>
-              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
-              <i className={`fas ${s.icon} text-white text-xl`} />
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <i className={`fas ${s.icon} text-white text-xl`} />
+                </div>
+                <p className="font-main text-white text-3xl md:text-4xl font-bold mb-1">
+                  {s.num}
+                </p>
+                <p className="font-sub text-gray-200 text-sm">{s.label}</p>
               </div>
-              <p className="font-main text-white text-3xl md:text-4xl font-bold mb-1">
-            {s.num}
-            </p>
-          <p className="font-sub text-gray-200 text-sm">{s.label}</p>
-          </div>
             ))}
           </div>
         </div>
@@ -409,9 +411,7 @@ const Gallery = () => {
       {/* CTA */}
       <section className="py-14 bg-[#f6f2eb] border border-gray-100 px-6 text-center">
         <div className="container mx-auto relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.06] text-gray-200 text-[300px] font-main leading-none flex items-center justify-center pointer-events-none select-none">
-      
-          </div>
+          <div className="absolute inset-0 opacity-[0.06] text-gray-200 text-[300px] font-main leading-none flex items-center justify-center pointer-events-none select-none"></div>
           <div className="relative z-10">
             <h2 className="font-main text-gray-900 text-2xl md:text-3xl mb-3">
               Want Your Creation Featured Here?
@@ -431,10 +431,10 @@ const Gallery = () => {
                 Order &amp; Get Featured
               </a>
               <a
-                  href="/products"
-                  className="inline-flex items-center justify-center gap-2 bg-[#145faf] border border-[#145faf] text-white font-sub font-semibold px-8 py-3.5 rounded-xl hover:bg-[#D93A6A] transition hover:-translate-y-0.5"
-                  >
-                 <i className="fas fa-store text-xl" /> Browse Products
+                href="/products"
+                className="inline-flex items-center justify-center gap-2 bg-[#145faf] border border-[#145faf] text-white font-sub font-semibold px-8 py-3.5 rounded-xl hover:bg-[#D93A6A] transition hover:-translate-y-0.5"
+              >
+                <i className="fas fa-store text-xl" /> Browse Products
               </a>
             </div>
           </div>

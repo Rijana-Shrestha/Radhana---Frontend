@@ -14,8 +14,35 @@ import Himalayan from "../../Assets/CompaniesWorkedWith/Himalayan.png";
 import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
 import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
+import Dsfashion from "../../Assets/CompaniesWorkedWith/DsFashion.jpeg";
+import Trifecta from "../../Assets/CompaniesWorkedWith/Trifecta.jpeg";
+import Hostmandu from "../../Assets/CompaniesWorkedWith/Hostmandu.jpeg";
+import Mita from "../../Assets/CompaniesWorkedWith/MitaHotel.jpeg";
+import Palifal from "../../Assets/CompaniesWorkedWith/Palifal.jpeg";
+import Ovenfresh from "../../Assets/CompaniesWorkedWith/OvenFresh.jpeg";
+import SuryaJyoti from "../../Assets/CompaniesWorkedWith/SuryaJyoti.jpeg";
+import HotelDipjyoti from "../../Assets/CompaniesWorkedWith/HotelDipjyoti.jpeg";
+import SauravDecor from "../../Assets/CompaniesWorkedWith/SauravDecor.jpeg";
+import Machaan from "../../Assets/CompaniesWorkedWith/Machaan.jpeg";
+import EyeBuddy from "../../Assets/CompaniesWorkedWith/EyeBuddy.jpeg";
+import RoyalRiders from "../../Assets/CompaniesWorkedWith/RoyalRiders.jpeg";
+import ANJ from "../../Assets/CompaniesWorkedWith/ANJ.jpeg";
 import HeroBg from "../../Assets/hero.png";
 import whyChooseBg from "../../Assets/why choose background image.jpeg";
+import personalizedgift from "../../Assets/ShopByCategory/personalizedgift.jpeg";
+import homedecor from "../../Assets/ShopByCategory/homeDecor.jpeg";
+import corporateGifts from "../../Assets/ShopByCategory/corporateGifts.jpeg";
+import img1 from "../../Assets/customerCreation/img1.jpeg";
+import img2 from "../../Assets/customerCreation/img2.jpeg";
+import img3 from "../../Assets/customerCreation/img3.jpeg";
+import img4 from "../../Assets/customerCreation/img4.jpeg";
+import img5 from "../../Assets/customerCreation/img5.jpeg";
+import img6 from "../../Assets/customerCreation/img6.jpeg";
+import img7 from "../../Assets/customerCreation/img7.jpeg";
+import img8 from "../../Assets/customerCreation/img8.jpeg";
+import img9 from "../../Assets/customerCreation/img9.jpeg";
+import img10 from "../../Assets/customerCreation/img10.jpeg";
+import img11 from "../../Assets/customerCreation/img11.jpeg";
 
 const companies = [
   {
@@ -88,21 +115,100 @@ const companies = [
     type: "Hospitality",
     logo: AntuCottage,
   },
+  {
+    name: "DS Fashion",
+    type: "Fashion",
+    logo: Dsfashion,
+  },
+  {
+    name: "Trifecta",
+    type: "Business",
+    logo: Trifecta,
+  },
+  {
+    name: "Host Mandu",
+    type: "Hospitality",
+    logo: Hostmandu,
+  },
+  {
+    name: "Mita",
+    type: "Business",
+    logo: Mita,
+  },
+  {
+    name: "Palifal",
+    type: "Business",
+    logo: Palifal,
+  },
+  {
+    name: "Ovenfresh",
+    type: "Food & Beverage",
+    logo: Ovenfresh,
+  },
+  {
+    name: "Surya Jyoti",
+    type: "Business",
+    logo: SuryaJyoti,
+  },
+  {
+    name: "Hotel Dipjyoti",
+    type: "Hospitality",
+    logo: HotelDipjyoti,
+  },
+  {
+    name: "Saurav Decor",
+    type: "Home & Living",
+    logo: SauravDecor,
+  },
+  {
+    name: "Machaan",
+    type: "Business",
+    logo: Machaan,
+  },
+  {
+    name: "Eye Buddy",
+    type: "Healthcare",
+    logo: EyeBuddy,
+  },
+  {
+    name: "RoyalRiders",
+    type: "Automobile",
+    logo: RoyalRiders,
+  },
+  {
+    name: "ANJ",
+    type: "Business",
+    logo: ANJ,
+  },
 ];
 
 const galleryImages = [
-  "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=500",
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=500",
-  "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800",
-  "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=500",
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=500",
-  "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=500",
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+  img7,
+  img8,
+  img9,
+  img10,
+  img11,
 ];
 
 const Home = () => {
   const lbRef = useRef(null);
   const lbImgRef = useRef(null);
   const lbIdxRef = useRef(0);
+
+  // Companies marquee
+  const marqueeRef = useRef(null);
+  const pauseMarquee = () => marqueeRef.current?.classList.add("paused");
+  const resumeMarquee = () => marqueeRef.current?.classList.remove("paused");
+  const scrollMarquee = (dir) => {
+    const outer = marqueeRef.current?.parentElement;
+    if (outer) outer.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
 
   useEffect(() => {
     // Scroll reveal
@@ -184,7 +290,7 @@ const Home = () => {
       </div>
 
       {/* ══════════════════ HERO ══════════════════ */}
-      <section className="relative min-h-[88vh] flex items-center py-16 md:py-20 px-6 md:px-8 lg:px-12 bg-gradient-to-br from-purple-50 via-violet-50/40 to-indigo-50/30 lotus-bg overflow-hidden">
+      <section className="relative flex items-center py-10 md:py-20 px-6 md:px-8 lg:px-12 bg-gradient-to-br from-purple-50 via-violet-50/40 to-indigo-50/30 lotus-bg overflow-hidden">
         <div
           className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
           style={{ background: "rgba(20,95,175,0.05)" }}
@@ -196,9 +302,7 @@ const Home = () => {
         <div
           className="absolute top-10 right-10 text-[120px] leading-none pointer-events-none select-none font-main"
           style={{ color: "rgba(20,95,175,0.05)" }}
-        >
-           
-        </div>
+        ></div>
 
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-12 lg:gap-16">
@@ -212,8 +316,8 @@ const Home = () => {
                   borderColor: "rgba(217,58,106,0.2)",
                 }}
               >
-                <i className="fas fa-om text-xs"></i> Divine Craftsmanship from
-                Kathmandu
+                <i className="fas fa-om text-xs"></i> Love of Radha and Krishna
+                in Every Craft
               </div>
               <h1 className="h-anim-2 font-main text-3xl md:text-4xl lg:text-5xl xl:text-[56px] font-bold mb-5 leading-tight text-gray-800">
                 Laser Engraving &amp;
@@ -224,23 +328,23 @@ const Home = () => {
               </h1>
               <p className="h-anim-3 font-sub text-gray-500 text-[15px] md:text-[17px] mb-8 leading-relaxed max-w-lg">
                 Transform your memories into timeless art. From wooden QR codes
-                to personalized photo engravings — each piece crafted with
+                to personalized photo engravings - each piece crafted with
                 divine precision and love.
               </p>
-              <div className="h-anim-4 flex flex-col sm:flex-row gap-3 mb-9">
+              <div className="h-anim-4 flex flex-row gap-2 mb-6 w-full sm:w-auto">
                 <Link
-                  to="/products"
-                  className="font-sub text-white px-7 py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                  to="./products"
+                  className="font-sub text-white px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm rounded-lg sm:rounded-xl text-center font-medium flex items-center justify-center gap-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   style={{ background: "var(--primary)" }}
                 >
-                  <i className="fas fa-store"></i> Explore Products
+                  <i className="fas fa-store"></i> View All Products
                 </Link>
                 <Link
-                  to="/contact"
-                  className="font-sub text-white px-7 py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                  to="./contact"
+                  className="font-sub text-white px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm rounded-lg sm:rounded-xl text-center font-medium flex items-center justify-center gap-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   style={{ background: "var(--secondary)" }}
                 >
-                  <i className="fas fa-envelope"></i> Get Custom Quote
+                  <i className="fas fa-envelope"></i> Get Quotation
                 </Link>
               </div>
               <div className="h-anim-5 flex flex-wrap gap-3">
@@ -288,10 +392,10 @@ const Home = () => {
             {/* RIGHT: Floating image */}
             <div className="lg:w-1/2 h-anim-6">
               <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50">
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50">
                   <img
                     src={HeroBg}
-                    className="w-full h-[380px] md:h-[460px] object-cover"
+                    className="w-full h-[280px] sm:h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
@@ -333,7 +437,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5 stagger">
             {[
               {
-                img: "https://images.unsplash.com/photo-1582269847642-87432658c952?q=80&w=800&auto=format&fit=crop",
+                img: personalizedgift,
                 badgeBg: "red-500",
                 badgeIcon: "fa-heart",
                 badge: "Best Seller",
@@ -343,18 +447,17 @@ const Home = () => {
                 path: "/products",
               },
               {
-                img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800&auto=format&fit=crop",
+                img: homedecor,
                 badgeBg: "var(--primary)",
                 badgeIcon: "fa-home",
-                badge: "New Arrivals",
+                badge: "Name plate",
                 title: "Home Decor",
                 desc: "Wall clocks, neon lights, fridge magnets & more",
                 count: "25+",
                 path: "/products",
               },
               {
-                img: "https://images.unsplash.com/photo-1495121553079-4c61bcce1894?q=80&w=800&auto=format&fit=crop",
-                badgeBg: "#f59e0b",
+                img: corporateGifts,
                 badgeIcon: "fa-briefcase",
                 badge: "Corporate",
                 title: "Corporate Gifting",
@@ -376,7 +479,7 @@ const Home = () => {
                 <Link
                   to={path}
                   key={title}
-                  className="reveal cat-card rounded-2xl cursor-pointer h-64 md:h-72 block"
+                  className="reveal cat-card rounded-2xl cursor-pointer h-64 md:h-72 block relative overflow-hidden isolate"
                 >
                   <img
                     src={img}
@@ -412,7 +515,7 @@ const Home = () => {
           </div>
 
           {/* Sub-category pills */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 stagger">
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 stagger">
             {[
               {
                 icon: "fa-heart",
@@ -489,7 +592,7 @@ const Home = () => {
               preview before we ever craft it
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 stagger">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 stagger">
             {[
               {
                 icon: "fa-image",
@@ -589,9 +692,7 @@ const Home = () => {
         <div
           className="absolute inset-0 flex items-center justify-center text-white/[0.03] font-main leading-none pointer-events-none select-none"
           style={{ fontSize: "500px" }}
-        >
-        
-        </div>
+        ></div>
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12 reveal">
             <span className="font-sub text-amber-400 text-sm font-semibold uppercase tracking-widest">
@@ -601,12 +702,12 @@ const Home = () => {
               Why Choose Radhana Art?
             </h2>
             <p className="font-sub text-gray-300 text-[15px] max-w-xl mx-auto">
-              We combine traditional craftsmanship with modern laser technology to
-              deliver excellence
+              We combine traditional craftsmanship with modern laser technology
+              to deliver excellence
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger items-stretch">
             {[
               {
                 icon: "fa-award",
@@ -643,14 +744,14 @@ const Home = () => {
             ].map(({ icon, iconColor, iconBg, titleColor, title, desc }) => (
               <div
                 key={title}
-                className="reveal backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default"
+                className="reveal backdrop-blur-sm border border-white/10 p-4 sm:p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default h-full"
               >
                 <div
-                className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
+                  className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
                 >
-                <i
-                className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
-                ></i>
+                  <i
+                    className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
+                  ></i>
                 </div>
                 <h3
                   className={`font-main text-white ${titleColor} text-lg mb-2 transition-colors`}
@@ -666,7 +767,6 @@ const Home = () => {
         </div>
       </section>
 
-   
       <section className="py-12 md:py-14 bg-white border-y border-gray-100">
         <div className="container mx-auto px-6 mb-8 reveal">
           <div className="text-center">
@@ -685,37 +785,67 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <div className="overflow-hidden relative">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
-          <div className="marquee-track py-2">
-            {[...companies, ...companies].map((c, i) => (
-              <div key={i} className="company-card">
-                <div className="w-[100px] h-[100px] rounded-xl flex items-center justify-center bg-gray-50">
-                  <img
-                    src={c.logo}
-                    alt={c.name}
-                    className="w-full h-full object-contain rounded-xl"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                      e.target.nextSibling.style.display = "flex";
-                    }}
-                  />
-                  <div
-                    style={{ display: "none" }}
-                    className="w-full h-full bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center"
-                  >
-                    <span className="text-white font-bold text-xl font-main">
-                      {c.name.charAt(0)}
-                    </span>
+        <div className="relative px-10">
+          {/* Left fade + button */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <button
+            onClick={() => scrollMarquee(-1)}
+            onMouseEnter={pauseMarquee}
+            onMouseLeave={resumeMarquee}
+            aria-label="Scroll left"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-500 hover:text-gray-800 hover:shadow-lg transition"
+          >
+            <i className="fas fa-chevron-left text-sm"></i>
+          </button>
+
+          {/* Right fade + button */}
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+          <button
+            onClick={() => scrollMarquee(1)}
+            onMouseEnter={pauseMarquee}
+            onMouseLeave={resumeMarquee}
+            aria-label="Scroll right"
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-500 hover:text-gray-800 hover:shadow-lg transition"
+          >
+            <i className="fas fa-chevron-right text-sm"></i>
+          </button>
+
+          {/* Scrollable strip */}
+          <div className="overflow-hidden">
+            <div
+              ref={marqueeRef}
+              className="marquee-track py-2"
+              onMouseEnter={pauseMarquee}
+              onMouseLeave={resumeMarquee}
+            >
+              {[...companies, ...companies, ...companies].map((c, i) => (
+                <div key={i} className="company-card">
+                  <div className="w-[100px] h-[100px] rounded-xl flex items-center justify-center bg-gray-50">
+                    <img
+                      src={c.logo}
+                      alt={c.name}
+                      className="w-full h-full object-contain rounded-xl"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "flex";
+                      }}
+                    />
+                    <div
+                      style={{ display: "none" }}
+                      className="w-full h-full bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center"
+                    >
+                      <span className="text-white font-bold text-xl font-main">
+                        {c.name.charAt(0)}
+                      </span>
+                    </div>
                   </div>
+                  <p className="font-sub font-semibold text-gray-800 text-xs text-center leading-tight">
+                    {c.name}
+                  </p>
+                  <p className="font-sub text-gray-400 text-[10px]">{c.type}</p>
                 </div>
-                <p className="font-sub font-semibold text-gray-800 text-xs text-center leading-tight">
-                  {c.name}
-                </p>
-                <p className="font-sub text-gray-400 text-[10px]">{c.type}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -730,16 +860,14 @@ const Home = () => {
         <div
           className="absolute inset-0 flex items-center justify-center font-main leading-none pointer-events-none select-none text-white/5"
           style={{ fontSize: "300px" }}
-        >
-      
-        </div>
+        ></div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white stagger">
             {[
               { val: "5,000+", label: "Happy Customers" },
               { val: "10,000+", label: "Products Crafted" },
               { val: "4.9★", label: "Average Rating", star: true },
-              { val: "5+", label: "Years Experience" },
+              { val: "2+", label: "Years Experience" },
             ].map(({ val, label }) => (
               <div key={label} className="reveal">
                 <div className="font-main text-4xl md:text-5xl font-bold">
@@ -799,7 +927,7 @@ const Home = () => {
             </div>
             <div
               className="reveal group relative overflow-hidden rounded-2xl cursor-pointer col-span-2"
-              style={{ aspectRatio: "2/1" }}
+              style={{ aspectRatio: "2/1", minHeight: 0 }}
               onClick={() => openLB(2)}
             >
               <img

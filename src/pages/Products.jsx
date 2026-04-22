@@ -15,16 +15,20 @@ const Stars = ({ count = 5 }) => (
   </span>
 );
 
-const WhatsAppLink = ({ name }) => (
-  <a
-    href={`https://wa.me/9779823939106?text=Hi! I'm interested in: ${encodeURIComponent(name)}`}
-    target="_blank"
-    rel="noreferrer"
-    className="flex items-center justify-center gap-1.5 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
-  >
-    <i className="fa-brands fa-whatsapp text-sm" /> WhatsApp
-  </a>
-);
+const WhatsAppLink = ({ name }) => {
+  const productUrl = `${window.location.origin}/#/products`;
+  const message = `Hi! I'm interested in: *${name}*\n\nView here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
+  return (
+    <a
+      href={`https://wa.me/9779823939106?text=${encodeURIComponent(message)}`}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-sub text-[10px] sm:text-xs font-medium transition-all hover:shadow-lg"
+    >
+      <i className="fa-brands fa-whatsapp text-sm" /> WhatsApp
+    </a>
+  );
+};
 
 /* ══════════════════════════════════════════════════════ */
 const Products = () => {
@@ -50,7 +54,6 @@ const Products = () => {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(200000);
   const [searchTerm, setSearchTerm] = useState("");
-  const [visibleCount, setVisibleCount] = useState(12);
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const toastTimer = useRef(null);
@@ -133,18 +136,6 @@ const Products = () => {
     return list;
   })();
 
-  const visible = filtered.slice(0, visibleCount);
-
-  /* ─── cart ─── */
-  const handleAddToCart = (product) => {
-    try {
-      addToCart(product);
-      showToast(`"${product.name}" added to cart!`);
-    } catch {
-      showToast("Failed to add to cart", "error");
-    }
-  };
-
   /* ─── toast ─── */
   const showToast = (msg, type = "success") => {
     setToast({ show: true, msg, type });
@@ -153,6 +144,15 @@ const Products = () => {
       () => setToast((t) => ({ ...t, show: false })),
       2500,
     );
+  };
+
+  const handleAddToCart = (product) => {
+    try {
+      addToCart(product);
+      showToast(`"${product.name}" added to cart!`);
+    } catch {
+      showToast("Failed to add to cart", "error");
+    }
   };
 
   /* ─── quick view ─── */
@@ -170,7 +170,6 @@ const Products = () => {
     setPriceMax(200000);
     setSearchTerm("");
     setSortBy("default");
-    setVisibleCount(12);
   };
 
   /* ══ SIDEBAR ══ */
@@ -206,7 +205,6 @@ const Products = () => {
                 min={0}
                 onChange={(e) => {
                   setPriceMin(Number(e.target.value));
-                  setVisibleCount(12);
                 }}
                 className="font-sub w-full border border-gray-200 rounded-lg py-2 pl-8 pr-2 text-xs focus:outline-none focus:border-[#145faf]"
               />
@@ -226,7 +224,6 @@ const Products = () => {
                 min={0}
                 onChange={(e) => {
                   setPriceMax(Number(e.target.value));
-                  setVisibleCount(12);
                 }}
                 className="font-sub w-full border border-gray-200 rounded-lg py-2 pl-8 pr-2 text-xs focus:outline-none focus:border-[#145faf]"
               />
@@ -249,7 +246,6 @@ const Products = () => {
               onClick={() => {
                 setPriceMin(mn);
                 setPriceMax(mx);
-                setVisibleCount(12);
               }}
               className="w-full text-left font-sub text-xs text-gray-600 hover:text-[#D93A6A] transition px-2 py-1.5 rounded-lg hover:bg-pink-50"
             >
@@ -270,7 +266,6 @@ const Products = () => {
               key={cat}
               onClick={() => {
                 setCategoryFilter(cat);
-                setVisibleCount(12);
               }}
               className={`w-full text-left font-sub text-sm px-3 py-2 rounded-xl transition ${
                 categoryFilter === cat
@@ -293,7 +288,7 @@ const Products = () => {
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23ccc' font-size='40'%3E🎨%3C/text%3E%3C/svg%3E";
 
     return (
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col">
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden group hover:-translate-y-1.5 flex flex-col isolate">
         {/* image */}
         <div className="relative overflow-hidden flex-shrink-0 h-64 sm:h-80">
           <img
@@ -321,31 +316,34 @@ const Products = () => {
           <h3 className="font-main text-[13px] sm:text-[15px] text-[#145faf] mb-2 group-hover:text-[#D93A6A] transition-colors line-clamp-2">
             {product.name}
           </h3>
-          
+
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-1">
-              {product.originalPrice && product.originalPrice > product.price && (
-                <p className="font-sub text-gray-400 text-xs line-through">
-                  Rs {Number(product.originalPrice).toLocaleString()}
-                </p>
-              )}
+              {product.originalPrice &&
+                product.originalPrice > product.price && (
+                  <p className="font-sub text-gray-400 text-xs line-through">
+                    Rs {Number(product.originalPrice).toLocaleString()}
+                  </p>
+                )}
               <p className="font-sub text-[#D93A6A] font-bold text-base">
                 Rs {Number(product.price).toLocaleString()}
               </p>
             </div>
             {product.originalPrice && product.originalPrice > product.price && (
               <div className="inline-block bg-green-500 text-white px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold">
-                SAVE Rs {Number(product.originalPrice - product.price).toLocaleString()}
+                SAVE Rs{" "}
+                {Number(product.originalPrice - product.price).toLocaleString()}
               </div>
             )}
           </div>
-          
-          <div className="grid grid-cols-2 gap-2">
+
+          <div className="grid grid-cols-2 gap-1.5">
             <button
               onClick={() => handleAddToCart(product)}
-              className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
+              className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 rounded-lg font-sub text-[10px] sm:text-xs font-medium transition-all hover:shadow-lg"
             >
-              <i className="fas fa-shopping-cart text-sm" /> Cart
+              <i className="fas fa-shopping-cart text-xs" />
+              <span className="hidden xs:inline">Add to </span>Cart
             </button>
             <WhatsAppLink name={product.name} />
           </div>
@@ -360,7 +358,7 @@ const Products = () => {
     const fallback =
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23f0f0f0' width='300' height='300'/%3E%3C/svg%3E";
     return (
-      <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition duration-300 overflow-hidden flex gap-4 p-4 group">
+      <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition duration-300 overflow-hidden flex gap-4 p-4 group isolate">
         <div className="relative overflow-hidden rounded-xl flex-shrink-0 w-32 h-32">
           <img
             src={img}
@@ -675,7 +673,6 @@ const Products = () => {
                     value={sortBy}
                     onChange={(e) => {
                       setSortBy(e.target.value);
-                      setVisibleCount(12);
                     }}
                     className="font-sub text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-[#145faf] bg-white text-gray-600 cursor-pointer"
                   >
@@ -715,7 +712,7 @@ const Products = () => {
                     {serverError}
                   </p>
                 </div>
-              ) : visible.length === 0 ? (
+              ) : filtered.length === 0 ? (
                 <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
                   <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-5">
                     <i className="fas fa-box-open text-4xl text-gray-200" />
@@ -735,27 +732,15 @@ const Products = () => {
                 </div>
               ) : currentView === "grid" ? (
                 <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5">
-                  {visible.map((p, i) => (
+                  {filtered.map((p, i) => (
                     <GridCard key={p._id || p.id} product={p} idx={i} />
                   ))}
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  {visible.map((p, i) => (
+                  {filtered.map((p, i) => (
                     <ListCard key={p._id || p.id} product={p} idx={i} />
                   ))}
-                </div>
-              )}
-
-              {/* Load More */}
-              {filtered.length > visibleCount && (
-                <div className="flex justify-center mt-10">
-                  <button
-                    onClick={() => setVisibleCount((v) => v + 8)}
-                    className="font-sub bg-[#145faf] hover:bg-[#D93A6A] text-white px-8 py-3.5 rounded-xl transition-all hover:shadow-lg flex items-center gap-2 font-medium hover:-translate-y-0.5"
-                  >
-                    Load More Products <i className="fas fa-arrow-down" />
-                  </button>
                 </div>
               )}
             </div>

@@ -6,17 +6,16 @@
 :root {
   --primary: #145faf;
   --secondary: #d93a6a;
-  background-color:#f6f2eb;
+  background-color: #f6f2eb;
 }
 
 body {
   body {
-  user-select: none;
-  font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
-  background-color:#f6f2eb;
-  
-}
+    user-select: none;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+    background-color: #f6f2eb;
+  }
 }
 
 /* Scroll Reveal */
@@ -123,10 +122,18 @@ body {
 }
 .marquee-track {
   display: flex;
-  animation: marqueeAnim 9s linear infinite;
+  gap: 0;
+  animation: marqueeAnim 10s linear infinite;
   will-change: transform;
 }
-.marquee-track:hover {
+
+@media (min-width: 768px) {
+  .marquee-track {
+    animation: marqueeAnim 45s linear infinite;
+  }
+}
+.marquee-track:hover,
+.marquee-track.paused {
   animation-play-state: paused;
 }
 
@@ -139,7 +146,7 @@ body {
   }
 }
 .announcement-scroll {
-  animation: announcementScroll 30s linear infinite;
+  animation: announcementScroll 13s linear infinite;
   white-space: nowrap;
 }
 
@@ -165,12 +172,12 @@ body {
 .nav-link.active {
   color: var(--secondary) !important;
 }
-
-/* Category card */
 .cat-card {
   transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
+  display: block;
+  isolation: isolate;
 }
 .cat-card::before {
   content: "";
@@ -191,8 +198,9 @@ body {
 .cat-card img {
   transition: transform 0.5s ease;
 }
+
 .cat-card:hover img {
-  transform: scale(1.08);
+  /* transform: scale(1.08); */
 }
 .cat-card-content {
   position: absolute;

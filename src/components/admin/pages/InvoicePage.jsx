@@ -23,6 +23,9 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { AdminContext } from "../../../context/AdminContext";
+import RadhanaLogo from "../../../../Assets/radhanalogo.png";
+import RadhanaSign from "../../../../Assets/RadhanaSign.jpeg";
+import RadhanaStamp from "../../../../Assets/RadhanaStamp.jpeg";
 
 // ─── Number-to-Words (Nepali Rupees) ─────────────────────────────────────────
 const ones = [
@@ -120,6 +123,7 @@ const emptyForm = () => ({
   notes: "Thank you for doing business with us.",
   termsAndConditions: "",
   invoiceDate: new Date().toISOString().slice(0, 10),
+  companyStampUrl: "",
 });
 
 // ─── Status Badge ─────────────────────────────────────────────────────────────
@@ -154,6 +158,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
         table { width:100%; border-collapse:collapse; }
         th,td { border:1px solid #ccc; padding:8px 10px; }
         th { background:#7b1fa2; color:#fff; font-weight:600; }
+        img { max-width:100%; height: auto; }
         .header-bar { background:#7b1fa2; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
         .header-bar h1 { color:#fff; font-size:22px; font-weight:700; }
         .header-bar p { color:#e9d5ff; font-size:12px; }
@@ -225,18 +230,21 @@ const InvoicePreview = ({ invoice, onClose }) => {
           >
             <div
               style={{
-                width: 64,
-                height: 64,
-                background: "#fff2",
+                width: 80,
+                height: 80,
                 borderRadius: 8,
+                overflow: "hidden",
+                background: "#fff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <span style={{ color: "#fff", fontWeight: 700, fontSize: 20 }}>
-                RA
-              </span>
+              <img
+                src={RadhanaLogo}
+                alt="Radhana Logo"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
             </div>
             <div style={{ textAlign: "right" }}>
               <h1
@@ -323,7 +331,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     )}
                     {inv.billTo?.pan && (
                       <div style={{ color: "#555", fontSize: 12 }}>
-                        PAN: {inv.billTo.pan}
+                        PAN/VAT no.: {inv.billTo.pan}
                       </div>
                     )}
                   </div>
@@ -680,17 +688,45 @@ const InvoicePreview = ({ invoice, onClose }) => {
           </table>
 
           {/* Signature */}
-          <div style={{ textAlign: "right", marginTop: 32 }}>
-            <p style={{ marginBottom: 40 }}>For, Radhana Enterprises</p>
-            <div
-              style={{
-                borderTop: "1px solid #999",
-                width: 160,
-                marginLeft: "auto",
-                paddingTop: 6,
-              }}
-            >
-              <p style={{ fontSize: 12 }}>Accountant</p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: 40,
+              marginTop: 32,
+            }}
+          >
+            {/* Stamp on left */}
+            <div style={{ textAlign: "center" }}>
+              <img
+                src={RadhanaStamp}
+                alt="Company Stamp"
+                style={{
+                  width: 100,
+                  height: 100,
+                  objectFit: "contain",
+                  display: "block",
+                }}
+              />
+            </div>
+            {/* Signature on right */}
+            <div style={{ textAlign: "center" }}>
+              <p style={{ fontSize: 12, marginBottom: 4 }}>
+                For Radhana Enterprises,
+              </p>
+              <img
+                src={RadhanaSign}
+                alt="Signature"
+                style={{
+                  width: 110,
+                  height: 55,
+                  objectFit: "contain",
+                  display: "block",
+                  marginBottom: 4,
+                }}
+              />
+              <p style={{ fontSize: 13, fontWeight: 700 }}>Accountant</p>
             </div>
           </div>
         </div>
@@ -714,7 +750,9 @@ const InvoiceModal = ({ onClose, onSave, orders, editData, invoiceType }) => {
   const filteredOrders = orders.filter(
     (o) =>
       !o.isInvoiceGenerated &&
-      ((o.orderNumber || "").toLowerCase().includes(orderSearch.toLowerCase()) ||
+      ((o.orderNumber || "")
+        .toLowerCase()
+        .includes(orderSearch.toLowerCase()) ||
         (o.shippingAddress?.firstName || "")
           .toLowerCase()
           .includes(orderSearch.toLowerCase())),
@@ -1137,6 +1175,28 @@ const InvoiceModal = ({ onClose, onSave, orders, editData, invoiceType }) => {
                   onChange={(e) => setField("notes", e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
                 />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">
+                  Company Stamp Image URL
+                </label>
+                <input
+                  type="text"
+                  value={form.companyStampUrl || ""}
+                  onChange={(e) => setField("companyStampUrl", e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  placeholder="Paste image URL or Cloudinary link"
+                />
+                {form.companyStampUrl && (
+                  <div className="mt-2">
+                    <img
+                      src={form.companyStampUrl}
+                      alt="Stamp Preview"
+                      className="max-w-24 max-h-24 border border-gray-300 rounded-lg"
+                      onError={(e) => (e.target.style.display = "none")}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 

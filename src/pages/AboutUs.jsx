@@ -71,27 +71,27 @@ const AboutUs = () => {
 
   const timeline = [
     {
-      year: "2018",
+      year: "2025/05/27",
       title: "Founded",
-      desc: "Radhana Art begins as a small passion project in Kathmandu.",
+      desc: "Radhana Art started journey from a small room with basic tools, small setup.",
     },
     {
-      year: "2019",
+      year: "2025/06/25",
       title: "First 100 Clients",
       desc: "Reached our first milestone of 100 happy customers.",
     },
     {
-      year: "2021",
-      title: "Expanded Range",
-      desc: "Added corporate gifting, signboards, and neon lighting solutions.",
+      year: "2026/02/24",
+      title: "Major Shift",
+      desc: "Shifted to proper shop setup moved to professional space with improved workflow",
     },
     {
-      year: "2023",
-      title: "5,000+ Orders",
-      desc: "Scaled to serve thousands of customers across Nepal.",
+      year: "2026/03/20",
+      title: "New Machine Upgrade",
+      desc: "Added new advanced machine increased production speed & quality. Improved laser engraving capability",
     },
     {
-      year: "2025",
+      year: "2026/04/25",
       title: "Digital Launch",
       desc: "Launched our full e-commerce platform for seamless online ordering.",
     },
@@ -107,11 +107,11 @@ const AboutUs = () => {
     {
       name: "Ajit Sah",
       role: "Business Development Partner",
-      img: ajit     ,
+      img: ajit,
       desc: "Business Development Partner Expertise Expands  business through clients and partnerships.",
     },
     {
-      name: "Sujit Shretha",
+      name: "Sujit Shrestha",
       role: "Post Designer",
       img: sujit,
       desc: "Creates creative designs for engraving, signage, and branding projects",
@@ -127,12 +127,15 @@ const AboutUs = () => {
             Our Story
           </span>
           <h1 className="font-main text-4xl md:text-5xl lg:text-6xl text-gray-800 mb-6 leading-tight">
-            Crafting Memories,
+            Highlight brands ambiance,
             <br />
-            <span className="text-[#145faf]">One Engraving</span> at a Time
+            <span className="text-[#145faf]">
+              Crafting personalized gifts,{" "}
+            </span>{" "}
+            Turning moments into memories
           </h1>
-          <p className="font-sub text-gray-400 text-[15px] max-w-2xl mx-auto mb-8 leading-relaxed">
-            Since 2018, Radhana Art has been transforming cherished moments and
+          <p className="font-sub text-gray-500 text-[15px] max-w-2xl mx-auto mb-8 leading-relaxed">
+            Since 2025, Radhana Art has been transforming cherished moments and
             ideas into stunning laser-engraved keepsakes — serving thousands of
             happy customers across Nepal.
           </p>
@@ -185,7 +188,7 @@ const AboutUs = () => {
               </p>
               <div className="flex flex-wrap gap-4">
                 {[
-                  ["fa-award", "#145faf", "5+ Years"],
+                  ["fa-award", "#145faf", "2+ Years"],
                   ["fa-users", "#D93A6A", "5,000+ Clients"],
                   ["fa-star", "#f59e0b", "4.9 Rating"],
                 ].map(([icon, color, label]) => (
@@ -253,10 +256,10 @@ const AboutUs = () => {
                   Our Mission
                 </h3>
                 <p className="font-sub text-gray-500 text-[15px] leading-relaxed">
-                  To make personalised, high-quality laser engraving accessible
-                  to everyone in Nepal — helping people create meaningful,
-                  lasting keepsakes that celebrate life's most important
-                  moments.
+                  Our mission is to help business owners make their brands
+                  unique and visually powerful, while also helping individuals
+                  preserve their memories and special moments in a beautiful and
+                  lasting form.
                 </p>
               </div>
             </Reveal>
@@ -269,9 +272,9 @@ const AboutUs = () => {
                   Our Vision
                 </h3>
                 <p className="font-sub text-gray-500 text-[15px] leading-relaxed">
-                  To become Nepal's most loved creative studio — where every
-                  idea, memory, and emotion can be beautifully expressed through
-                  the art of laser engraving.
+                  Our vision is to become one of Nepal’s most trusted and
+                  leading creative manufacturing and laser art brands, known for
+                  innovation, quality, and affordability.
                 </p>
               </div>
             </Reveal>
@@ -291,8 +294,8 @@ const AboutUs = () => {
                 Our Core Values
               </h2>
               <p className="font-sub text-gray-400 text-[15px] max-w-xl mx-auto">
-                The principles that guide every product we create and every
-                relationship we build.
+                We don’t just create products — We create value, identity, and
+                memories.
               </p>
             </Reveal>
           </div>
@@ -319,11 +322,12 @@ const AboutUs = () => {
       </section>
 
       {/* ── STATS ── */}
-      <section 
-      className="py-14 bg-white border border-gray-100 px-6"
+      <section
+        className="py-14 bg-white border border-gray-100 px-6"
         style={{
           background: "linear-gradient(to right, var(--primary), #1d4ed8)",
-        }}>
+        }}
+      >
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -339,20 +343,20 @@ const AboutUs = () => {
               },
               { num: "4.9★", label: "Average Rating", icon: "fa-star" },
               {
-                num: "6+",
+                num: "2+",
                 label: "Years of Experience",
                 icon: "fa-calendar-check",
               },
             ].map((s) => (
-               <div key={s.label}>
-              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
-              <i className={`fas ${s.icon} text-white text-xl`} />
+              <div key={s.label}>
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <i className={`fas ${s.icon} text-white text-xl`} />
+                </div>
+                <p className="font-main text-white text-3xl md:text-4xl font-bold mb-1">
+                  {s.num}
+                </p>
+                <p className="font-sub text-gray-200 text-sm">{s.label}</p>
               </div>
-              <p className="font-main text-white text-3xl md:text-4xl font-bold mb-1">
-            {s.num}
-            </p>
-          <p className="font-sub text-gray-200 text-sm">{s.label}</p>
-          </div>
             ))}
           </div>
         </div>
