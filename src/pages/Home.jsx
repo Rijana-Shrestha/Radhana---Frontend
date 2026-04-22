@@ -338,17 +338,17 @@ const Home = () => {
                 to personalized photo engravings - each piece crafted with
                 divine precision and love.
               </p>
-              <div className="h-anim-4 flex flex-col sm:flex-row gap-3 mb-9">
+              <div className="h-anim-4 flex flex-row gap-3 mb-9">
                 <Link
                   to="./products"
-                  className="font-sub text-white px-7 py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                  className="font-sub text-white px-4 py-3 sm:px-7 sm:py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl flex-1 sm:flex-none"
                   style={{ background: "var(--primary)" }}
                 >
                   <i className="fas fa-store"></i> View All Products
                 </Link>
                 <Link
                   to="./contact"
-                  className="font-sub text-white px-7 py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                  className="font-sub text-white px-4 py-3 sm:px-7 sm:py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl flex-1 sm:flex-none"
                   style={{ background: "var(--secondary)" }}
                 >
                   <i className="fas fa-envelope"></i> Get Quotation
@@ -486,7 +486,7 @@ const Home = () => {
                 <Link
                   to={path}
                   key={title}
-                  className="reveal cat-card rounded-2xl cursor-pointer h-64 md:h-72 block relative overflow-hidden"
+                  className="reveal cat-card rounded-2xl cursor-pointer h-64 md:h-72 block relative overflow-hidden isolate"
                 >
                   <img
                     src={img}

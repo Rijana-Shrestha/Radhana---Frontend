@@ -165,12 +165,12 @@ body {
 .nav-link.active {
   color: var(--secondary) !important;
 }
-
-/* Category card */
 .cat-card {
   transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
+  display: block;
+  isolation: isolate;
 }
 .cat-card::before {
   content: "";
