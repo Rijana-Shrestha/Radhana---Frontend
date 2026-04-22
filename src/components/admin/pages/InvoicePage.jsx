@@ -712,7 +712,9 @@ const InvoicePreview = ({ invoice, onClose }) => {
             </div>
             {/* Signature on right */}
             <div style={{ textAlign: "center" }}>
-              <p style={{ fontSize: 12, marginBottom: 4 }}>Kind regards,</p>
+              <p style={{ fontSize: 12, marginBottom: 4 }}>
+                For Radhana Enterprises,
+              </p>
               <img
                 src={RadhanaSign}
                 alt="Signature"
@@ -724,9 +726,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                   marginBottom: 4,
                 }}
               />
-              <p style={{ fontSize: 13, fontWeight: 700 }}>
-                Radhana Enterprises
-              </p>
+              <p style={{ fontSize: 13, fontWeight: 700 }}>Accountant</p>
             </div>
           </div>
         </div>
