@@ -125,7 +125,8 @@ body {
   animation: marqueeAnim 9s linear infinite;
   will-change: transform;
 }
-.marquee-track:hover {
+.marquee-track:hover,
+.marquee-track.paused {
   animation-play-state: paused;
 }
 
@@ -138,7 +139,7 @@ body {
   }
 }
 .announcement-scroll {
-  animation: announcementScroll 30s linear infinite;
+  animation: announcementScroll 13s linear infinite;
   white-space: nowrap;
 }
 

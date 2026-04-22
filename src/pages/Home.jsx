@@ -14,10 +14,24 @@ import Himalayan from "../../Assets/CompaniesWorkedWith/Himalayan.png";
 import Sindoor from "../../Assets/CompaniesWorkedWith/Sindoor.png";
 import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
+import Dsfashion from "../../Assets/CompaniesWorkedWith/DsFashion.jpeg";
+import Trifecta from "../../Assets/CompaniesWorkedWith/Trifecta.jpeg";
+import Hostmandu from "../../Assets/CompaniesWorkedWith/Hostmandu.jpeg";
+import Mita from "../../Assets/CompaniesWorkedWith/MitaHotel.jpeg";
+import Palifal from "../../Assets/CompaniesWorkedWith/Palifal.jpeg";
+import Ovenfresh from "../../Assets/CompaniesWorkedWith/OvenFresh.jpeg";
+import SuryaJyoti from "../../Assets/CompaniesWorkedWith/SuryaJyoti.jpeg";
+import HotelDipjyoti from "../../Assets/CompaniesWorkedWith/HotelDipjyoti.jpeg";
+import SauravDecor from "../../Assets/CompaniesWorkedWith/SauravDecor.jpeg";
+import Machaan from "../../Assets/CompaniesWorkedWith/Machaan.jpeg";
+import EyeBuddy from "../../Assets/CompaniesWorkedWith/EyeBuddy.jpeg";
+import Blesswell from "../../Assets/CompaniesWorkedWith/Blesswell.jpeg";
+import RoyalRiders from "../../Assets/CompaniesWorkedWith/RoyalRiders.jpeg";
+import ANJ from "../../Assets/CompaniesWorkedWith/ANJ.jpeg";
 import HeroBg from "../../Assets/hero.png";
 import whyChooseBg from "../../Assets/why choose background image.jpeg";
 import personalizedgift from "../../Assets/ShopByCategory/personalizedgift.jpeg";
-import homedecor from "../../Assets/ShopByCategory/homedecor.jpeg";
+import homedecor from "../../Assets/ShopByCategory/homeDecor.jpeg";
 import corporateGifts from "../../Assets/ShopByCategory/corporateGifts.jpeg";
 import img1 from "../../Assets/customerCreation/img1.jpeg";
 import img2 from "../../Assets/customerCreation/img2.jpeg";
@@ -30,6 +44,7 @@ import img8 from "../../Assets/customerCreation/img8.jpeg";
 import img9 from "../../Assets/customerCreation/img9.jpeg";
 import img10 from "../../Assets/customerCreation/img10.jpeg";
 import img11 from "../../Assets/customerCreation/img11.jpeg";
+import { name } from "ejs";
 
 const companies = [
   {
@@ -102,6 +117,76 @@ const companies = [
     type: "Hospitality",
     logo: AntuCottage,
   },
+  {
+    name: "DS Fashion",
+    type: "Fashion",
+    logo: Dsfashion,
+  },
+  {
+    name: "Trifecta",
+    type: "Business",
+    logo: Trifecta,
+  },
+  {
+    name: "Host Mandu",
+    type: "Hospitality",
+    logo: Hostmandu,
+  },
+  {
+    name: "Mita",
+    type: "Business",
+    logo: Mita,
+  },
+  {
+    name: "Palifal",
+    type: "Business",
+    logo: Palifal,
+  },
+  {
+    name: "Ovenfresh",
+    type: "Food & Beverage",
+    logo: Ovenfresh,
+  },
+  {
+    name: "Surya Jyoti",
+    type: "Business",
+    logo: SuryaJyoti,
+  },
+  {
+    name: "Hotel Dipjyoti",
+    type: "Hospitality",
+    logo: HotelDipjyoti,
+  },
+  {
+    name: "Saurav Decor",
+    type: "Home & Living",
+    logo: SauravDecor,
+  },
+  {
+    name: "Machaan",
+    type: "Business",
+    logo: Machaan,
+  },
+  {
+    name: "Eye Buddy",
+    type: "Healthcare",
+    logo: EyeBuddy,
+  },
+  {
+    name: "RoyalRiders",
+    type: "Automobile",
+    logo: RoyalRiders,
+  },
+  {
+    name: "ANJ",
+    type: "Business",
+    logo: ANJ,
+  },
+  {
+    name: "Blesswell",
+    type: "Business",
+    logo: Blesswell,
+  },
 ];
 
 const galleryImages = [
@@ -122,6 +207,15 @@ const Home = () => {
   const lbRef = useRef(null);
   const lbImgRef = useRef(null);
   const lbIdxRef = useRef(0);
+
+  // Companies marquee
+  const marqueeRef = useRef(null);
+  const pauseMarquee = () => marqueeRef.current?.classList.add("paused");
+  const resumeMarquee = () => marqueeRef.current?.classList.remove("paused");
+  const scrollMarquee = (dir) => {
+    const outer = marqueeRef.current?.parentElement;
+    if (outer) outer.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
 
   useEffect(() => {
     // Scroll reveal
@@ -392,7 +486,7 @@ const Home = () => {
                 <Link
                   to={path}
                   key={title}
-                  className="reveal cat-card rounded-2xl cursor-pointer h-64 md:h-72 block"
+                  className="reveal cat-card rounded-2xl cursor-pointer h-64 md:h-72 block relative overflow-hidden"
                 >
                   <img
                     src={img}
@@ -698,37 +792,67 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <div className="overflow-hidden relative">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
-          <div className="marquee-track py-2">
-            {[...companies, ...companies].map((c, i) => (
-              <div key={i} className="company-card">
-                <div className="w-[100px] h-[100px] rounded-xl flex items-center justify-center bg-gray-50">
-                  <img
-                    src={c.logo}
-                    alt={c.name}
-                    className="w-full h-full object-contain rounded-xl"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                      e.target.nextSibling.style.display = "flex";
-                    }}
-                  />
-                  <div
-                    style={{ display: "none" }}
-                    className="w-full h-full bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center"
-                  >
-                    <span className="text-white font-bold text-xl font-main">
-                      {c.name.charAt(0)}
-                    </span>
+        <div className="relative px-10">
+          {/* Left fade + button */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <button
+            onClick={() => scrollMarquee(-1)}
+            onMouseEnter={pauseMarquee}
+            onMouseLeave={resumeMarquee}
+            aria-label="Scroll left"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-500 hover:text-gray-800 hover:shadow-lg transition"
+          >
+            <i className="fas fa-chevron-left text-sm"></i>
+          </button>
+
+          {/* Right fade + button */}
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+          <button
+            onClick={() => scrollMarquee(1)}
+            onMouseEnter={pauseMarquee}
+            onMouseLeave={resumeMarquee}
+            aria-label="Scroll right"
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-500 hover:text-gray-800 hover:shadow-lg transition"
+          >
+            <i className="fas fa-chevron-right text-sm"></i>
+          </button>
+
+          {/* Scrollable strip */}
+          <div className="overflow-hidden">
+            <div
+              ref={marqueeRef}
+              className="marquee-track py-2"
+              onMouseEnter={pauseMarquee}
+              onMouseLeave={resumeMarquee}
+            >
+              {[...companies, ...companies].map((c, i) => (
+                <div key={i} className="company-card">
+                  <div className="w-[100px] h-[100px] rounded-xl flex items-center justify-center bg-gray-50">
+                    <img
+                      src={c.logo}
+                      alt={c.name}
+                      className="w-full h-full object-contain rounded-xl"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "flex";
+                      }}
+                    />
+                    <div
+                      style={{ display: "none" }}
+                      className="w-full h-full bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center"
+                    >
+                      <span className="text-white font-bold text-xl font-main">
+                        {c.name.charAt(0)}
+                      </span>
+                    </div>
                   </div>
+                  <p className="font-sub font-semibold text-gray-800 text-xs text-center leading-tight">
+                    {c.name}
+                  </p>
+                  <p className="font-sub text-gray-400 text-[10px]">{c.type}</p>
                 </div>
-                <p className="font-sub font-semibold text-gray-800 text-xs text-center leading-tight">
-                  {c.name}
-                </p>
-                <p className="font-sub text-gray-400 text-[10px]">{c.type}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -810,7 +934,7 @@ const Home = () => {
             </div>
             <div
               className="reveal group relative overflow-hidden rounded-2xl cursor-pointer col-span-2"
-              style={{ aspectRatio: "2/1" }}
+              style={{ aspectRatio: "2/1", minHeight: 0 }}
               onClick={() => openLB(2)}
             >
               <img
