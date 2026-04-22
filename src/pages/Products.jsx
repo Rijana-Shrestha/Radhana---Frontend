@@ -150,15 +150,6 @@ const Products = () => {
       showToast("Failed to add to cart", "error");
     }
   };
-  /* ─── toast ─── */
-  const showToast = (msg, type = "success") => {
-    setToast({ show: true, msg, type });
-    clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(
-      () => setToast((t) => ({ ...t, show: false })),
-      2500,
-    );
-  };
 
   /* ─── quick view ─── */
   const openQV = (product) => {
