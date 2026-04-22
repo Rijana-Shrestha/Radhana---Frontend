@@ -321,31 +321,34 @@ const Products = () => {
           <h3 className="font-main text-[13px] sm:text-[15px] text-[#145faf] mb-2 group-hover:text-[#D93A6A] transition-colors line-clamp-2">
             {product.name}
           </h3>
-          
+
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-1">
-              {product.originalPrice && product.originalPrice > product.price && (
-                <p className="font-sub text-gray-400 text-xs line-through">
-                  Rs {Number(product.originalPrice).toLocaleString()}
-                </p>
-              )}
+              {product.originalPrice &&
+                product.originalPrice > product.price && (
+                  <p className="font-sub text-gray-400 text-xs line-through">
+                    Rs {Number(product.originalPrice).toLocaleString()}
+                  </p>
+                )}
               <p className="font-sub text-[#D93A6A] font-bold text-base">
                 Rs {Number(product.price).toLocaleString()}
               </p>
             </div>
             {product.originalPrice && product.originalPrice > product.price && (
               <div className="inline-block bg-green-500 text-white px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold">
-                SAVE Rs {Number(product.originalPrice - product.price).toLocaleString()}
+                SAVE Rs{" "}
+                {Number(product.originalPrice - product.price).toLocaleString()}
               </div>
             )}
           </div>
-          
+
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => handleAddToCart(product)}
               className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
             >
-              <i className="fas fa-shopping-cart text-sm" /> Cart
+              <i className="fas fa-shopping-cart text-sm" />
+              Add to Cart
             </button>
             <WhatsAppLink name={product.name} />
           </div>

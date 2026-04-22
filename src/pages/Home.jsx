@@ -16,6 +16,20 @@ import Yamaha from "../../Assets/CompaniesWorkedWith/Yamaha.png";
 import AntuCottage from "../../Assets/CompaniesWorkedWith/AntuCottage.png";
 import HeroBg from "../../Assets/hero.png";
 import whyChooseBg from "../../Assets/why choose background image.jpeg";
+import personalizedgift from "../../Assets/ShopByCategory/personalizedgift.jpeg";
+import homedecor from "../../Assets/ShopByCategory/homedecor.jpeg";
+import corporateGifts from "../../Assets/ShopByCategory/corporateGifts.jpeg";
+import img1 from "../../Assets/customerCreation/img1.jpeg";
+import img2 from "../../Assets/customerCreation/img2.jpeg";
+import img3 from "../../Assets/customerCreation/img3.jpeg";
+import img4 from "../../Assets/customerCreation/img4.jpeg";
+import img5 from "../../Assets/customerCreation/img5.jpeg";
+import img6 from "../../Assets/customerCreation/img6.jpeg";
+import img7 from "../../Assets/customerCreation/img7.jpeg";
+import img8 from "../../Assets/customerCreation/img8.jpeg";
+import img9 from "../../Assets/customerCreation/img9.jpeg";
+import img10 from "../../Assets/customerCreation/img10.jpeg";
+import img11 from "../../Assets/customerCreation/img11.jpeg";
 
 const companies = [
   {
@@ -91,12 +105,17 @@ const companies = [
 ];
 
 const galleryImages = [
-  "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=500",
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=500",
-  "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800",
-  "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=500",
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=500",
-  "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=500",
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+  img7,
+  img8,
+  img9,
+  img10,
+  img11,
 ];
 
 const Home = () => {
@@ -196,9 +215,7 @@ const Home = () => {
         <div
           className="absolute top-10 right-10 text-[120px] leading-none pointer-events-none select-none font-main"
           style={{ color: "rgba(20,95,175,0.05)" }}
-        >
-           
-        </div>
+        ></div>
 
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-12 lg:gap-16">
@@ -212,8 +229,8 @@ const Home = () => {
                   borderColor: "rgba(217,58,106,0.2)",
                 }}
               >
-                <i className="fas fa-om text-xs"></i> Divine Craftsmanship from
-                Kathmandu
+                <i className="fas fa-om text-xs"></i> Love of Radha and Krishna
+                in Every Craft
               </div>
               <h1 className="h-anim-2 font-main text-3xl md:text-4xl lg:text-5xl xl:text-[56px] font-bold mb-5 leading-tight text-gray-800">
                 Laser Engraving &amp;
@@ -224,23 +241,23 @@ const Home = () => {
               </h1>
               <p className="h-anim-3 font-sub text-gray-500 text-[15px] md:text-[17px] mb-8 leading-relaxed max-w-lg">
                 Transform your memories into timeless art. From wooden QR codes
-                to personalized photo engravings — each piece crafted with
+                to personalized photo engravings - each piece crafted with
                 divine precision and love.
               </p>
               <div className="h-anim-4 flex flex-col sm:flex-row gap-3 mb-9">
                 <Link
-                  to="/products"
+                  to="./products"
                   className="font-sub text-white px-7 py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   style={{ background: "var(--primary)" }}
                 >
-                  <i className="fas fa-store"></i> Explore Products
+                  <i className="fas fa-store"></i> View All Products
                 </Link>
                 <Link
-                  to="/contact"
+                  to="./contact"
                   className="font-sub text-white px-7 py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   style={{ background: "var(--secondary)" }}
                 >
-                  <i className="fas fa-envelope"></i> Get Custom Quote
+                  <i className="fas fa-envelope"></i> Get Quotation
                 </Link>
               </div>
               <div className="h-anim-5 flex flex-wrap gap-3">
@@ -288,7 +305,7 @@ const Home = () => {
             {/* RIGHT: Floating image */}
             <div className="lg:w-1/2 h-anim-6">
               <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50">
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50">
                   <img
                     src={HeroBg}
                     className="w-full h-[380px] md:h-[460px] object-cover"
@@ -333,7 +350,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5 stagger">
             {[
               {
-                img: "https://images.unsplash.com/photo-1582269847642-87432658c952?q=80&w=800&auto=format&fit=crop",
+                img: personalizedgift,
                 badgeBg: "red-500",
                 badgeIcon: "fa-heart",
                 badge: "Best Seller",
@@ -343,18 +360,17 @@ const Home = () => {
                 path: "/products",
               },
               {
-                img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800&auto=format&fit=crop",
+                img: homedecor,
                 badgeBg: "var(--primary)",
                 badgeIcon: "fa-home",
-                badge: "New Arrivals",
+                badge: "Name plate",
                 title: "Home Decor",
                 desc: "Wall clocks, neon lights, fridge magnets & more",
                 count: "25+",
                 path: "/products",
               },
               {
-                img: "https://images.unsplash.com/photo-1495121553079-4c61bcce1894?q=80&w=800&auto=format&fit=crop",
-                badgeBg: "#f59e0b",
+                img: corporateGifts,
                 badgeIcon: "fa-briefcase",
                 badge: "Corporate",
                 title: "Corporate Gifting",
@@ -589,9 +605,7 @@ const Home = () => {
         <div
           className="absolute inset-0 flex items-center justify-center text-white/[0.03] font-main leading-none pointer-events-none select-none"
           style={{ fontSize: "500px" }}
-        >
-        
-        </div>
+        ></div>
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12 reveal">
             <span className="font-sub text-amber-400 text-sm font-semibold uppercase tracking-widest">
@@ -601,8 +615,8 @@ const Home = () => {
               Why Choose Radhana Art?
             </h2>
             <p className="font-sub text-gray-300 text-[15px] max-w-xl mx-auto">
-              We combine traditional craftsmanship with modern laser technology to
-              deliver excellence
+              We combine traditional craftsmanship with modern laser technology
+              to deliver excellence
             </p>
           </div>
 
@@ -646,11 +660,11 @@ const Home = () => {
                 className="reveal backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default"
               >
                 <div
-                className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
+                  className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
                 >
-                <i
-                className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
-                ></i>
+                  <i
+                    className={`fas ${icon} ${iconColor} group-hover:text-white text-2xl transition-colors duration-300`}
+                  ></i>
                 </div>
                 <h3
                   className={`font-main text-white ${titleColor} text-lg mb-2 transition-colors`}
@@ -666,7 +680,6 @@ const Home = () => {
         </div>
       </section>
 
-   
       <section className="py-12 md:py-14 bg-white border-y border-gray-100">
         <div className="container mx-auto px-6 mb-8 reveal">
           <div className="text-center">
@@ -730,16 +743,14 @@ const Home = () => {
         <div
           className="absolute inset-0 flex items-center justify-center font-main leading-none pointer-events-none select-none text-white/5"
           style={{ fontSize: "300px" }}
-        >
-      
-        </div>
+        ></div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white stagger">
             {[
               { val: "5,000+", label: "Happy Customers" },
               { val: "10,000+", label: "Products Crafted" },
               { val: "4.9★", label: "Average Rating", star: true },
-              { val: "5+", label: "Years Experience" },
+              { val: "2+", label: "Years Experience" },
             ].map(({ val, label }) => (
               <div key={label} className="reveal">
                 <div className="font-main text-4xl md:text-5xl font-bold">

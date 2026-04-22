@@ -103,7 +103,7 @@ const Contact = () => {
       color: "text-[#145faf]",
       bg: "bg-blue-50 border-blue-100",
       title: "Phone",
-      value: "+977 9823939106"+ "\n" + "+977 9746679242",
+      value: "+977 9823939106" + "\n" + "+977 9746679242",
       sub: "Monday – Friday, 10 AM – 6 PM",
       href: "tel:+9779823939106",
     },
@@ -112,7 +112,7 @@ const Contact = () => {
       color: "text-[#D93A6A]",
       bg: "bg-pink-50 border-pink-100",
       title: "Email",
-      value: "info@radhanaart.com",
+      value: "info@radhana.com",
       sub: "We respond within 24 hours",
       href: "mailto:info@radhanaart.com",
     },
@@ -121,7 +121,7 @@ const Contact = () => {
       color: "text-green-600",
       bg: "bg-green-50 border-green-100",
       title: "WhatsApp",
-      value: "+977 9823939106" + "\n" + "+977 9746679242",
+      value: "+977 9823939106" + "\n",
       sub: "Chat with us anytime",
       href: "https://wa.me/9779823939106",
     },
@@ -130,9 +130,9 @@ const Contact = () => {
       color: "text-amber-500",
       bg: "bg-amber-50 border-amber-100",
       title: "Location",
-      value: "Kathmandu, Nepal",
-      sub: "Metropolitan Area",
-      href: "https://maps.google.com/?q=Kathmandu,Nepal",
+      value: "Sitatpaila",
+      sub: "Kathmandu",
+      href: "https://maps.app.goo.gl/Mjc4AzR8wo1aFf8C6",
     },
   ];
 
@@ -230,7 +230,8 @@ const Contact = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="font-sub text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">
-                      <i className="fas fa-user text-[#145faf] mr-1"></i>Your Name *
+                      <i className="fas fa-user text-[#145faf] mr-1"></i>Your
+                      Name *
                     </label>
                     <input
                       type="text"
@@ -244,7 +245,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <label className="font-sub text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">
-                      <i className="fas fa-phone text-[#145faf] mr-1"></i>Phone Number *
+                      <i className="fas fa-phone text-[#145faf] mr-1"></i>Phone
+                      Number *
                     </label>
                     <input
                       type="tel"
@@ -260,7 +262,8 @@ const Contact = () => {
 
                 <div>
                   <label className="font-sub text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">
-                    <i className="fas fa-envelope text-[#145faf] mr-1"></i>Email Address
+                    <i className="fas fa-envelope text-[#145faf] mr-1"></i>Email
+                    Address
                   </label>
                   <input
                     type="email"
@@ -274,7 +277,8 @@ const Contact = () => {
 
                 <div>
                   <label className="font-sub text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">
-                    <i className="fas fa-heading text-[#145faf] mr-1"></i>Subject
+                    <i className="fas fa-heading text-[#145faf] mr-1"></i>
+                    Subject
                   </label>
                   <select
                     name="subject"
@@ -292,7 +296,8 @@ const Contact = () => {
 
                 <div>
                   <label className="font-sub text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">
-                    <i className="fas fa-message text-[#145faf] mr-1"></i>Message *
+                    <i className="fas fa-message text-[#145faf] mr-1"></i>
+                    Message *
                   </label>
                   <textarea
                     name="message"
@@ -311,7 +316,8 @@ const Contact = () => {
                 {/* file upload */}
                 <div>
                   <label className="font-sub text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">
-                    <i className="fas fa-paperclip text-[#145faf] mr-1"></i>Attachment (Optional)
+                    <i className="fas fa-paperclip text-[#145faf] mr-1"></i>
+                    Attachment (Optional)
                   </label>
                   <input
                     ref={fileInputRef}
@@ -436,7 +442,7 @@ const Contact = () => {
                     </p>
                   </div>
                   <a
-                    href="https://maps.google.com/?q=Kathmandu,Nepal"
+                    href="https://maps.app.goo.gl/Mjc4AzR8wo1aFf8C6"
                     target="_blank"
                     rel="noreferrer"
                     className="bg-[#145faf] text-white font-sub text-xs font-medium px-4 py-2 rounded-xl hover:bg-[#D93A6A] transition flex items-center gap-1.5"
@@ -452,16 +458,14 @@ const Contact = () => {
                   We Accept
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {["Cash", "Khalti", "FonePay"].map(
-                    (pay) => (
-                      <span
-                        key={pay}
-                        className="font-sub text-xs font-medium bg-gray-50 border border-gray-100 text-gray-600 px-3 py-1.5 rounded-full"
-                      >
-                        {pay}
-                      </span>
-                    ),
-                  )}
+                  {["Cash", "Khalti", "FonePay"].map((pay) => (
+                    <span
+                      key={pay}
+                      className="font-sub text-xs font-medium bg-gray-50 border border-gray-100 text-gray-600 px-3 py-1.5 rounded-full"
+                    >
+                      {pay}
+                    </span>
+                  ))}
                 </div>
                 <div className="border-t border-gray-50 mt-4 pt-4">
                   <h3 className="font-main text-[#145faf] text-lg mb-3">
