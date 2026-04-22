@@ -122,8 +122,15 @@ body {
 }
 .marquee-track {
   display: flex;
-  animation: marqueeAnim 9s linear infinite;
+  gap: 0;
+  animation: marqueeAnim 20s linear infinite;
   will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .marquee-track {
+    animation: marqueeAnim 45s linear infinite;
+  }
 }
 .marquee-track:hover,
 .marquee-track.paused {
@@ -191,6 +198,7 @@ body {
 .cat-card img {
   transition: transform 0.5s ease;
 }
+
 .cat-card:hover img {
   /* transform: scale(1.08); */
 }

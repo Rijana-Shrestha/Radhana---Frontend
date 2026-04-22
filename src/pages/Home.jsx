@@ -25,7 +25,6 @@ import HotelDipjyoti from "../../Assets/CompaniesWorkedWith/HotelDipjyoti.jpeg";
 import SauravDecor from "../../Assets/CompaniesWorkedWith/SauravDecor.jpeg";
 import Machaan from "../../Assets/CompaniesWorkedWith/Machaan.jpeg";
 import EyeBuddy from "../../Assets/CompaniesWorkedWith/EyeBuddy.jpeg";
-import Blesswell from "../../Assets/CompaniesWorkedWith/Blesswell.jpeg";
 import RoyalRiders from "../../Assets/CompaniesWorkedWith/RoyalRiders.jpeg";
 import ANJ from "../../Assets/CompaniesWorkedWith/ANJ.jpeg";
 import HeroBg from "../../Assets/hero.png";
@@ -181,11 +180,6 @@ const companies = [
     type: "Business",
     logo: ANJ,
   },
-  {
-    name: "Blesswell",
-    type: "Business",
-    logo: Blesswell,
-  },
 ];
 
 const galleryImages = [
@@ -296,7 +290,7 @@ const Home = () => {
       </div>
 
       {/* ══════════════════ HERO ══════════════════ */}
-      <section className="relative min-h-[88vh] flex items-center py-16 md:py-20 px-6 md:px-8 lg:px-12 bg-gradient-to-br from-purple-50 via-violet-50/40 to-indigo-50/30 lotus-bg overflow-hidden">
+      <section className="relative flex items-center py-10 md:py-20 px-6 md:px-8 lg:px-12 bg-gradient-to-br from-purple-50 via-violet-50/40 to-indigo-50/30 lotus-bg overflow-hidden">
         <div
           className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
           style={{ background: "rgba(20,95,175,0.05)" }}
@@ -337,17 +331,17 @@ const Home = () => {
                 to personalized photo engravings - each piece crafted with
                 divine precision and love.
               </p>
-              <div className="h-anim-4 flex flex-row gap-3 mb-9">
+              <div className="h-anim-4 flex flex-row gap-2 mb-6 w-full sm:w-auto">
                 <Link
                   to="./products"
-                  className="font-sub text-white px-4 py-3 sm:px-7 sm:py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl flex-1 sm:flex-none"
+                  className="font-sub text-white px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm rounded-lg sm:rounded-xl text-center font-medium flex items-center justify-center gap-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   style={{ background: "var(--primary)" }}
                 >
                   <i className="fas fa-store"></i> View All Products
                 </Link>
                 <Link
                   to="./contact"
-                  className="font-sub text-white px-4 py-3 sm:px-7 sm:py-3.5 rounded-xl text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl flex-1 sm:flex-none"
+                  className="font-sub text-white px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm rounded-lg sm:rounded-xl text-center font-medium flex items-center justify-center gap-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   style={{ background: "var(--secondary)" }}
                 >
                   <i className="fas fa-envelope"></i> Get Quotation
@@ -401,7 +395,7 @@ const Home = () => {
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50">
                   <img
                     src={HeroBg}
-                    className="w-full h-[380px] md:h-[460px] object-cover"
+                    className="w-full h-[280px] sm:h-[380px] md:h-[460px] object-cover"
                     alt="Laser Engraved Products"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
@@ -521,7 +515,7 @@ const Home = () => {
           </div>
 
           {/* Sub-category pills */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 stagger">
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 stagger">
             {[
               {
                 icon: "fa-heart",
@@ -598,7 +592,7 @@ const Home = () => {
               preview before we ever craft it
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 stagger">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 stagger">
             {[
               {
                 icon: "fa-image",
@@ -713,7 +707,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger items-stretch">
             {[
               {
                 icon: "fa-award",
@@ -750,7 +744,7 @@ const Home = () => {
             ].map(({ icon, iconColor, iconBg, titleColor, title, desc }) => (
               <div
                 key={title}
-                className="reveal backdrop-blur-sm border border-white/10 p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default"
+                className="reveal backdrop-blur-sm border border-white/10 p-4 sm:p-7 rounded-2xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-500 group cursor-default h-full"
               >
                 <div
                   className={`w-14 h-14 ${iconBg} group-hover:bg-green-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300`}
@@ -824,7 +818,7 @@ const Home = () => {
               onMouseEnter={pauseMarquee}
               onMouseLeave={resumeMarquee}
             >
-              {[...companies, ...companies].map((c, i) => (
+              {[...companies, ...companies, ...companies].map((c, i) => (
                 <div key={i} className="company-card">
                   <div className="w-[100px] h-[100px] rounded-xl flex items-center justify-center bg-gray-50">
                     <img

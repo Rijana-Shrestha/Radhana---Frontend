@@ -15,16 +15,20 @@ const Stars = ({ count = 5 }) => (
   </span>
 );
 
-const WhatsAppLink = ({ name }) => (
-  <a
-    href={`https://wa.me/9779823939106?text=Hi! I'm interested in: ${encodeURIComponent(name)}`}
-    target="_blank"
-    rel="noreferrer"
-    className="flex items-center justify-center gap-1.5 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
-  >
-    <i className="fa-brands fa-whatsapp text-sm" /> WhatsApp
-  </a>
-);
+const WhatsAppLink = ({ name }) => {
+  const productUrl = `${window.location.origin}/#/products`;
+  const message = `Hi! I'm interested in: *${name}*\n\nView here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
+  return (
+    <a
+      href={`https://wa.me/9779823939106?text=${encodeURIComponent(message)}`}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-sub text-[10px] sm:text-xs font-medium transition-all hover:shadow-lg"
+    >
+      <i className="fa-brands fa-whatsapp text-sm" /> WhatsApp
+    </a>
+  );
+};
 
 /* ══════════════════════════════════════════════════════ */
 const Products = () => {
@@ -333,13 +337,13 @@ const Products = () => {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             <button
               onClick={() => handleAddToCart(product)}
-              className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 rounded-xl font-sub text-xs font-medium transition-all hover:shadow-lg"
+              className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 rounded-lg font-sub text-[10px] sm:text-xs font-medium transition-all hover:shadow-lg"
             >
-              <i className="fas fa-shopping-cart text-sm" />
-              Add to Cart
+              <i className="fas fa-shopping-cart text-xs" />
+              <span className="hidden xs:inline">Add to </span>Cart
             </button>
             <WhatsAppLink name={product.name} />
           </div>
