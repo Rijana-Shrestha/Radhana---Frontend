@@ -132,9 +132,16 @@ const Products = () => {
     return list;
   })();
 
-  const visible = filtered.slice(0, visibleCount);
+  /* ─── toast ─── */
+  const showToast = (msg, type = "success") => {
+    setToast({ show: true, msg, type });
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(
+      () => setToast((t) => ({ ...t, show: false })),
+      2500,
+    );
+  };
 
-  /* ─── cart ─── */
   const handleAddToCart = (product) => {
     try {
       addToCart(product);
@@ -143,7 +150,6 @@ const Products = () => {
       showToast("Failed to add to cart", "error");
     }
   };
-
   /* ─── toast ─── */
   const showToast = (msg, type = "success") => {
     setToast({ show: true, msg, type });
@@ -711,7 +717,7 @@ const Products = () => {
                     {serverError}
                   </p>
                 </div>
-              ) : visible.length === 0 ? (
+              ) : filtered.length === 0 ? (
                 <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
                   <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-5">
                     <i className="fas fa-box-open text-4xl text-gray-200" />
