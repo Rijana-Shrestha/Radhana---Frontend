@@ -44,7 +44,6 @@ import img8 from "../../Assets/customerCreation/img8.jpeg";
 import img9 from "../../Assets/customerCreation/img9.jpeg";
 import img10 from "../../Assets/customerCreation/img10.jpeg";
 import img11 from "../../Assets/customerCreation/img11.jpeg";
-import { name } from "ejs";
 
 const companies = [
   {
