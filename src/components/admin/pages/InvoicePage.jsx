@@ -688,51 +688,45 @@ const InvoicePreview = ({ invoice, onClose }) => {
           </table>
 
           {/* Signature */}
-          <div style={{ textAlign: "right", marginTop: 32 }}>
-            <p style={{ marginBottom: 12, fontSize: 13 }}>
-              For, Radhana Enterprises
-            </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
-                gap: 16,
-                marginBottom: 8,
-              }}
-            >
-              {/* Signature */}
-              <div style={{ textAlign: "center" }}>
-                <img
-                  src={RadhanaSign}
-                  alt="Signature"
-                  style={{
-                    width: 120,
-                    height: 60,
-                    objectFit: "contain",
-                    display: "block",
-                    marginBottom: 4,
-                  }}
-                />
-                <div style={{ borderTop: "1px solid #999", paddingTop: 4 }}>
-                  <p style={{ fontSize: 11, color: "#555" }}>
-                    Authorised Signatory
-                  </p>
-                </div>
-              </div>
-              {/* Stamp */}
-              <div style={{ textAlign: "center" }}>
-                <img
-                  src={RadhanaStamp}
-                  alt="Company Stamp"
-                  style={{
-                    width: 90,
-                    height: 90,
-                    objectFit: "contain",
-                    display: "block",
-                  }}
-                />
-              </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: 40,
+              marginTop: 32,
+            }}
+          >
+            {/* Stamp on left */}
+            <div style={{ textAlign: "center" }}>
+              <img
+                src={RadhanaStamp}
+                alt="Company Stamp"
+                style={{
+                  width: 100,
+                  height: 100,
+                  objectFit: "contain",
+                  display: "block",
+                }}
+              />
+            </div>
+            {/* Signature on right */}
+            <div style={{ textAlign: "center" }}>
+              <p style={{ fontSize: 12, marginBottom: 4 }}>Kind regards,</p>
+              <img
+                src={RadhanaSign}
+                alt="Signature"
+                style={{
+                  width: 110,
+                  height: 55,
+                  objectFit: "contain",
+                  display: "block",
+                  marginBottom: 4,
+                }}
+              />
+              <p style={{ fontSize: 13, fontWeight: 700 }}>
+                Radhana Enterprises
+              </p>
             </div>
           </div>
         </div>
