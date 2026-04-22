@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
@@ -10,7 +10,7 @@ import { GalleryProvider } from "./context/GalleryContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <AuthProvider>
         <ProductProvider>
           <GalleryProvider>
@@ -20,6 +20,6 @@ createRoot(document.getElementById("root")).render(
           </GalleryProvider>
         </ProductProvider>
       </AuthProvider>
-    </HashRouter>
+    </BrowserRouter>
   </StrictMode>,
 );
