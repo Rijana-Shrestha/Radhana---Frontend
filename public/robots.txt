@@ -1,3 +1,2 @@
-User-agent: *
-Allow: /
-Sitemap: https://radhana.com.np/sitemap.xml
+
+/*    /index.html   200
