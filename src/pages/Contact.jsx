@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { axiosInstance } from "../utils/axios";
+import FooterMap from "../components/FooterMap";
 
 const Contact = () => {
   const fileInputRef = useRef(null);
@@ -427,30 +428,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Location map embed placeholder */}
-              <div className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-50">
-                <div className="bg-gray-50 h-48 flex flex-col items-center justify-center gap-3">
-                  <div className="w-14 h-14 bg-white rounded-2xl shadow-md flex items-center justify-center">
-                    <i className="fas fa-location-dot text-[#D93A6A] text-2xl" />
-                  </div>
-                  <div className="text-center">
-                    <p className="font-main text-gray-700 text-lg">
-                      Kathmandu, Nepal
-                    </p>
-                    <p className="font-sub text-gray-400 text-sm">
-                      Metropolitan Area
-                    </p>
-                  </div>
-                  <a
-                    href="https://maps.app.goo.gl/Mjc4AzR8wo1aFf8C6"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="bg-[#145faf] text-white font-sub text-xs font-medium px-4 py-2 rounded-xl hover:bg-[#D93A6A] transition flex items-center gap-1.5"
-                  >
-                    <i className="fas fa-map-location-dot" /> Open in Maps
-                  </a>
-                </div>
-              </div>
+              <FooterMap />
 
               {/* Social / payment */}
               <div className="bg-white rounded-3xl shadow-sm p-6 border border-gray-50">

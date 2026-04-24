@@ -39,6 +39,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   /* ─── ui state ─── */
   const [toast, setToast] = useState({ show: false, msg: "", type: "success" });
@@ -60,6 +61,7 @@ const Products = () => {
 
   /* ─── load products ─── */
   const loadProducts = async () => {
+    setLoading(true);
     try {
       const data = await fetchProducts();
       if (Array.isArray(data) && data.length > 0) {
@@ -78,6 +80,8 @@ const Products = () => {
       setServerError(
         "Unable to connect to the server. Please try again later.",
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -700,7 +704,19 @@ const Products = () => {
               </div>
 
               {/* Content */}
-              {error ? (
+              {loading ? (
+                <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
+                  <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                    <i className="fas fa-box text-3xl text-blue-300" />
+                  </div>
+                  <h3 className="font-main text-xl text-gray-500 mb-2">
+                    Loading Products
+                  </h3>
+                  <p className="font-sub text-gray-400 text-sm">
+                    Please wait while we fetch our latest products...
+                  </p>
+                </div>
+              ) : error ? (
                 <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
                   <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i className="fas fa-exclamation-triangle text-3xl text-red-300" />
