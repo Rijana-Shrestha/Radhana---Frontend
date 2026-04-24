@@ -977,78 +977,108 @@ const Home = () => {
       </section>
 
       {/* ══════════════════ TESTIMONIALS ══════════════════ */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-violet-50 to-indigo-50 peacock-bg px-6 md:px-8 lg:px-12">
-        <div className="container mx-auto">
-          <div className="text-center mb-12 reveal">
-            <span
-              className="font-sub text-sm font-semibold uppercase tracking-widest"
-              style={{ color: "var(--secondary)" }}
-            >
-              Happy Customers
-            </span>
-            <h2 className="font-main text-2xl md:text-3xl lg:text-4xl mt-2 mb-3 text-gray-800">
-              What Our Customers Say
-            </h2>
-            <p className="font-sub text-gray-400 text-[15px]">
-              Trusted by businesses and individuals across Kathmandu
-            </p>
+     <section className="py-16 md:py-20 bg-gradient-to-br from-violet-50 to-indigo-50 peacock-bg px-6 md:px-8 lg:px-12">
+  <div className="container mx-auto">
+    <div className="text-center mb-12 reveal">
+      <span
+        className="font-sub text-sm font-semibold uppercase tracking-widest"
+        style={{ color: "var(--secondary)" }}
+      >
+        Happy Customers
+      </span>
+      <h2 className="font-main text-2xl md:text-3xl lg:text-4xl mt-2 mb-3 text-gray-800">
+        What Our Customers Say
+      </h2>
+      <p className="font-sub text-gray-400 text-[15px]">
+        Trusted by businesses and individuals across Kathmandu
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+      {[
+        {
+          name: "Ramesh Shrestha",
+          role: "Business Owner",
+          text: "The wooden QR code plaques for my restaurant are beautiful and functional. Customers love scanning them. Highly recommended!",
+          avatarBg: "bg-red-100",
+          avatarText: "text-red-600",
+        },
+        {
+          name: "Sita Poudel",
+          role: "Wedding Planner",
+          text: "Custom wooden wedding invitations that were absolutely stunning! Quality exceeded expectations. The design preview made everything perfect!",
+          avatarBg: "bg-blue-100",
+          avatarText: "text-blue-600",
+        },
+        {
+          name: "Bikram Thapa",
+          role: "Corporate Manager",
+          text: "Amazing acrylic awards for our company event. Precision engraving and premium finish beyond our expectations!",
+          avatarBg: "bg-green-100",
+          avatarText: "text-green-600",
+        },
+        {
+          name: "Saroj Kumar",
+          role: "Corporate Manager",
+          text: "Wow, this wooden QR code is so good and I just loved it, and this product is so cute, attractive and loving one🤗🎊🥰, thank you so much Radhana art🥰🎊🎉",
+          avatarBg: "bg-green-100",
+          avatarText: "text-green-600",
+        },
+        {
+          name: "Bhagya Narayan Das",
+          role: "Corporate Manager",
+          text: "Best place for 3d number plate Number plate Yaha ko service pani Ramro xa sa staff Pani friendly xa so order garna saknu Hunxa 3dnumberplate. Radhana Art Thank you so much!",
+          avatarBg: "bg-blue-100",
+          avatarText: "text-blue-600",
+        },
+        {
+          name: "Nabin Shrestha",
+          role: "Business Owner",
+          text: "Unique design and attractive stand. Thank you Radhana arts 😍😍😍.",
+          avatarBg: "bg-red-100",
+          avatarText: "text-red-600",
+        },
+      ].map(({ name, role, text, avatarBg, avatarText }) => (
+        <div
+          key={name}
+          className="reveal bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 relative overflow-hidden group"
+        >
+          <div
+            className="absolute -top-2 -right-2 text-[90px] font-serif leading-none select-none group-hover:opacity-100 transition"
+            style={{ color: "rgba(217,58,106,0.08)", lineHeight: 1 }}
+          >
+            "
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
-            {[
-              {
-                img: "https://randomuser.me/api/portraits/men/45.jpg",
-                name: "Ramesh Shrestha",
-                role: "Business Owner",
-                text: "The wooden QR code plaques for my restaurant are beautiful and functional. Customers love scanning them. Highly recommended!",
-                border: "border-primary/10",
-              },
-              {
-                img: "https://randomuser.me/api/portraits/women/32.jpg",
-                name: "Sita Poudel",
-                role: "Wedding Planner",
-                text: "Custom wooden wedding invitations that were absolutely stunning! Quality exceeded expectations. The design preview made everything perfect!",
-                border: "border-secondary/10",
-              },
-              {
-                img: "https://randomuser.me/api/portraits/men/22.jpg",
-                name: "Bikram Thapa",
-                role: "Corporate Manager",
-                text: "Amazing acrylic awards for our company event. Precision engraving and premium finish beyond our expectations!",
-                border: "border-green-200",
-              },
-            ].map(({ img, name, role, text, border }) => (
-              <div
-                key={name}
-                className="reveal bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 relative overflow-hidden group"
-              >
-                <div
-                  className="absolute -top-2 -right-2 text-[90px] font-serif leading-none select-none group-hover:opacity-100 transition"
-                  style={{ color: "rgba(217,58,106,0.08)", lineHeight: 1 }}
-                >
-                  "
-                </div>
-                <div className="mb-4">
-                  <h3 className="font-sub font-semibold text-gray-800 text-sm">
-                    {name}
-                  </h3>
-                  <p className="font-sub text-xs text-gray-400">{role}</p>
-                </div>
-                <div className="flex gap-1 mb-3">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <i
-                      key={i}
-                      className="fas fa-star text-amber-400 text-sm"
-                    ></i>
-                  ))}
-                </div>
-                <p className="font-sub text-gray-500 text-sm leading-relaxed">
-                  "{text}"
-                </p>
-              </div>
+
+          {/* Avatar + Name Row */}
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className={`w-11 h-11 rounded-full ${avatarBg} ${avatarText} flex items-center justify-center text-lg font-bold flex-shrink-0`}
+            >
+              {name.charAt(0)}
+            </div>
+            <div>
+              <h3 className="font-sub font-semibold text-gray-800 text-sm">
+                {name}
+              </h3>
+              <p className="font-sub text-xs text-gray-400">{role}</p>
+            </div>
+          </div>
+
+          <div className="flex gap-1 mb-3">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <i key={i} className="fas fa-star text-amber-400 text-sm"></i>
             ))}
           </div>
+
+          <p className="font-sub text-gray-500 text-sm leading-relaxed">
+            "{text}"
+          </p>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* ══════════════════ CTA ══════════════════ */}
       <section
