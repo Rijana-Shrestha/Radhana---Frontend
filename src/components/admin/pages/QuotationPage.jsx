@@ -21,6 +21,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import { AdminContext } from "../../../context/AdminContext";
+import RadhanaLogo from "../../../../Assets/radhanalogo.png";
+import RadhanaSign from "../../../../Assets/RadhanaSign.jpeg";
+import RadhanaStamp from "../../../../Assets/RadhanaStamp.jpeg";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 const ones = [
@@ -135,7 +138,7 @@ const StatusBadge = ({ qt }) => {
   );
 };
 
-// ── Print preview ─────────────────────────────────────────────────────────────
+// ── Print preview (Tax Invoice style) ────────────────────────────────────────
 const PreviewModal = ({ qt, onClose }) => {
   const ref = useRef();
   const sub = (qt.items || []).reduce(
@@ -143,45 +146,37 @@ const PreviewModal = ({ qt, onClose }) => {
     0,
   );
   const total = sub - (qt.discount || 0);
+  const date = new Date(qt.invoiceDate || qt.createdAt).toLocaleDateString(
+    "en-GB",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    },
+  );
+  const PURPLE = "#7b1fa2";
 
   const doPrint = () => {
+    const content = ref.current.innerHTML;
     const win = window.open("", "_blank");
-    win.document
-      .write(`<!DOCTYPE html><html><head><title>Quotation ${qt.invoiceNumber}</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-      *{margin:0;padding:0;box-sizing:border-box}
-      body{font-family:'Poppins',sans-serif;font-size:13px;color:#1e293b;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-      .wrap{max-width:760px;margin:auto;padding:44px 40px}
-      .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;padding-bottom:22px;border-bottom:2px solid #f1f5f9}
-      .co{font-size:22px;font-weight:700;color:#0f172a}
-      .co-sub{font-size:11px;color:#94a3b8;margin-top:3px}
-      .badge{display:inline-block;background:#D93A6A;color:#fff;font-weight:700;font-size:11px;padding:4px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase}
-      .qt-no{font-size:28px;font-weight:700;color:#D93A6A;line-height:1.1;margin-top:6px}
-      .two-col{display:flex;gap:28px;margin-bottom:28px}
-      .col{flex:1}
-      .label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#94a3b8;margin-bottom:6px}
-      .client-name{font-size:16px;font-weight:700}
-      .client-sub{font-size:12px;color:#64748b;margin-top:2px}
-      .validity{border:2px dashed #D93A6A44;border-radius:10px;padding:14px;background:#fff5f7}
-      .v-date{font-size:18px;font-weight:700;margin-top:2px}
-      .v-sub{font-size:11px;color:#94a3b8;margin-top:3px}
-      table{width:100%;border-collapse:collapse;margin-bottom:20px}
-      th{background:#f8fafc;border-bottom:2px solid #e2e8f0;padding:9px 12px;font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;text-align:left}
-      th.r,td.r{text-align:right}
-      td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:12px}
-      .item-name{font-weight:600;font-size:13px}
-      .item-desc{font-size:11px;color:#94a3b8;margin-top:1px}
-      .foot-row td{border-top:1px solid #e2e8f0;padding:8px 12px}
-      .total-row td{border-top:2px solid #e2e8f0;background:#f8fafc;font-weight:700;font-size:14px}
-      .amount-words{font-size:12px;color:#64748b;font-style:italic;margin-bottom:20px}
-      .notes-box{background:#f8fafc;border-radius:8px;padding:14px;font-size:12px;color:#64748b;margin-bottom:28px}
-      .notes-title{font-weight:600;color:#475569;margin-bottom:4px;font-size:12px}
-      .footer-sig{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #f1f5f9;padding-top:22px;margin-top:32px}
-      .sig-line{border-top:1px solid #94a3b8;width:140px;padding-top:5px;font-size:11px;color:#64748b}
-      .disclaimer{font-size:11px;color:#94a3b8}
-      @media print{@page{size:A4;margin:15mm}}
-    </style></head><body><div class="wrap">${ref.current.innerHTML}</div></body></html>`);
+    win.document.write(`
+      <html><head><title>Quotation ${qt.invoiceNumber}</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Poppins',sans-serif; font-size:13px; color:#222; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+        .page { width:794px; min-height:1123px; padding:40px; margin:auto; }
+        table { width:100%; border-collapse:collapse; }
+        th,td { border:1px solid #ccc; padding:8px 10px; }
+        th { background:#7b1fa2; color:#fff; font-weight:600; }
+        img { max-width:100%; height:auto; }
+        .header-bar { background:#7b1fa2; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
+        .header-bar h1 { color:#fff; font-size:22px; font-weight:700; }
+        .header-bar p { color:#e9d5ff; font-size:12px; }
+        .section-label { background:#7b1fa2; color:#fff; font-weight:600; padding:6px 10px; font-size:12px; }
+        @media print { @page { size:A4; margin:10mm } }
+      </style></head><body><div class="page">${content}</div></body></html>
+    `);
     win.document.close();
     win.focus();
     setTimeout(() => {
@@ -190,9 +185,20 @@ const PreviewModal = ({ qt, onClose }) => {
     }, 500);
   };
 
+  const P = PURPLE;
+  const cell = (bg, txt, extra = {}) => ({
+    background: bg,
+    color: txt,
+    padding: "6px 10px",
+    fontWeight: 600,
+    fontSize: 12,
+    ...extra,
+  });
+
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/60 overflow-y-auto py-8 px-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full">
+        {/* Modal toolbar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h2 className="font-semibold text-gray-800 text-lg">
             Quotation Preview
@@ -200,7 +206,7 @@ const PreviewModal = ({ qt, onClose }) => {
           <div className="flex gap-3">
             <button
               onClick={doPrint}
-              className="flex items-center gap-2 bg-accent-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 bg-purple-700 text-white px-4 py-2 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
             >
               <Send size={14} /> Print / Save PDF
             </button>
@@ -213,137 +219,153 @@ const PreviewModal = ({ qt, onClose }) => {
           </div>
         </div>
 
-        <div ref={ref} style={{ padding: "44px 40px" }}>
-          {/* Header */}
+        {/* ── Printable area ── */}
+        <div
+          ref={ref}
+          style={{
+            fontFamily: "'Poppins',sans-serif",
+            fontSize: 13,
+            color: "#222",
+            padding: 40,
+          }}
+        >
+          {/* Purple header bar */}
           <div
-            className="header"
             style={{
+              background: P,
+              padding: "18px 24px",
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "flex-start",
-              marginBottom: 36,
-              paddingBottom: 22,
-              borderBottom: "2px solid #f1f5f9",
+              alignItems: "center",
+              marginBottom: 24,
             }}
           >
-            <div>
-              <div
-                className="co"
-                style={{ fontSize: 22, fontWeight: 700, color: "#0f172a" }}
-              >
-                Radhana Enterprises
-              </div>
-              <div
-                className="co-sub"
-                style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}
-              >
-                PAN: 128464005 · +977 9823939106
-              </div>
-              <div style={{ fontSize: 11, color: "#94a3b8" }}>
-                radhanaart@gmail.com · Sitapaila, Kathmandu
-              </div>
+            <div
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 8,
+                overflow: "hidden",
+                background: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={RadhanaLogo}
+                alt="Logo"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
             </div>
             <div style={{ textAlign: "right" }}>
-              <div
-                className="badge"
+              <h1
                 style={{
-                  display: "inline-block",
-                  background: "#D93A6A",
                   color: "#fff",
+                  fontSize: 22,
                   fontWeight: 700,
-                  fontSize: 11,
-                  padding: "4px 14px",
-                  borderRadius: 20,
-                  letterSpacing: 1,
-                  textTransform: "uppercase",
+                  margin: 0,
                 }}
               >
-                Quotation
-              </div>
-              <div
-                className="qt-no"
-                style={{
-                  fontSize: 28,
-                  fontWeight: 700,
-                  color: "#D93A6A",
-                  lineHeight: 1.1,
-                  marginTop: 6,
-                }}
-              >
-                {qt.invoiceNumber}
-              </div>
-              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
-                Date: {fmtD(qt.invoiceDate || qt.createdAt)}
-              </div>
+                Radhana Enterprises
+              </h1>
+              <p style={{ color: "#e9d5ff", fontSize: 12, margin: "4px 0 0" }}>
+                PAN No.: 128464005
+              </p>
+              <p style={{ color: "#e9d5ff", fontSize: 12, margin: 0 }}>
+                Phone: 9823939106 &nbsp;|&nbsp; Email: radhanaart@gmail.com
+              </p>
             </div>
           </div>
 
-          {/* Client + Validity */}
-          <div style={{ display: "flex", gap: 28, marginBottom: 28 }}>
-            <div style={{ flex: 1 }}>
-              <div
-                style={{
-                  fontSize: 9,
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: 2,
-                  color: "#94a3b8",
-                  marginBottom: 6,
-                }}
-              >
-                Prepared For
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 700 }}>
-                {qt.billTo?.name || "—"}
-              </div>
-              {qt.billTo?.address && (
-                <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
-                  {qt.billTo.address}
-                </div>
-              )}
-              {qt.billTo?.phone && (
-                <div style={{ fontSize: 12, color: "#64748b" }}>
-                  📞 {qt.billTo.phone}
-                </div>
-              )}
-              {qt.billTo?.email && (
-                <div style={{ fontSize: 12, color: "#64748b" }}>
-                  {qt.billTo.email}
-                </div>
-              )}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div
-                style={{
-                  border: "2px dashed #D93A6A44",
-                  borderRadius: 10,
-                  padding: 14,
-                  background: "#fff5f7",
-                }}
-              >
-                <div
+          {/* Title */}
+          <div style={{ textAlign: "center", marginBottom: 20 }}>
+            <h2
+              style={{
+                fontSize: 16,
+                fontWeight: 700,
+                color: P,
+                letterSpacing: 2,
+                textTransform: "uppercase",
+              }}
+            >
+              Quotation
+            </h2>
+          </div>
+
+          {/* Bill To + Quotation Details */}
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              marginBottom: 20,
+            }}
+          >
+            <tbody>
+              <tr>
+                <td
                   style={{
-                    fontSize: 9,
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: 2,
-                    color: "#D93A6A",
-                    marginBottom: 4,
+                    width: "50%",
+                    border: "1px solid #ccc",
+                    verticalAlign: "top",
+                    padding: 0,
                   }}
                 >
-                  Valid Until
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 700 }}>
-                  {fmtD(qt.validUntil)}
-                </div>
-                <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
-                  Please respond before this date
-                </div>
-              </div>
-            </div>
-          </div>
+                  <div style={cell(P, "#fff")}>Bill To</div>
+                  <div style={{ padding: "10px 12px" }}>
+                    <strong>{qt.billTo?.name || "—"}</strong>
+                    {qt.billTo?.address && (
+                      <div
+                        style={{ color: "#555", fontSize: 12, marginTop: 4 }}
+                      >
+                        {qt.billTo.address}
+                      </div>
+                    )}
+                    {qt.billTo?.phone && (
+                      <div style={{ color: "#555", fontSize: 12 }}>
+                        Ph: {qt.billTo.phone}
+                      </div>
+                    )}
+                    {qt.billTo?.email && (
+                      <div style={{ color: "#555", fontSize: 12 }}>
+                        {qt.billTo.email}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    width: "50%",
+                    border: "1px solid #ccc",
+                    verticalAlign: "top",
+                    padding: 0,
+                  }}
+                >
+                  <div style={cell(P, "#fff", { textAlign: "right" })}>
+                    Quotation Details
+                  </div>
+                  <div style={{ padding: "10px 12px", textAlign: "right" }}>
+                    <div style={{ fontSize: 13 }}>
+                      Quotation No.: <strong>{qt.invoiceNumber}</strong>
+                    </div>
+                    <div style={{ fontSize: 13 }}>
+                      Date: <strong>{date}</strong>
+                    </div>
+                    {qt.validUntil && (
+                      <div
+                        style={{ fontSize: 12, color: "#555", marginTop: 4 }}
+                      >
+                        Valid Until:{" "}
+                        {new Date(qt.validUntil).toLocaleDateString("en-GB")}
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-          {/* Items */}
+          {/* Items table */}
           <table
             style={{
               width: "100%",
@@ -352,24 +374,17 @@ const PreviewModal = ({ qt, onClose }) => {
             }}
           >
             <thead>
-              <tr
-                style={{
-                  background: "#f8fafc",
-                  borderBottom: "2px solid #e2e8f0",
-                }}
-              >
-                {["#", "Item / Service", "Qty", "Unit Price", "Total"].map(
+              <tr style={{ background: P }}>
+                {["#", "Item Name", "Quantity", "Price/Unit", "Amount"].map(
                   (h, i) => (
                     <th
                       key={h}
                       style={{
-                        padding: "9px 12px",
-                        fontSize: 10,
+                        color: "#fff",
+                        padding: "8px 10px",
+                        textAlign: i === 0 || i === 1 ? "left" : "right",
                         fontWeight: 600,
-                        color: "#64748b",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                        textAlign: i >= 2 ? "right" : "left",
+                        border: `1px solid ${P}`,
                       }}
                     >
                       {h}
@@ -380,23 +395,26 @@ const PreviewModal = ({ qt, onClose }) => {
             </thead>
             <tbody>
               {(qt.items || []).map((item, idx) => (
-                <tr key={idx} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                <tr
+                  key={idx}
+                  style={{ background: idx % 2 === 0 ? "#fafafa" : "#fff" }}
+                >
                   <td
                     style={{
-                      padding: "11px 12px",
-                      color: "#94a3b8",
-                      fontSize: 12,
+                      border: "1px solid #e0e0e0",
+                      padding: "8px 10px",
+                      color: "#555",
                     }}
                   >
                     {idx + 1}
                   </td>
-                  <td style={{ padding: "11px 12px" }}>
-                    <div style={{ fontWeight: 600, fontSize: 13 }}>
-                      {item.itemName}
-                    </div>
+                  <td
+                    style={{ border: "1px solid #e0e0e0", padding: "8px 10px" }}
+                  >
+                    <strong>{item.itemName}</strong>
                     {item.description && (
                       <div
-                        style={{ fontSize: 11, color: "#94a3b8", marginTop: 1 }}
+                        style={{ fontSize: 11, color: "#888", marginTop: 2 }}
                       >
                         {item.description}
                       </div>
@@ -404,183 +422,232 @@ const PreviewModal = ({ qt, onClose }) => {
                   </td>
                   <td
                     style={{
-                      padding: "11px 12px",
+                      border: "1px solid #e0e0e0",
+                      padding: "8px 10px",
                       textAlign: "right",
-                      fontSize: 12,
                     }}
                   >
                     {item.quantity}
                   </td>
                   <td
                     style={{
-                      padding: "11px 12px",
+                      border: "1px solid #e0e0e0",
+                      padding: "8px 10px",
                       textAlign: "right",
-                      fontSize: 12,
                     }}
                   >
-                    Rs. {Number(item.pricePerUnit).toLocaleString()}
+                    Rs {Number(item.pricePerUnit).toFixed(2)}
                   </td>
                   <td
                     style={{
-                      padding: "11px 12px",
+                      border: "1px solid #e0e0e0",
+                      padding: "8px 10px",
                       textAlign: "right",
-                      fontWeight: 600,
-                      fontSize: 12,
                     }}
                   >
-                    Rs. {(item.quantity * item.pricePerUnit).toLocaleString()}
+                    Rs {(item.quantity * item.pricePerUnit).toFixed(2)}
                   </td>
                 </tr>
               ))}
-            </tbody>
-            <tfoot>
-              {(qt.discount || 0) > 0 && (
-                <>
-                  <tr>
-                    <td
-                      colSpan={4}
-                      style={{
-                        padding: "7px 12px",
-                        textAlign: "right",
-                        color: "#64748b",
-                        fontSize: 12,
-                        borderTop: "1px solid #e2e8f0",
-                      }}
-                    >
-                      Sub Total
-                    </td>
-                    <td
-                      style={{
-                        padding: "7px 12px",
-                        textAlign: "right",
-                        fontSize: 12,
-                      }}
-                    >
-                      Rs. {sub.toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={4}
-                      style={{
-                        padding: "5px 12px",
-                        textAlign: "right",
-                        color: "#D93A6A",
-                        fontSize: 12,
-                      }}
-                    >
-                      Discount
-                    </td>
-                    <td
-                      style={{
-                        padding: "5px 12px",
-                        textAlign: "right",
-                        color: "#D93A6A",
-                        fontSize: 12,
-                      }}
-                    >
-                      — Rs. {Number(qt.discount).toLocaleString()}
-                    </td>
-                  </tr>
-                </>
-              )}
-              <tr
-                style={{
-                  borderTop: "2px solid #e2e8f0",
-                  background: "#f8fafc",
-                }}
-              >
+              {/* Totals row */}
+              <tr>
                 <td
-                  colSpan={4}
+                  colSpan={2}
+                  style={{ border: "1px solid #e0e0e0", padding: "8px 10px" }}
+                />
+                <td
                   style={{
-                    padding: 14,
+                    border: "1px solid #e0e0e0",
+                    padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 700,
-                    fontSize: 14,
                   }}
                 >
-                  Estimated Total
+                  {(qt.items || []).reduce((s, i) => s + i.quantity, 0)}
                 </td>
                 <td
+                  style={{ border: "1px solid #e0e0e0", padding: "8px 10px" }}
+                />
+                <td
                   style={{
-                    padding: 14,
+                    border: "1px solid #e0e0e0",
+                    padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 700,
-                    fontSize: 16,
-                    color: "#D93A6A",
                   }}
                 >
-                  Rs. {total.toLocaleString()}
+                  Rs {total.toFixed(2)}
                 </td>
               </tr>
-            </tfoot>
+            </tbody>
           </table>
 
-          <div
+          {/* Amount in words + totals breakdown */}
+          <table
             style={{
-              fontSize: 12,
-              color: "#64748b",
-              fontStyle: "italic",
-              marginBottom: 20,
+              width: "100%",
+              borderCollapse: "collapse",
+              marginBottom: 24,
             }}
           >
-            Amount in Words: <strong>{inWords(total)}</strong>
-          </div>
+            <tbody>
+              <tr>
+                {/* Left: words + notes */}
+                <td
+                  style={{
+                    width: "50%",
+                    verticalAlign: "top",
+                    border: "1px solid #ccc",
+                    padding: 0,
+                  }}
+                >
+                  <div style={cell(P, "#fff")}>Amount In Words:</div>
+                  <div style={{ padding: "10px 12px", fontSize: 13 }}>
+                    {inWords(total)}
+                  </div>
+                  {qt.notes && (
+                    <>
+                      <div style={cell(P, "#fff")}>Notes &amp; Terms</div>
+                      <div
+                        style={{
+                          padding: "10px 12px",
+                          fontSize: 12,
+                          color: "#555",
+                        }}
+                      >
+                        {qt.notes}
+                      </div>
+                    </>
+                  )}
+                </td>
+                {/* Right: amounts */}
+                <td
+                  style={{
+                    width: "50%",
+                    verticalAlign: "top",
+                    border: "1px solid #ccc",
+                    padding: 0,
+                  }}
+                >
+                  <div style={cell(P, "#fff")}>Amounts</div>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ padding: "6px 12px", color: "#555" }}>
+                          Sub Total
+                        </td>
+                        <td style={{ padding: "6px 12px", textAlign: "right" }}>
+                          Rs {sub.toFixed(2)}
+                        </td>
+                      </tr>
+                      {(qt.discount || 0) > 0 && (
+                        <tr>
+                          <td style={{ padding: "6px 12px", color: "#555" }}>
+                            Discount
+                          </td>
+                          <td
+                            style={{ padding: "6px 12px", textAlign: "right" }}
+                          >
+                            - Rs {Number(qt.discount).toFixed(2)}
+                          </td>
+                        </tr>
+                      )}
+                      <tr style={{ borderTop: "2px solid #eee" }}>
+                        <td style={{ padding: "6px 12px", fontWeight: 700 }}>
+                          Estimated Total
+                        </td>
+                        <td
+                          style={{
+                            padding: "6px 12px",
+                            textAlign: "right",
+                            fontWeight: 700,
+                          }}
+                        >
+                          Rs {total.toFixed(2)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-          {qt.notes && (
-            <div
-              style={{
-                background: "#f8fafc",
-                borderRadius: 8,
-                padding: "13px 16px",
-                marginBottom: 28,
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: 600,
-                  color: "#475569",
-                  marginBottom: 4,
-                  fontSize: 12,
-                }}
-              >
-                Notes & Terms
-              </div>
-              <div style={{ fontSize: 12, color: "#64748b" }}>{qt.notes}</div>
-            </div>
-          )}
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              borderTop: "1px solid #f1f5f9",
-              paddingTop: 22,
-              marginTop: 32,
-            }}
-          >
-            <div style={{ fontSize: 11, color: "#94a3b8" }}>
-              This is a quotation only — not a final invoice.
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ marginBottom: 40, fontSize: 12, color: "#475569" }}>
-                For, Radhana Enterprises
-              </div>
-              <div
-                style={{
-                  borderTop: "1px solid #94a3b8",
-                  paddingTop: 5,
-                  width: 140,
-                  fontSize: 11,
-                  color: "#64748b",
-                }}
-              >
-                Authorized Signature
-              </div>
-            </div>
-          </div>
+          {/* Signature / Stamp */}
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <tbody>
+              <tr>
+                <td
+                  style={{
+                    border: "1px solid #ccc",
+                    padding: "10px 12px",
+                    width: "50%",
+                    fontSize: 12,
+                    color: "#555",
+                  }}
+                >
+                  <em>This is a quotation only — not a final invoice.</em>
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #ccc",
+                    padding: 0,
+                    width: "50%",
+                    verticalAlign: "top",
+                  }}
+                >
+                  <div style={cell(P, "#fff")}>For, Radhana Enterprises</div>
+                  <div
+                    style={{
+                      padding: "10px 16px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-end",
+                      minHeight: 100,
+                    }}
+                  >
+                    <div style={{ textAlign: "center" }}>
+                      <img
+                        src={RadhanaStamp}
+                        alt="Stamp"
+                        style={{
+                          width: 70,
+                          height: 70,
+                          objectFit: "contain",
+                          opacity: 0.9,
+                        }}
+                      />
+                      <div
+                        style={{ fontSize: 10, color: "#888", marginTop: 2 }}
+                      >
+                        Stamp
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <img
+                        src={RadhanaSign}
+                        alt="Signature"
+                        style={{ width: 100, height: 55, objectFit: "contain" }}
+                      />
+                      <div
+                        style={{
+                          borderTop: "1px solid #94a3b8",
+                          paddingTop: 4,
+                          fontSize: 10,
+                          color: "#888",
+                          marginTop: 2,
+                        }}
+                      >
+                        Authorized Signature
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        {/* end printable area */}
       </div>
     </div>
   );
