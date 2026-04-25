@@ -36,6 +36,7 @@ const AUTH_PATHS = [
   "/payment/verify",
   "/payment/fonepay-verify",
   "/verify-email",
+  "/product/",
 ];
 
 const App = () => {
