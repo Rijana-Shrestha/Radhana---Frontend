@@ -6,18 +6,18 @@ import { axiosInstance } from "../utils/axios";
 
 const PAYMENT_METHODS = [
   {
-    id: "khalti",
-    name: "Khalti",
-    desc: "Pay via Khalti wallet, mobile banking or cards",
-    color: "purple",
-    logo: "🟣",
-  },
-  {
     id: "fonepay",
     name: "FonePay",
     desc: "Pay via any mobile banking app using QR",
     color: "blue",
     logo: "🔵",
+  },
+  {
+    id: "khaltiQR",
+    name: "Khalti QR",
+    desc: "Scan QR code to pay via Khalti",
+    color: "purple",
+    logo: "🟣",
   },
   {
     id: "cod",
@@ -76,7 +76,7 @@ const Checkout = () => {
     city: "",
     province: "",
     country: "Nepal",
-    paymentMethod: "khalti",
+    paymentMethod: "fonepay",
   });
   const [step, setStep] = useState("form"); // 'form' | 'placed' | 'paying'
   const [loading, setLoading] = useState(false);
@@ -202,16 +202,7 @@ const Checkout = () => {
     setError("");
 
     try {
-      if (formData.paymentMethod === "khalti") {
-        const res = await axiosInstance.post(
-          `/orders/${createdOrder._id}/payment/khalti`,
-        );
-        // Redirect to Khalti payment page
-        // Khalti will redirect back to KHALTI_RETURN_URL (our /payment/verify page)
-        // We pass orderId in returnUrl via config, but also store in sessionStorage as fallback
-        sessionStorage.setItem("pendingOrderId", createdOrder._id);
-        window.location.href = res.data.payment_url;
-      } else if (formData.paymentMethod === "fonepay") {
+      if (formData.paymentMethod === "fonepay") {
         const res = await axiosInstance.post(
           `/orders/${createdOrder._id}/payment/fonepay`,
         );
@@ -257,11 +248,12 @@ const Checkout = () => {
 
   // ── Order placed — show payment options ───────────────────
   if (step === "placed" && createdOrder) {
-    const isPaidMethod = ["khalti", "fonepay"].includes(formData.paymentMethod);
+    const isPaidMethod = ["fonepay"].includes(formData.paymentMethod);
+    const isKhaltiQR = formData.paymentMethod === "khaltiQR";
     return (
       <main>
         <section className="min-h-[calc(100vh-200px)] flex items-center justify-center px-6 py-12 bg-gradient-to-br from-violet-50 to-purple-50">
-          <div className="w-full max-w-lg">
+          <div className="w-full max-w-4xl">
             {/* Success header */}
             <div className="text-center mb-8">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -275,159 +267,197 @@ const Checkout = () => {
               </p>
             </div>
 
-            {/* Order details card */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
-              <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Order Number
-                  </p>
-                  <p className="text-lg font-bold text-gray-800 font-mono">
-                    {createdOrder.orderNumber}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Total
-                  </p>
-                  <p className="text-lg font-bold text-blue-600">
-                    Rs. {createdOrder.totalPrice?.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-gray-400 text-xs mb-1">Name</p>
-                  <p className="font-semibold text-gray-800">
-                    {formData.firstName} {formData.lastName}
-                  </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-gray-400 text-xs mb-1">Phone</p>
-                  <p className="font-semibold text-gray-800">
-                    {formData.phone}
-                  </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-3 col-span-2">
-                  <p className="text-gray-400 text-xs mb-1">Delivery Address</p>
-                  <p className="font-semibold text-gray-800">
-                    {formData.address}, {formData.city}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Payment action */}
-            {isPaidMethod ? (
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                <h3 className="font-bold text-gray-800 mb-2">
-                  Complete Your Payment
-                </h3>
-                <p className="text-sm text-gray-500 mb-5">
-                  Click below to pay Rs.{" "}
-                  <strong>{createdOrder.totalPrice?.toLocaleString()}</strong>{" "}
-                  via{" "}
-                  <strong>
-                    {formData.paymentMethod === "khalti" ? "Khalti" : "FonePay"}
-                  </strong>
-                  . You'll be redirected to the payment portal.
-                </p>
-
-                {error && (
-                  <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm">
-                    ⚠️ {error}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Order details card */}
+              <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
+                  <div>
+                    <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
+                      Order Number
+                    </p>
+                    <p className="text-lg font-bold text-gray-800 font-mono">
+                      {createdOrder.orderNumber}
+                    </p>
                   </div>
-                )}
+                  <div className="text-right">
+                    <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
+                      Total
+                    </p>
+                    <p className="text-lg font-bold text-blue-600">
+                      Rs. {createdOrder.totalPrice?.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-sm mb-6">
+                  <div className="bg-gray-50 rounded-xl p-3">
+                    <p className="text-gray-400 text-xs mb-1">Name</p>
+                    <p className="font-semibold text-gray-800">
+                      {formData.firstName} {formData.lastName}
+                    </p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-3">
+                    <p className="text-gray-400 text-xs mb-1">Phone</p>
+                    <p className="font-semibold text-gray-800">
+                      {formData.phone}
+                    </p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-3 col-span-2">
+                    <p className="text-gray-400 text-xs mb-1">Delivery Address</p>
+                    <p className="font-semibold text-gray-800">
+                      {formData.address}, {formData.city}
+                    </p>
+                  </div>
+                </div>
 
-                <button
-                  onClick={handlePayNow}
-                  disabled={loading}
-                  className={`w-full py-4 rounded-xl font-bold text-white text-lg flex items-center justify-center gap-3 transition disabled:opacity-60 disabled:cursor-not-allowed shadow-lg ${
-                    formData.paymentMethod === "khalti"
-                      ? "bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-                      : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
-                  }`}
-                >
-                  {loading ? (
-                    <>
-                      <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>{" "}
-                      Redirecting...
-                    </>
-                  ) : formData.paymentMethod === "khalti" ? (
-                    <>
-                      <span className="text-2xl">🟣</span> Pay with Khalti
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-2xl">🔵</span> Pay with FonePay
-                    </>
-                  )}
-                </button>
-
-                <p className="text-xs text-gray-400 text-center mt-3">
-                  🔒 Secured by{" "}
-                  {formData.paymentMethod === "khalti" ? "Khalti" : "Fonepay"}{" "}
-                  payment gateway
-                </p>
-              </div>
-            ) : (
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 text-center">
-                {formData.paymentMethod === "cod" && (
-                  <>
-                    <p className="text-4xl mb-3">💵</p>
+                {/* Payment action */}
+                {isPaidMethod ? (
+                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                     <h3 className="font-bold text-gray-800 mb-2">
-                      Cash on Delivery
+                      Complete Your Payment
                     </h3>
                     <p className="text-sm text-gray-500 mb-5">
-                      Please keep Rs.{" "}
-                      <strong>
-                        {createdOrder.totalPrice?.toLocaleString()}
-                      </strong>{" "}
-                      ready when your order arrives.
+                      Click below to pay Rs.{" "}
+                      <strong>{createdOrder.totalPrice?.toLocaleString()}</strong>{" "}
+                      via <strong>FonePay</strong>. You'll be redirected to the
+                      payment portal.
                     </p>
-                  </>
-                )}
-                {formData.paymentMethod === "bank" && (
-                  <>
-                    <p className="text-4xl mb-3">🏦</p>
-                    <h3 className="font-bold text-gray-800 mb-2">
-                      Bank Transfer
-                    </h3>
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-left text-sm mb-4 space-y-1">
-                      <p>
-                        <strong>Bank:</strong> Nepal Investment Mega Bank
-                      </p>
-                      <p>
-                        <strong>Account Name:</strong> Radhana Enterprises
-                      </p>
-                      <p>
-                        <strong>Account No:</strong> 01234567890123
-                      </p>
-                      <p>
-                        <strong>Reference:</strong> {createdOrder.orderNumber}
-                      </p>
-                    </div>
-                    <p className="text-xs text-gray-400">
-                      Send screenshot to WhatsApp after transfer
+
+                    {error && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm">
+                        ⚠️ {error}
+                      </div>
+                    )}
+
+                    <button
+                      onClick={handlePayNow}
+                      disabled={loading}
+                      className={`w-full py-4 rounded-xl font-bold text-white text-lg flex items-center justify-center gap-3 transition disabled:opacity-60 disabled:cursor-not-allowed shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800`}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>{" "}
+                          Redirecting...
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-2xl">🔵</span> Pay with FonePay
+                        </>
+                      )}
+                    </button>
+
+                    <p className="text-xs text-gray-400 text-center mt-3">
+                      🔒 Secured by Fonepay payment gateway
                     </p>
-                  </>
-                )}
-                <div className="flex gap-3 mt-5">
-                  <Link
-                    to="/"
-                    className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition text-sm"
-                  >
-                    Back to Home
-                  </Link>
-                  <a
-                    href="https://wa.me/9779823939106"
-                    className="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition text-sm flex items-center justify-center gap-2"
-                  >
-                    <i className="fas fa-comment"></i> WhatsApp
-                  </a>
-                </div>
+                  </div>
+                ) : null}
               </div>
-            )}
+
+              {/* Khalti QR Code Sidebar */}
+              {isKhaltiQR && (
+                <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 h-fit sticky top-20">
+                  <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span className="text-2xl">🟣</span> Khalti QR Payment
+                  </h3>
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 mb-4">
+                    <div className="bg-white rounded-lg p-3 aspect-square flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/your-cloud-name/image/upload/v1/khalti-qr-code.png"
+                        alt="Khalti QR Code"
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.target.src =
+                            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23f0f0f0' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' font-size='16' fill='%23999'%3EKhalti QR Code%3C/text%3E%3C/svg%3E";
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 space-y-2 mb-4">
+                    <p className="text-sm font-bold text-gray-800">
+                      Amount: Rs. {createdOrder.totalPrice?.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      Scan this QR code with your Khalti app or any mobile payment app to complete the payment.
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <a
+                      href="https://khalti.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full bg-purple-600 text-white py-2 rounded-lg font-bold hover:bg-purple-700 transition text-sm text-center block"
+                    >
+                      Open Khalti
+                    </a>
+                    <a
+                      href="https://wa.me/9779823939106"
+                      className="w-full bg-green-600 text-white py-2 rounded-lg font-bold hover:bg-green-700 transition text-sm flex items-center justify-center gap-2"
+                    >
+                      <i className="fas fa-comment"></i> WhatsApp Support
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* Other payment methods */}
+              {!isPaidMethod && !isKhaltiQR ? (
+                <div className="lg:col-span-1 bg-white rounded-2xl shadow-lg p-6 border border-gray-100 text-center h-fit">
+                  {formData.paymentMethod === "cod" && (
+                    <>
+                      <p className="text-4xl mb-3">💵</p>
+                      <h3 className="font-bold text-gray-800 mb-2">
+                        Cash on Delivery
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-5">
+                        Please keep Rs.{" "}
+                        <strong>
+                          {createdOrder.totalPrice?.toLocaleString()}
+                        </strong>{" "}
+                        ready when your order arrives.
+                      </p>
+                    </>
+                  )}
+                  {formData.paymentMethod === "bank" && (
+                    <>
+                      <p className="text-4xl mb-3">🏦</p>
+                      <h3 className="font-bold text-gray-800 mb-2">
+                        Bank Transfer
+                      </h3>
+                      <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-left text-xs mb-4 space-y-1">
+                        <p>
+                          <strong>Bank:</strong> Nepal Investment Mega Bank
+                        </p>
+                        <p>
+                          <strong>Account Name:</strong> Radhana Enterprises
+                        </p>
+                        <p>
+                          <strong>Account No:</strong> 01234567890123
+                        </p>
+                        <p>
+                          <strong>Reference:</strong> {createdOrder.orderNumber}
+                        </p>
+                      </div>
+                      <p className="text-xs text-gray-400">
+                        Send screenshot to WhatsApp after transfer
+                      </p>
+                    </>
+                  )}
+                  <div className="flex gap-2 mt-5">
+                    <Link
+                      to="/"
+                      className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-bold hover:bg-blue-700 transition text-xs"
+                    >
+                      Back to Home
+                    </Link>
+                    <a
+                      href="https://wa.me/9779823939106"
+                      className="flex-1 bg-green-600 text-white py-2 rounded-lg font-bold hover:bg-green-700 transition text-xs flex items-center justify-center gap-1"
+                    >
+                      <i className="fas fa-comment"></i> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </section>
       </main>

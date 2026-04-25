@@ -33,10 +33,10 @@ const AUTH_PATHS = [
   "/admin-dashboard",
   "/forgot-password",
   "/reset-password",
-  "/payment/verify",
   "/payment/fonepay-verify",
   "/verify-email",
   "/product/",
+  "/checkout",
 ];
 
 const App = () => {
@@ -93,10 +93,6 @@ const isAuthPage = AUTH_PATHS.some(path => location.pathname.startsWith(path));
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route
-          path="/payment/verify"
-          element={<PaymentVerify gateway="khalti" />}
-        />
         <Route
           path="/payment/fonepay-verify"
           element={<PaymentVerify gateway="fonepay" />}
