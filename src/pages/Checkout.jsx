@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import { axiosInstance } from "../utils/axios";
-import khaltiImg from "../../Assets/khalti.png";
-import fonepayImg from "../../Assets/fonepay.jpeg";
+import khaltiImg from "../../Assets/QR/KhaltiQR.jpeg";
+import fonepayImg from "../../Assets/QR/FonepayQR.jpeg";
+import khaltilogo from "../../Assets/khalti.png";
+import fonepaylogo from "../../Assets/fonepay.jpeg";
 
 // ── QR Payment Modal ────────────────────────────────────────────────────────
 const QRPaymentModal = ({ method, amount, orderNumber, onClose }) => {
@@ -115,22 +117,13 @@ const PAYMENT_METHODS = [
     id: "khalti",
     name: "Khalti",
     desc: "Scan Khalti QR to pay instantly",
-    color: "purple",
-    logo: "🟣",
+    logo: khaltilogo,
   },
   {
     id: "fonepay",
     name: "FonePay",
     desc: "Scan FonePay QR with any banking app",
-    color: "blue",
-    logo: "🔵",
-  },
-  {
-    id: "khaltiQR",
-    name: "Khalti QR",
-    desc: "Scan QR code to pay via Khalti",
-    color: "purple",
-    logo: "🟣",
+    logo: fonepaylogo,
   },
   {
     id: "cod",
