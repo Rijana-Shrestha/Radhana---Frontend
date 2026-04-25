@@ -177,6 +177,7 @@ const OrderPage = ({orders}) => {
                 const status = order.status || 'pending';
                 const itemCount = order.orderItems?.length || 0;
                   console.log(status)
+                  console.log(amount)
                 return (
                   <tr key={order._id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                     <td className="px-6 py-4 text-sm font-semibold text-gray-900">{orderId}</td>
