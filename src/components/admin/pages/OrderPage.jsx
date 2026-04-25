@@ -173,7 +173,7 @@ const OrderPage = ({orders}) => {
                 const customer = order.shippingAddress?.firstName || 'N/A';
                 const email = order.shippingAddress?.email || 'N/A';
                 const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A';
-                const amount = getDisplayStatus(order.status)
+                const amount = order.totalPrice || 0;
                 const status = order.status || 'pending';
                 const itemCount = order.orderItems?.length || 0;
                   console.log(status)
