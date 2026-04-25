@@ -8,6 +8,7 @@ import AdminHomeGuard from "./components/AdminHomeGuard";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
 import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
@@ -64,6 +65,7 @@ const isAuthPage = AUTH_PATHS.some(path => location.pathname.startsWith(path));
         />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/searchRes" element={<SearchResult />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />

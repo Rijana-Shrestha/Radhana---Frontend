@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { ProductContext } from "../context/ProductsContext";
 
@@ -15,11 +15,10 @@ const Stars = ({ count = 5 }) => (
   </span>
 );
 
-const WhatsAppLink = ({ name, imageUrls }) => {
-  const productUrl = `${window.location.origin}/products`;
-  const imageUrl = imageUrls || ""; // Cloudinary URL
+const WhatsAppLink = ({ name, productId }) => {
+  const productUrl = `${window.location.origin}/product/${productId}`;
   
-  const message = `Check this image: ${imageUrl}\n\nHi! I'm interested in: *${name}*\n\nView here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
+  const message = `Hi! I'm interested in: *${name}*\n\nView details here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
   
   return (
     <a
@@ -37,6 +36,7 @@ const WhatsAppLink = ({ name, imageUrls }) => {
 const Products = () => {
   const { addToCart } = useCart();
   const { fetchProducts } = useContext(ProductContext);
+  const navigate = useNavigate();
 
   /* ─── data state ─── */
   const [products, setProducts] = useState([]);
@@ -352,7 +352,7 @@ const Products = () => {
               <i className="fas fa-shopping-cart text-xs" />
               <span className="hidden xs:inline">Add to </span>Cart
             </button>
-            <WhatsAppLink name={product.name} imageUrls={product.imageUrls[0]} />
+            <WhatsAppLink name={product.name} productId={product._id} />
           </div>
         </div>
       </div>
@@ -402,7 +402,7 @@ const Products = () => {
               >
                 <i className="fas fa-shopping-cart" /> Add to Cart
               </button>
-              <WhatsAppLink name={product.name} />
+              <WhatsAppLink name={product.name} productId={product._id} />
             </div>
           </div>
         </div>
@@ -582,13 +582,22 @@ const Products = () => {
                 >
                   <i className="fas fa-shopping-cart" /> Add to Cart
                 </button>
+                <button
+                  onClick={() => {
+                    closeQV();
+                    navigate(`/product/${quickView._id}`);
+                  }}
+                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-sub font-semibold py-3 rounded-xl transition-all hover:shadow-lg mb-2 flex items-center justify-center gap-2"
+                >
+                  <i className="fas fa-expand" /> View Full Details
+                </button>
                 <a
-                  href={`https://wa.me/9779823939106?text=Hi! I'm interested in: ${encodeURIComponent(quickView.name)}`}
+                  href={`https://wa.me/9779823939106?text=${encodeURIComponent(`Hi! I'm interested in: *${quickView.name}*\n\nPrice: Rs ${Number(quickView.price).toLocaleString()}\n\nView details here: ${window.location.origin}/product/${quickView._id}\n\nPlease let me know the details and how to order. Thank you!`)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-sub font-medium py-2.5 rounded-xl transition"
                 >
-                  <i className="fa-brands fa-whatsapp" /> Order on WhatsApp
+                  <i className="fa-brands fa-whatsapp" /> Share on WhatsApp
                 </a>
               </div>
             </div>
