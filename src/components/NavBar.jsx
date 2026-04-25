@@ -113,7 +113,7 @@ const NavBar = () => {
           <p className="font-sub text-xs md:text-sm font-medium inline-block pr-20">
             🎨 Premium Laser Engraving | 📦 Custom Wooden &amp; Acrylic Products
             | 🎁 Perfect Gifts | 📞 +977 9823939106, +977 9746679242 | 🚚 Fast
-            Delivery Kathmandu | 💳 eSewa · Khalti · FonePay Accepted
+            Delivery Kathmandu | 💳 Cash · Khalti · FonePay Accepted
           </p>
           <p className="font-sub text-xs md:text-sm font-medium inline-block pr-20">
             🎨 Premium Laser Engraving | 📦 Custom Wooden &amp; Acrylic Products
