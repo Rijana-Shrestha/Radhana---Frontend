@@ -9,9 +9,10 @@ const OrderPage = ({orders}) => {
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [newStatus, setNewStatus] = useState('')
   const [toast, setToast] = useState({ visible: false, msg: '', type: 'success' })
 
-  const statuses = ['all', 'pending', 'delivered']
+  const statuses = ['all', 'pending', 'processing', 'delivered']
   const {updateOrderStatus}= useContext(AdminContext);
   // Filter orders based on search and status
   const filteredOrders = useMemo(() => {
@@ -27,7 +28,13 @@ const OrderPage = ({orders}) => {
         customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (order.shippingAddress?.email || '').toLowerCase().includes(searchTerm.toLowerCase())
       
-      const matchesStatus = filterStatus === 'all' || status === filterStatus.toLowerCase()
+      // Map backend status to frontend display status
+      let displayStatus = status.toLowerCase()
+      if (displayStatus === 'confirmed' || displayStatus === 'shipped') {
+        displayStatus = 'processing'
+      }
+      
+      const matchesStatus = filterStatus === 'all' || displayStatus === filterStatus.toLowerCase()
       
       return matchesSearch && matchesStatus
     })
@@ -36,22 +43,44 @@ const OrderPage = ({orders}) => {
   // Calculate statistics
   const stats = {
     total: orders?.length || 0,
-    pending: orders?.filter(o => (o.status || 'pending').toLowerCase() === 'pending').length || 0,
+    pending: orders?.filter(o => {
+      const s = (o.status || 'pending').toLowerCase()
+      return s === 'pending'
+    }).length || 0,
+    processing: orders?.filter(o => {
+      const s = (o.status || 'pending').toLowerCase()
+      return s === 'confirmed' || s === 'shipped'
+    }).length || 0,
     delivered: orders?.filter(o => (o.status || 'pending').toLowerCase() === 'delivered').length || 0,
     totalAmount: orders?.reduce((sum, o) => sum + (o.totalPrice || 0), 0) || 0,
   }
 
   // Show toast notification
   const showToast = (msg, type = 'success') => {
-    setToast({ visible: true, msg, type })
-    setTimeout(() => setToast({ visible: false, msg: '', type: 'success' }), 3000)
+    se// Map frontend status to backend status
+      let statusToUpdate = newStatus.toUpperCase()
+      if (statusToUpdate === 'PROCESSING') {
+        statusToUpdate = 'SHIPPED'
+      }
+      await updateOrderStatus(selectedOrder._id, statusToUpdate)
+      showToast(`Order status updated to ${newStatus} successfully!`, 'success')
+      setShowConfirm(false)
+      setSelectedOrder(null)
+      setNewStatus('')
+    } catch (error) {
+      showToast(error.message || 'Failed to update order status', 'error')
+    } finally {
+      setIsUpdating(false)
+    }
   }
 
-  const handleUpdate = async () => {
-    try {
-      setIsUpdating(true)
-      await updateOrderStatus(selectedOrder._id, 'delivered')
-      showToast('Order status updated to delivered successfully!', 'success')
+  // Helper to get display status
+  const getDisplayStatus = (status) => {
+    const s = (status || 'pending').toLowerCase()
+    if (s === 'confirmed' || s === 'shipped') {
+      return 'processing'
+    }
+    return s showToast('Order status updated to delivered successfully!', 'success')
       setShowConfirm(false)
       setSelectedOrder(null)
     } catch (error) {
@@ -70,7 +99,7 @@ const OrderPage = ({orders}) => {
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <p className="text-gray-600 text-sm font-medium mb-1">Total Orders</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
@@ -78,6 +107,10 @@ const OrderPage = ({orders}) => {
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <p className="text-gray-600 text-sm font-medium mb-1">Pending</p>
           <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+          <p className="text-gray-600 text-sm font-medium mb-1">Processing</p>
+          <p className="text-2xl font-bold text-orange-600">{stats.processing}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <p className="text-gray-600 text-sm font-medium mb-1">Delivered</p>
@@ -108,6 +141,7 @@ const OrderPage = ({orders}) => {
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
             <option value="delivered">Delivered</option>
           </select>
         </div>
@@ -139,7 +173,7 @@ const OrderPage = ({orders}) => {
                 const customer = order.shippingAddress?.firstName || 'N/A';
                 const email = order.shippingAddress?.email || 'N/A';
                 const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A';
-                const amount = order.totalPrice || 0;
+                const amount = getDisplayStatus(order.status)
                 const status = order.status || 'pending';
                 const itemCount = order.orderItems?.length || 0;
                   console.log(status)
@@ -218,7 +252,7 @@ const OrderPage = ({orders}) => {
                 </div>
                 <div className="col-span-2">
                   <p className="text-gray-600 text-sm font-medium mb-1">Status</p>
-                  <StatusBadge status={selectedOrder.status || 'pending'} />
+                  <StatusBadge status={getDisplayStatus(selectedOrder.status) || 'pending'} />
                 </div>
                 <div className="col-span-2">
                   <p className="text-gray-600 text-sm font-medium mb-1">Shipping Address</p>
@@ -229,34 +263,48 @@ const OrderPage = ({orders}) => {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-4 border-t border-gray-200 flex gap-3">
-                <button 
-                  onClick={()=>setShowConfirm(true)}
-                  disabled={isUpdating || selectedOrder.status?.toLowerCase() === 'delivered'}
-                  className={`flex-1 py-2 rounded-lg font-medium transition flex items-center justify-center gap-2 ${
-                    isUpdating || selectedOrder.status?.toLowerCase() === 'delivered'
-                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
-                >
-                  {isUpdating ? (
-                    <>
-                      <span className="animate-spin">⟳</span>
-                      Updating...
-                    </>
-                  ) : selectedOrder.status?.toLowerCase() === 'delivered' ? (
-                    'Already Delivered'
-                  ) : (
-                    'Mark as Delivered'
-                  )}
-                </button>
+              <div className="pt-4 border-t border-gray-200 space-y-3">
+                <div>
+                  <label className="text-gray-600 text-sm font-medium mb-2 block">Update Order Status</label>
+                  <select
+                    value={newStatus}
+                    onChange={(e) => setNewStatus(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                  >
+                    <option value="">-- Select Status --</option>
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="delivered">Delivered</option>
+                  </select>
+                </div>
                 
-                <button 
-                  onClick={()=>setSelectedOrder(null)} 
-                  className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 font-medium transition"
-                >
-                  Close
-                </button>
+                <div className="flex gap-3">
+                  <button 
+                    onClick={()=>setShowConfirm(true)}
+                    disabled={isUpdating || !newStatus}
+                    className={`flex-1 py-2 rounded-lg font-medium transition flex items-center justify-center gap-2 ${
+                      isUpdating || !newStatus
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
+                  >
+                    {isUpdating ? (
+                      <>
+                        <span className="animate-spin">⟳</span>
+                        Updating...
+                      </>
+                    ) : (
+                      'Update Status'
+                    )}
+                  </button>
+                  
+                  <button 
+                    onClick={()=>setSelectedOrder(null)} 
+                    className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 font-medium transition"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -273,7 +321,7 @@ const OrderPage = ({orders}) => {
               </div>
               <h3 className="text-lg font-bold text-gray-900 text-center mb-2">Confirm Status Update</h3>
               <p className="text-gray-600 text-center mb-6">
-                Mark order <span className="font-semibold">{selectedOrder.orderNumber || selectedOrder._id}</span> as delivered?
+                Update order <span className="font-semibold">{selectedOrder.orderNumber || selectedOrder._id}</span> status to <span className="font-semibold capitalize">{newStatus}</span>?
               </p>
               <div className="flex gap-3">
                 <button
