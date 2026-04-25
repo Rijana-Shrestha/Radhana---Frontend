@@ -7,6 +7,8 @@ import khaltiImg from "../../Assets/QR/KhaltiQR.jpeg";
 import fonepayImg from "../../Assets/QR/FonepayQR.jpeg";
 import khaltilogo from "../../Assets/khalti.png";
 import fonepaylogo from "../../Assets/fonepay.jpeg";
+import cash from "../../Assets/COD.jpeg";
+import bank from "../../Assets/Bank.jpeg";
 
 // ── QR Payment Modal ────────────────────────────────────────────────────────
 const QRPaymentModal = ({ method, amount, orderNumber, onClose }) => {
@@ -130,14 +132,14 @@ const PAYMENT_METHODS = [
     name: "Cash on Delivery",
     desc: "Pay cash when your order arrives",
     color: "green",
-    logo: fonepaylogo,
+    logo: cash,
   },
   {
     id: "bank",
     name: "Bank Transfer",
     desc: "Direct bank transfer — we confirm manually",
     color: "gray",
-    logo: khaltilogo,
+    logo: bank,
   },
 ];
 
@@ -721,7 +723,7 @@ const Checkout = () => {
                         <img
                           src={method.logo}
                           alt={method.name}
-                          className="w-10 h-10"
+                          className="w-10 h-6 object-contain shrink-0"
                         />
                         <div>
                           <p className="font-bold text-gray-800 text-sm">
