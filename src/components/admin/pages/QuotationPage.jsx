@@ -1001,7 +1001,7 @@ const QuoteModal = ({ onClose, onSave, editData }) => {
           <button
             onClick={save}
             disabled={saving}
-            className="px-6 py-2 text-sm text-white bg-accent-600 rounded-xl font-semibold hover:opacity-90 disabled:opacity-60 flex items-center gap-2"
+            className="px-6 py-2 text-sm text-white bg-blue-600 rounded-xl font-semibold hover:opacity-90 disabled:opacity-60 flex items-center gap-2"
           >
             {saving ? (
               <>

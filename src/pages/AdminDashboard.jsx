@@ -105,11 +105,9 @@ function AdminDashboard() {
           {activePage === "gallery" && <GalleryPage />}
           {activePage === "contacts" && <ContactsPage />}
           {activePage === "invoices" && <InvoicePage />}
-          {activePage === "estimates" && <QuotationPage />}
+          {activePage === "quotations" && <QuotationPage />}
           {activePage === "reports" && <ReportsPage />}
-          {activePage === "settings" && (
-            <SettingsPage />
-          )}
+          {activePage === "settings" && <SettingsPage />}
         </div>
       </main>
 

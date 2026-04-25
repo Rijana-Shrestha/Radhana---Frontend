@@ -1,9 +1,22 @@
-import { BarChart, DollarSign, File, LayoutDashboard, ListOrdered, Package, Settings, User, Image, MessageSquare } from "lucide-react";
+import {
+  BarChart,
+  DollarSign,
+  File,
+  LayoutDashboard,
+  ListOrdered,
+  Package,
+  Settings,
+  User,
+  Image,
+  MessageSquare,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
   const w = collapsed ? 70 : 260;
-  const user= localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   const navItems = [
     {
       id: "dashboard",
@@ -15,7 +28,7 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
       id: "orders",
       icon: <ListOrdered />,
       label: "Orders",
-      badge: '',
+      badge: "",
       section: null,
     },
     { id: "products", icon: <Package />, label: "Products", section: null },
@@ -44,9 +57,9 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
       section: "Finance",
     },
     {
-      id: "estimates",
+      id: "quotations",
       icon: <File />,
-      label: "Estimates",
+      label: "Quotations",
       section: null,
     },
     {
@@ -72,7 +85,11 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
       <div className="px-4 py-5 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-gradient-to-br from-primary-600 to-accent-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-              <img src="/fonts/assets/Logo.png" alt="Radhana Art Logo" className="w-24 mb-1" />
+            <img
+              src="/fonts/assets/Logo.png"
+              alt="Radhana Art Logo"
+              className="w-24 mb-1"
+            />
           </div>
           {!collapsed && (
             <div>
@@ -111,7 +128,8 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
               }`}
               onMouseEnter={(e) => {
                 if (activePage !== item.id) {
-                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,.07)";
+                  e.currentTarget.style.backgroundColor =
+                    "rgba(255,255,255,.07)";
                   e.currentTarget.style.color = "#fff";
                 }
               }}
@@ -122,7 +140,7 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
                 }
               }}
             >
-                {item.icon}
+              {item.icon}
               {!collapsed && <span>{item.label}</span>}
               {!collapsed && item.badge && (
                 <span className="ml-auto bg-accent-600 text-white text-xs px-1.5 py-0.5 rounded-full font-bold">
@@ -153,7 +171,6 @@ function Sidebar({ collapsed, setCollapsed, activePage, setPage }) {
             </div>
           )}
         </div>
-       
       </div>
     </aside>
   );
