@@ -7,8 +7,8 @@ import khaltiImg from "../../Assets/QR/KhaltiQR.jpeg";
 import fonepayImg from "../../Assets/QR/FonepayQR.jpeg";
 import khaltilogo from "../../Assets/khalti.png";
 import fonepaylogo from "../../Assets/fonepay.jpeg";
-import cash from "../../Assets/COD.jpeg";
-import bank from "../../Assets/Bank.jpeg";
+import cash from "../../Assets/COD.jpg";
+import bank from "../../Assets/Bank.jpg";
 
 // ── QR Payment Modal ────────────────────────────────────────────────────────
 const QRPaymentModal = ({ method, amount, orderNumber, onClose }) => {
