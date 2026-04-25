@@ -77,44 +77,6 @@ const Footer = () => {
                   128464005
                 </p>
               </div>
-
-              {/* Scan to Pay QR */}
-              <div className="mt-5">
-                <h4 className="text-xs font-bold text-gray-400 tracking-wider mb-3 uppercase">
-                  Scan to Pay
-                </h4>
-                <div className="flex gap-3">
-                  {/* Khalti QR */}
-                  <div className="flex-1 bg-white rounded-xl p-3 text-center">
-                    {/* 🔁 Replace khaltiImg with your actual Khalti QR image */}
-                    <img
-                      src={khaltiImg}
-                      alt="Khalti QR"
-                      className="w-full h-20 object-contain rounded-lg mb-1"
-                    />
-                    <p className="text-xs font-bold text-purple-700">Khalti</p>
-                  </div>
-                  {/* FonePay QR */}
-                  <div className="flex-1 bg-white rounded-xl p-3 text-center">
-                    {/* 🔁 Replace fonepayImg with your actual FonePay QR image */}
-                    <img
-                      src={fonepayImg}
-                      alt="FonePay QR"
-                      className="w-full h-20 object-contain rounded-lg mb-1"
-                    />
-                    <p className="text-xs font-bold text-blue-700">FonePay</p>
-                  </div>
-                </div>
-                <p className="text-xs text-gray-500 mt-2 text-center">
-                  📸 After payment, WhatsApp screenshot to{" "}
-                  <a
-                    href="https://wa.me/9779823939106"
-                    className="text-green-400 hover:underline"
-                  >
-                    9823939106
-                  </a>
-                </p>
-              </div>
             </div>
           </div>
 
