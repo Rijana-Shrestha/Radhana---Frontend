@@ -7,7 +7,7 @@ import khaltiImg from "../../Assets/QR/KhaltiQR.jpeg";
 import fonepayImg from "../../Assets/QR/FonepayQR.jpeg";
 import khaltilogo from "../../Assets/khalti.png";
 import fonepaylogo from "../../Assets/fonepay.jpeg";
-import cash from "../../Assets/COD.jpg";
+import cash from "../../Assets/cash1.jpeg";
 import bank from "../../Assets/Bank.jpg";
 
 // ── QR Payment Modal ────────────────────────────────────────────────────────
@@ -70,11 +70,6 @@ const QRPaymentModal = ({ method, amount, orderNumber, onClose }) => {
               alt="QR Code"
               className="w-48 h-48 object-contain rounded-xl"
             />
-            <p className="text-xs text-orange-500 font-medium mt-2">
-              {isKhalti
-                ? "Replace with your Khalti QR image"
-                : "Replace with your FonePay QR image"}
-            </p>
           </div>
           <div className="bg-orange-50 border border-orange-100 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
             <span className="text-orange-500 text-xl">📱</span>
@@ -449,13 +444,13 @@ const Checkout = () => {
                           🏦 Bank Transfer Details
                         </p>
                         <p>
-                          <strong>Bank:</strong> Nepal Investment Mega Bank
+                          <strong>Bank:</strong> Sanima Bank
                         </p>
                         <p>
                           <strong>Account Name:</strong> Radhana Enterprises
                         </p>
                         <p>
-                          <strong>Account No:</strong> 01234567890123
+                          <strong>Account No:</strong> 137010010000315
                         </p>
                         <p>
                           <strong>Reference:</strong> {createdOrder.orderNumber}
