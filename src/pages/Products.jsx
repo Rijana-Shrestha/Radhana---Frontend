@@ -16,8 +16,11 @@ const Stars = ({ count = 5 }) => (
 );
 
 const WhatsAppLink = ({ name, imageUrls }) => {
-  const productUrl = `${window.location.origin}/#/products`;
-  const message = `Hi! I'm interested in: *${name}*\n\n${imageUrls}\n\nView here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
+  const productUrl = `${window.location.origin}/products`;
+  const imageUrl = imageUrls || ""; // Cloudinary URL
+  
+  const message = `Check this image: ${imageUrl}\n\nHi! I'm interested in: *${name}*\n\nView here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
+  
   return (
     <a
       href={`https://wa.me/9779823939106?text=${encodeURIComponent(message)}`}
