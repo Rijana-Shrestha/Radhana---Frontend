@@ -130,14 +130,14 @@ const PAYMENT_METHODS = [
     name: "Cash on Delivery",
     desc: "Pay cash when your order arrives",
     color: "green",
-    logo: "💵",
+    logo: fonepaylogo,
   },
   {
     id: "bank",
     name: "Bank Transfer",
     desc: "Direct bank transfer — we confirm manually",
     color: "gray",
-    logo: "🏦",
+    logo: khaltilogo,
   },
 ];
 
@@ -718,7 +718,11 @@ const Checkout = () => {
                           onChange={handleChange}
                           className="w-4 h-4 accent-blue-600"
                         />
-                        <span className="text-2xl">{method.logo}</span>
+                        <img
+                          src={method.logo}
+                          alt={method.name}
+                          className="w-10 h-10"
+                        />
                         <div>
                           <p className="font-bold text-gray-800 text-sm">
                             {method.name}
