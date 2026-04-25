@@ -57,7 +57,14 @@ const OrderPage = ({orders}) => {
 
   // Show toast notification
   const showToast = (msg, type = 'success') => {
-    se// Map frontend status to backend status
+    setToast({ visible: true, msg, type })
+    setTimeout(() => setToast({ visible: false, msg: '', type: 'success' }), 3000)
+  }
+
+  const handleUpdate = async () => {
+    try {
+      setIsUpdating(true)
+      // Map frontend status to backend status
       let statusToUpdate = newStatus.toUpperCase()
       if (statusToUpdate === 'PROCESSING') {
         statusToUpdate = 'SHIPPED'
@@ -80,14 +87,7 @@ const OrderPage = ({orders}) => {
     if (s === 'confirmed' || s === 'shipped') {
       return 'processing'
     }
-    return s showToast('Order status updated to delivered successfully!', 'success')
-      setShowConfirm(false)
-      setSelectedOrder(null)
-    } catch (error) {
-      showToast(error.message || 'Failed to update order status', 'error')
-    } finally {
-      setIsUpdating(false)
-    }
+    return s
   }
 
   return (
