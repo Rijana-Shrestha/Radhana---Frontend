@@ -126,6 +126,13 @@ const PAYMENT_METHODS = [
     logo: "🔵",
   },
   {
+    id: "khaltiQR",
+    name: "Khalti QR",
+    desc: "Scan QR code to pay via Khalti",
+    color: "purple",
+    logo: "🟣",
+  },
+  {
     id: "cod",
     name: "Cash on Delivery",
     desc: "Pay cash when your order arrives",
@@ -182,7 +189,7 @@ const Checkout = () => {
     city: "",
     province: "",
     country: "Nepal",
-    paymentMethod: "khalti",
+    paymentMethod: "fonepay",
   });
   const [step, setStep] = useState("form"); // 'form' | 'placed' | 'paying'
   const [loading, setLoading] = useState(false);
@@ -309,16 +316,7 @@ const Checkout = () => {
     setError("");
 
     try {
-      if (formData.paymentMethod === "khalti") {
-        const res = await axiosInstance.post(
-          `/orders/${createdOrder._id}/payment/khalti`,
-        );
-        // Redirect to Khalti payment page
-        // Khalti will redirect back to KHALTI_RETURN_URL (our /payment/verify page)
-        // We pass orderId in returnUrl via config, but also store in sessionStorage as fallback
-        sessionStorage.setItem("pendingOrderId", createdOrder._id);
-        window.location.href = res.data.payment_url;
-      } else if (formData.paymentMethod === "fonepay") {
+      if (formData.paymentMethod === "fonepay") {
         const res = await axiosInstance.post(
           `/orders/${createdOrder._id}/payment/fonepay`,
         );
