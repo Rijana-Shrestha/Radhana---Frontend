@@ -1003,10 +1003,10 @@ const InvoiceModal = ({ onClose, onSave, orders, editData, invoiceType }) => {
                 >
                   <option value="">— Select —</option>
                   <option value="cash">Cash</option>
-                  <option value="esewa">eSewa</option>
+                  <option value="fonepay">FonePay</option>
+                  <option value="esewa">Esewa</option>
                   <option value="khalti">Khalti</option>
                   <option value="bank">Bank Transfer</option>
-                  <option value="cod">Cash on Delivery</option>
                 </select>
               </div>
             </div>
