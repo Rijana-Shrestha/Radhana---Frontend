@@ -152,18 +152,18 @@ const InvoicePreview = ({ invoice, onClose }) => {
       <html><head><title>Invoice ${invoice.invoiceNumber}</title>
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Poppins',sans-serif; font-size:13px; color:#222; background:#fff; }
+        * { margin:0; padding:0; box-sizing:border-box; color:#000 !important; }
+        body { font-family:'Poppins',sans-serif; font-size:13px; color:#000; background:#fff; }
         .page { width:794px; min-height:1123px; padding:40px; margin:auto; }
         table { width:100%; border-collapse:collapse; }
-        th,td { border:1px solid #1a1a1a; padding:8px 10px; }
-        th { background:#7b1fa2; color:#1a1a1a; font-weight:600; }
+        th,td { border:1px solid #1a1a1a; padding:8px 10px; color:#000; }
+        th { background:#7b1fa2; color:#000; font-weight:600; }
         img { max-width:100%; height: auto; }
         .header-bar { background:#7b1fa2; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
-        .header-bar h1 { color:#1a1a1a; font-size:22px; font-weight:700; }
-        .header-bar p { color:#e9d5ff; font-size:12px; }
-        .section-label { background:#7b1fa2; color:#1a1a1a; font-weight:600; padding:6px 10px; font-size:12px; }
-        .totals td { border:none; border-bottom:1px solid #1a1a1a; }
+        .header-bar h1 { color:#000; font-size:22px; font-weight:700; }
+        .header-bar p { color:#000; font-size:12px; }
+        .section-label { background:#7b1fa2; color:#000; font-weight:600; padding:6px 10px; font-size:12px; }
+        .totals td { border:none; border-bottom:1px solid #1a1a1a; color:#000; }
       </style></head><body>${content}</body></html>
     `);
     win.document.close();
@@ -249,7 +249,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
             <div style={{ textAlign: "right" }}>
               <h1
                 style={{
-                  color: "#fff",
+                  color: "#000",
                   fontSize: 22,
                   fontWeight: 700,
                   margin: 0,
@@ -257,10 +257,10 @@ const InvoicePreview = ({ invoice, onClose }) => {
               >
                 Radhana Enterprises
               </h1>
-              <p style={{ color: "#e9d5ff", fontSize: 12, margin: "4px 0 0" }}>
+              <p style={{ color: "#000", fontSize: 12, margin: "4px 0 0" }}>
                 PAN No.: 128464005
               </p>
-              <p style={{ color: "#e9d5ff", fontSize: 12, margin: 0 }}>
+              <p style={{ color: "#000", fontSize: 12, margin: 0 }}>
                 Phone no.: 9823939106 &nbsp;|&nbsp; Email:
                 radhanaenterprises1@gmail.com
               </p>
@@ -303,7 +303,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                   <div
                     style={{
                       background: "#7b1fa2",
-                      color: "#fff",
+                      color: "#000",
                       padding: "6px 10px",
                       fontWeight: 600,
                       fontSize: 12,
@@ -350,7 +350,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                   <div
                     style={{
                       background: "#7b1fa2",
-                      color: "#fff",
+                      color: "#000",
                       padding: "6px 10px",
                       fontWeight: 600,
                       fontSize: 12,
@@ -397,7 +397,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
               <tr style={{ background: "#7b1fa2" }}>
                 <th
                   style={{
-                    color: "#fff",
+                    color: "#000",
                     padding: "8px 10px",
                     textAlign: "left",
                     fontWeight: 600,
@@ -408,7 +408,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 </th>
                 <th
                   style={{
-                    color: "#fff",
+                    color: "#000",
                     padding: "8px 10px",
                     textAlign: "left",
                     fontWeight: 600,
@@ -419,7 +419,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 </th>
                 <th
                   style={{
-                    color: "#fff",
+                    color: "#000",
                     padding: "8px 10px",
                     textAlign: "center",
                     fontWeight: 600,
@@ -430,7 +430,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 </th>
                 <th
                   style={{
-                    color: "#fff",
+                    color: "#000",
                     padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 600,
@@ -441,7 +441,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 </th>
                 <th
                   style={{
-                    color: "#fff",
+                    color: "#000",
                     padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 600,
@@ -564,7 +564,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                   <div
                     style={{
                       background: "#7b1fa2",
-                      color: "#fff",
+                      color: "#000",
                       padding: "6px 10px",
                       fontWeight: 600,
                       fontSize: 12,
@@ -580,7 +580,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                       <div
                         style={{
                           background: "#7b1fa2",
-                          color: "#fff",
+                          color: "#000",
                           padding: "6px 10px",
                           fontWeight: 600,
                           fontSize: 12,
@@ -611,7 +611,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                   <div
                     style={{
                       background: "#7b1fa2",
-                      color: "#fff",
+                      color: "#000",
                       padding: "6px 10px",
                       fontWeight: 600,
                       fontSize: 12,
