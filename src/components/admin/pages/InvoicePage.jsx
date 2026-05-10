@@ -157,12 +157,12 @@ const InvoicePreview = ({ invoice, onClose }) => {
         .page { width:794px; min-height:1123px; padding:40px; margin:auto; }
         table { width:100%; border-collapse:collapse; }
         th,td { border:1px solid #ccc; padding:8px 10px; }
-        th { background:#7b1fa2; color:#fff; font-weight:600; }
+        th { background:#1a1a1a; color:#fff; font-weight:600; }
         img { max-width:100%; height: auto; }
-        .header-bar { background:#7b1fa2; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
+        .header-bar { background:#1a1a1a; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
         .header-bar h1 { color:#fff; font-size:22px; font-weight:700; }
-        .header-bar p { color:#e9d5ff; font-size:12px; }
-        .section-label { background:#7b1fa2; color:#fff; font-weight:600; padding:6px 10px; font-size:12px; }
+        .header-bar p { color:#cccccc; font-size:12px; }
+        .section-label { background:#1a1a1a; color:#fff; font-weight:600; padding:6px 10px; font-size:12px; }
         .totals td { border:none; border-bottom:1px solid #eee; }
       </style></head><body>${content}</body></html>
     `);
@@ -220,7 +220,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
           {/* Header */}
           <div
             style={{
-              background: "#7b1fa2",
+              background: "#1a1a1a",
               padding: "18px 24px",
               display: "flex",
               justifyContent: "space-between",
@@ -257,11 +257,12 @@ const InvoicePreview = ({ invoice, onClose }) => {
               >
                 Radhana Enterprises
               </h1>
-              <p style={{ color: "#e9d5ff", fontSize: 12, margin: "4px 0 0" }}>
+              <p style={{ color: "#cccccc", fontSize: 12, margin: "4px 0 0" }}>
                 PAN No.: 128464005
               </p>
-              <p style={{ color: "#e9d5ff", fontSize: 12, margin: 0 }}>
-                Phone no.: 9823939106 &nbsp;|&nbsp; Email: radhanaart@gmail.com
+              <p style={{ color: "#cccccc", fontSize: 12, margin: 0 }}>
+                Phone no.: 9823939106 &nbsp;|&nbsp; Email:
+                radhanaenterprises1@gmail.com
               </p>
             </div>
           </div>
@@ -272,7 +273,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
               style={{
                 fontSize: 16,
                 fontWeight: 700,
-                color: "#7b1fa2",
+                color: "#1a1a1a",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -301,7 +302,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#7b1fa2",
+                      background: "#1a1a1a",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -311,10 +312,12 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     Bill To
                   </div>
                   <div style={{ padding: "10px 12px" }}>
-                    <strong>{inv.billTo?.name}</strong>
+                    <strong style={{ color: "#111" }}>
+                      {inv.billTo?.name}
+                    </strong>
                     {inv.billTo?.address && (
                       <div
-                        style={{ color: "#555", fontSize: 12, marginTop: 4 }}
+                        style={{ color: "#222", fontSize: 12, marginTop: 4 }}
                       >
                         {inv.billTo.address}
                       </div>
@@ -346,7 +349,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#7b1fa2",
+                      background: "#1a1a1a",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -365,7 +368,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     </div>
                     {inv.order && (
                       <div
-                        style={{ fontSize: 12, color: "#555", marginTop: 4 }}
+                        style={{ fontSize: 12, color: "#222", marginTop: 4 }}
                       >
                         Order: {inv.order?.orderNumber || inv.order}
                       </div>
@@ -391,14 +394,14 @@ const InvoicePreview = ({ invoice, onClose }) => {
             }}
           >
             <thead>
-              <tr style={{ background: "#7b1fa2" }}>
+              <tr style={{ background: "#1a1a1a" }}>
                 <th
                   style={{
                     color: "#fff",
                     padding: "8px 10px",
                     textAlign: "left",
                     fontWeight: 600,
-                    border: "1px solid #7b1fa2",
+                    border: "1px solid #1a1a1a",
                   }}
                 >
                   #
@@ -409,7 +412,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "left",
                     fontWeight: 600,
-                    border: "1px solid #7b1fa2",
+                    border: "1px solid #1a1a1a",
                   }}
                 >
                   Item Name
@@ -420,7 +423,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "center",
                     fontWeight: 600,
-                    border: "1px solid #7b1fa2",
+                    border: "1px solid #1a1a1a",
                   }}
                 >
                   Quantity
@@ -431,7 +434,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 600,
-                    border: "1px solid #7b1fa2",
+                    border: "1px solid #1a1a1a",
                   }}
                 >
                   Price/Unit
@@ -442,7 +445,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 600,
-                    border: "1px solid #7b1fa2",
+                    border: "1px solid #1a1a1a",
                   }}
                 >
                   Amount
@@ -459,7 +462,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     style={{
                       border: "1px solid #e0e0e0",
                       padding: "8px 10px",
-                      color: "#555",
+                      color: "#222",
                     }}
                   >
                     {idx + 1}
@@ -470,7 +473,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     <strong>{item.itemName}</strong>
                     {item.description && (
                       <div
-                        style={{ fontSize: 11, color: "#888", marginTop: 2 }}
+                        style={{ fontSize: 11, color: "#333", marginTop: 2 }}
                       >
                         {item.description}
                       </div>
@@ -492,7 +495,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                       textAlign: "right",
                     }}
                   >
-                    Rs {Number(item.pricePerUnit).toFixed(3)}
+                    Rs {Number(item.pricePerUnit).toFixed(2)}
                   </td>
                   <td
                     style={{
@@ -504,7 +507,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     Rs{" "}
                     {Number(
                       item.amount || item.quantity * item.pricePerUnit,
-                    ).toFixed(3)}
+                    ).toFixed(2)}
                   </td>
                 </tr>
               ))}
@@ -534,7 +537,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     fontWeight: 700,
                   }}
                 >
-                  Rs {Number(inv.totalAmount).toFixed(3)}
+                  Rs {Number(inv.totalAmount).toFixed(2)}
                 </td>
               </tr>
             </tbody>
@@ -560,7 +563,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#7b1fa2",
+                      background: "#1a1a1a",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -576,7 +579,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     <>
                       <div
                         style={{
-                          background: "#7b1fa2",
+                          background: "#1a1a1a",
                           color: "#fff",
                           padding: "6px 10px",
                           fontWeight: 600,
@@ -589,7 +592,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                         style={{
                           padding: "10px 12px",
                           fontSize: 12,
-                          color: "#555",
+                          color: "#222",
                         }}
                       >
                         {inv.notes}
@@ -607,7 +610,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#7b1fa2",
+                      background: "#1a1a1a",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -619,34 +622,34 @@ const InvoicePreview = ({ invoice, onClose }) => {
                   <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <tbody>
                       <tr>
-                        <td style={{ padding: "6px 12px", color: "#555" }}>
+                        <td style={{ padding: "6px 12px", color: "#222" }}>
                           Sub Total
                         </td>
                         <td style={{ padding: "6px 12px", textAlign: "right" }}>
-                          Rs {Number(inv.subTotal).toFixed(3)}
+                          Rs {Number(inv.subTotal).toFixed(2)}
                         </td>
                       </tr>
                       {inv.taxRate > 0 && (
                         <tr>
-                          <td style={{ padding: "6px 12px", color: "#555" }}>
+                          <td style={{ padding: "6px 12px", color: "#222" }}>
                             Tax ({inv.taxRate}%)
                           </td>
                           <td
                             style={{ padding: "6px 12px", textAlign: "right" }}
                           >
-                            Rs {Number(inv.taxAmount).toFixed(3)}
+                            Rs {Number(inv.taxAmount).toFixed(2)}
                           </td>
                         </tr>
                       )}
                       {inv.discount > 0 && (
                         <tr>
-                          <td style={{ padding: "6px 12px", color: "#555" }}>
+                          <td style={{ padding: "6px 12px", color: "#222" }}>
                             Discount
                           </td>
                           <td
                             style={{ padding: "6px 12px", textAlign: "right" }}
                           >
-                            - Rs {Number(inv.discount).toFixed(3)}
+                            - Rs {Number(inv.discount).toFixed(2)}
                           </td>
                         </tr>
                       )}
@@ -661,23 +664,23 @@ const InvoicePreview = ({ invoice, onClose }) => {
                             fontWeight: 700,
                           }}
                         >
-                          Rs {Number(inv.totalAmount).toFixed(3)}
+                          Rs {Number(inv.totalAmount).toFixed(2)}
                         </td>
                       </tr>
                       <tr>
-                        <td style={{ padding: "6px 12px", color: "#555" }}>
+                        <td style={{ padding: "6px 12px", color: "#222" }}>
                           Received
                         </td>
                         <td style={{ padding: "6px 12px", textAlign: "right" }}>
-                          Rs {Number(inv.receivedAmount).toFixed(3)}
+                          Rs {Number(inv.receivedAmount).toFixed(2)}
                         </td>
                       </tr>
                       <tr style={{ borderTop: "1px solid #eee" }}>
-                        <td style={{ padding: "6px 12px", color: "#555" }}>
+                        <td style={{ padding: "6px 12px", color: "#222" }}>
                           Balance
                         </td>
                         <td style={{ padding: "6px 12px", textAlign: "right" }}>
-                          Rs {Number(inv.balanceAmount).toFixed(3)}
+                          Rs {Number(inv.balanceAmount).toFixed(2)}
                         </td>
                       </tr>
                     </tbody>

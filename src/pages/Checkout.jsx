@@ -9,6 +9,7 @@ import khaltilogo from "../../Assets/khalti.png";
 import fonepaylogo from "../../Assets/fonepay.jpeg";
 import cash from "../../Assets/cash1.jpeg";
 import bank from "../../Assets/Bank.jpg";
+import FonepayQRModal from "../components/FonepayQRModal";
 
 // ── QR Payment Modal ────────────────────────────────────────────────────────
 const QRPaymentModal = ({ method, amount, orderNumber, onClose }) => {
@@ -185,6 +186,8 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [createdOrder, setCreatedOrder] = useState(null);
+  const [showFonepayQR, setShowFonepayQR] = useState(false);
+  const [paymentDone, setPaymentDone] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -288,6 +291,10 @@ const Checkout = () => {
       clearCart();
       setStep("placed");
       window.scrollTo(0, 0);
+      // Auto-open FonePay dynamic QR modal right after order is created
+      if (formData.paymentMethod === "fonepay") {
+        setShowFonepayQR(true);
+      }
     } catch (err) {
       setError(
         err.response?.data?.message ||
@@ -475,97 +482,152 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* ── Right: QR Payment card (inline, no modal) ── */}
+              {/* ── Right: Payment card ── */}
               {isPaidMethod && (
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                  {/* Coloured header */}
-                  <div
-                    className={`p-4 flex items-center gap-3 ${isKhalti ? "bg-gradient-to-r from-purple-600 to-purple-800" : "bg-gradient-to-r from-blue-600 to-blue-800"}`}
-                  >
-                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shrink-0">
-                      <img
-                        src={isKhalti ? khaltiImg : fonepayImg}
-                        alt={isKhalti ? "Khalti" : "FonePay"}
-                        className="w-7 h-7 object-contain"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg leading-tight">
-                        {isKhalti ? "Khalti" : "FonePay"}
-                      </h3>
-                      <p className="text-white/70 text-xs">
-                        Quick &amp; Secure Payment
-                      </p>
-                    </div>
-                    <div className="ml-auto text-right">
-                      <p className="text-white/70 text-xs">Amount</p>
-                      <p className="text-white font-bold text-lg">
-                        Rs. {createdOrder.totalPrice?.toLocaleString()}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-5">
-                    {/* QR image */}
-                    <div className="border-2 border-dashed border-gray-200 rounded-2xl p-3 flex flex-col items-center justify-center bg-gray-50 mb-4">
-                      {/* 🔁 Replace src with your actual QR image once you have it */}
-                      <img
-                        src={isKhalti ? khaltiImg : fonepayImg}
-                        alt={`${isKhalti ? "Khalti" : "FonePay"} QR Code`}
-                        className="w-48 h-48 object-contain rounded-xl"
-                      />
-                      <p className="text-xs text-orange-500 font-medium mt-2">
-                        📌 Replace with your {isKhalti ? "Khalti" : "FonePay"}{" "}
-                        QR image
-                      </p>
-                    </div>
-
-                    {/* Steps */}
-                    <div className="bg-orange-50 border border-orange-100 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
-                      <span className="text-orange-500 text-lg">📱</span>
-                      <p className="text-sm text-gray-700">
-                        Scan with your{" "}
-                        <strong className="text-orange-500">
-                          {isKhalti ? "Khalti" : "FonePay"}
-                        </strong>{" "}
-                        app
-                      </p>
-                    </div>
-                    <div className="flex justify-center gap-5 text-xs text-gray-500 mb-4">
-                      {["Open App", "Scan QR", "Pay & Confirm"].map((s, i) => (
-                        <span
-                          key={i}
-                          className="flex flex-col items-center gap-1"
+                  {/* Khalti: static QR card (unchanged) */}
+                  {isKhalti && (
+                    <>
+                      <div className="p-4 flex items-center gap-3 bg-gradient-to-r from-purple-600 to-purple-800">
+                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shrink-0">
+                          <img
+                            src={khaltiImg}
+                            alt="Khalti"
+                            className="w-7 h-7 object-contain"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-bold text-lg leading-tight">
+                            Khalti
+                          </h3>
+                          <p className="text-white/70 text-xs">
+                            Quick &amp; Secure Payment
+                          </p>
+                        </div>
+                        <div className="ml-auto text-right">
+                          <p className="text-white/70 text-xs">Amount</p>
+                          <p className="text-white font-bold text-lg">
+                            Rs. {createdOrder.totalPrice?.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <div className="border-2 border-dashed border-gray-200 rounded-2xl p-3 flex flex-col items-center justify-center bg-gray-50 mb-4">
+                          <img
+                            src={khaltiImg}
+                            alt="Khalti QR"
+                            className="w-48 h-48 object-contain rounded-xl"
+                          />
+                        </div>
+                        <div className="bg-orange-50 border border-orange-100 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
+                          <span className="text-orange-500 text-lg">📱</span>
+                          <p className="text-sm text-gray-700">
+                            Scan with your{" "}
+                            <strong className="text-orange-500">Khalti</strong>{" "}
+                            app
+                          </p>
+                        </div>
+                        <p className="text-center text-xs text-orange-600 font-medium mb-3">
+                          🔸 After payment, send us a screenshot on WhatsApp
+                        </p>
+                        <a
+                          href={`https://wa.me/9779823939106?text=${whatsappMsg}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm mb-2"
                         >
-                          <span className="w-6 h-6 rounded-full bg-gray-100 font-bold flex items-center justify-center text-gray-600">
-                            {i + 1}
-                          </span>
-                          {s}
-                        </span>
-                      ))}
+                          <i className="fas fa-comment"></i> Send Payment
+                          Screenshot
+                        </a>
+                        <Link
+                          to="/"
+                          className="w-full flex items-center justify-center text-gray-500 hover:text-gray-700 text-sm py-2 transition"
+                        >
+                          Back to Home →
+                        </Link>
+                      </div>
+                    </>
+                  )}
+
+                  {/* FonePay: Dynamic QR button — opens the real modal */}
+                  {!isKhalti && (
+                    <div className="p-6 flex flex-col items-center gap-4">
+                      <div className="p-4 flex items-center gap-3 w-full bg-gradient-to-r from-red-600 to-red-800 rounded-xl">
+                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shrink-0">
+                          <img
+                            src={fonepayImg}
+                            alt="FonePay"
+                            className="w-7 h-7 object-contain"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-bold text-lg leading-tight">
+                            FonePay
+                          </h3>
+                          <p className="text-white/70 text-xs">
+                            Dynamic QR Payment
+                          </p>
+                        </div>
+                        <div className="ml-auto text-right">
+                          <p className="text-white/70 text-xs">Amount</p>
+                          <p className="text-white font-bold text-lg">
+                            Rs. {createdOrder.totalPrice?.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+
+                      {paymentDone ? (
+                        <div className="w-full bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                          <p className="text-2xl mb-1">✅</p>
+                          <p className="font-bold text-green-700">
+                            Payment Confirmed!
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Your order is being processed
+                          </p>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-sm text-gray-500 text-center">
+                            Scan the dynamic QR with any mobile banking app to
+                            pay instantly.
+                          </p>
+                          <button
+                            onClick={() => setShowFonepayQR(true)}
+                            className="w-full py-3 rounded-xl font-bold text-white text-sm bg-red-600 hover:bg-red-700 transition"
+                          >
+                            📷 Open FonePay QR
+                          </button>
+                          <p className="text-xs text-gray-400 text-center">
+                            Works with Khalti, NIC Asia, Laxmi Sunrise, Nabil,
+                            and all Fonepay-supported banks
+                          </p>
+                        </>
+                      )}
+
+                      <Link
+                        to="/"
+                        className="text-gray-400 hover:text-gray-600 text-sm transition"
+                      >
+                        Back to Home →
+                      </Link>
                     </div>
-
-                    <p className="text-center text-xs text-orange-600 font-medium mb-3">
-                      🔸 After payment, send us a screenshot on WhatsApp
-                    </p>
-
-                    {/* Action buttons */}
-                    <a
-                      href={`https://wa.me/9779823939106?text=${whatsappMsg}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm mb-2"
-                    >
-                      <i className="fas fa-comment"></i> Send Payment Screenshot
-                    </a>
-                    <Link
-                      to="/"
-                      className="w-full flex items-center justify-center text-gray-500 hover:text-gray-700 text-sm py-2 transition"
-                    >
-                      Back to Home →
-                    </Link>
-                  </div>
+                  )}
                 </div>
+              )}
+
+              {/* FonePay Dynamic QR Modal */}
+              {showFonepayQR && createdOrder && (
+                <FonepayQRModal
+                  orderId={createdOrder._id}
+                  orderNumber={createdOrder.orderNumber}
+                  amount={createdOrder.totalPrice}
+                  onSuccess={() => {
+                    setShowFonepayQR(false);
+                    setPaymentDone(true);
+                  }}
+                  onClose={() => setShowFonepayQR(false)}
+                />
               )}
             </div>
           </div>
