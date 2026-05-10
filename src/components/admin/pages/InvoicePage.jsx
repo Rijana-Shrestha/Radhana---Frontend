@@ -157,12 +157,12 @@ const InvoicePreview = ({ invoice, onClose }) => {
         .page { width:794px; min-height:1123px; padding:40px; margin:auto; }
         table { width:100%; border-collapse:collapse; }
         th,td { border:1px solid #ccc; padding:8px 10px; }
-        th { background:#1a1a1a; color:#fff; font-weight:600; }
+        th { background:#2d3748; color:#fff; font-weight:600; }
         img { max-width:100%; height: auto; }
         .header-bar { background:#1a1a1a; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
         .header-bar h1 { color:#fff; font-size:22px; font-weight:700; }
         .header-bar p { color:#cccccc; font-size:12px; }
-        .section-label { background:#1a1a1a; color:#fff; font-weight:600; padding:6px 10px; font-size:12px; }
+        .section-label { background:#2d3748; color:#fff; font-weight:600; padding:6px 10px; font-size:12px; }
         .totals td { border:none; border-bottom:1px solid #eee; }
       </style></head><body>${content}</body></html>
     `);
@@ -273,7 +273,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
               style={{
                 fontSize: 16,
                 fontWeight: 700,
-                color: "#1a1a1a",
+                color: "#2d3748",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -302,7 +302,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#1a1a1a",
+                      background: "#2d3748",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -349,7 +349,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#1a1a1a",
+                      background: "#2d3748",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -394,14 +394,14 @@ const InvoicePreview = ({ invoice, onClose }) => {
             }}
           >
             <thead>
-              <tr style={{ background: "#1a1a1a" }}>
+              <tr style={{ background: "#2d3748" }}>
                 <th
                   style={{
                     color: "#fff",
                     padding: "8px 10px",
                     textAlign: "left",
                     fontWeight: 600,
-                    border: "1px solid #1a1a1a",
+                    border: "1px solid #2d3748",
                   }}
                 >
                   #
@@ -412,7 +412,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "left",
                     fontWeight: 600,
-                    border: "1px solid #1a1a1a",
+                    border: "1px solid #2d3748",
                   }}
                 >
                   Item Name
@@ -423,7 +423,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "center",
                     fontWeight: 600,
-                    border: "1px solid #1a1a1a",
+                    border: "1px solid #2d3748",
                   }}
                 >
                   Quantity
@@ -434,7 +434,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 600,
-                    border: "1px solid #1a1a1a",
+                    border: "1px solid #2d3748",
                   }}
                 >
                   Price/Unit
@@ -445,7 +445,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                     padding: "8px 10px",
                     textAlign: "right",
                     fontWeight: 600,
-                    border: "1px solid #1a1a1a",
+                    border: "1px solid #2d3748",
                   }}
                 >
                   Amount
@@ -563,7 +563,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#1a1a1a",
+                      background: "#2d3748",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
@@ -610,7 +610,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 >
                   <div
                     style={{
-                      background: "#1a1a1a",
+                      background: "#2d3748",
                       color: "#fff",
                       padding: "6px 10px",
                       fontWeight: 600,
