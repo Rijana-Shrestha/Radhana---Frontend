@@ -146,7 +146,26 @@ const PayBadge = ({ status }) => {
 const InvoicePreview = ({ invoice, onClose }) => {
   const printRef = useRef();
   const handlePrint = () => {
-    const content = printRef.current.innerHTML;
+    let content = printRef.current.innerHTML;
+
+    // Fix image URLs to use absolute paths
+    const logoUrl = new URL(RadhanaLogo, window.location.origin).href;
+    const signUrl = new URL(RadhanaSign, window.location.origin).href;
+    const stampUrl = new URL(RadhanaStamp, window.location.origin).href;
+
+    content = content.replace(
+      /src="[^"]*radhanalogo[^"]*"/g,
+      `src="${logoUrl}"`,
+    );
+    content = content.replace(
+      /src="[^"]*RadhanaSign[^"]*"/g,
+      `src="${signUrl}"`,
+    );
+    content = content.replace(
+      /src="[^"]*RadhanaStamp[^"]*"/g,
+      `src="${stampUrl}"`,
+    );
+
     const win = window.open("", "_blank");
     win.document.write(`
       <html><head><title>Invoice ${invoice.invoiceNumber}</title>
@@ -158,12 +177,13 @@ const InvoicePreview = ({ invoice, onClose }) => {
         table { width:100%; border-collapse:collapse; }
         th,td { border:1px solid #1a1a1a; padding:8px 10px; color:#000; }
         th { background:#7b1fa2; color:#000; font-weight:600; }
-        img { max-width:100%; height: auto; }
+        img { max-width:100%; height: auto; display:block !important; visibility:visible !important; }
         .header-bar { background:#7b1fa2; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
         .header-bar h1 { color:#000; font-size:22px; font-weight:700; }
         .header-bar p { color:#000; font-size:12px; }
         .section-label { background:#7b1fa2; color:#000; font-weight:600; padding:6px 10px; font-size:12px; }
         .totals td { border:none; border-bottom:1px solid #1a1a1a; color:#000; }
+        @media print { img { display:block !important; visibility:visible !important; } }
       </style></head><body>${content}</body></html>
     `);
     win.document.close();
