@@ -156,14 +156,14 @@ const InvoicePreview = ({ invoice, onClose }) => {
         body { font-family:'Poppins',sans-serif; font-size:13px; color:#222; background:#fff; }
         .page { width:794px; min-height:1123px; padding:40px; margin:auto; }
         table { width:100%; border-collapse:collapse; }
-        th,td { border:1px solid #ccc; padding:8px 10px; }
-        th { background:#7b1fa2; color:#fff; font-weight:600; }
+        th,td { border:1px solid #1a1a1a; padding:8px 10px; }
+        th { background:#7b1fa2; color:#1a1a1a; font-weight:600; }
         img { max-width:100%; height: auto; }
         .header-bar { background:#7b1fa2; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; }
-        .header-bar h1 { color:#fff; font-size:22px; font-weight:700; }
+        .header-bar h1 { color:#1a1a1a; font-size:22px; font-weight:700; }
         .header-bar p { color:#e9d5ff; font-size:12px; }
-        .section-label { background:#7b1fa2; color:#fff; font-weight:600; padding:6px 10px; font-size:12px; }
-        .totals td { border:none; border-bottom:1px solid #eee; }
+        .section-label { background:#7b1fa2; color:#1a1a1a; font-weight:600; padding:6px 10px; font-size:12px; }
+        .totals td { border:none; border-bottom:1px solid #1a1a1a; }
       </style></head><body>${content}</body></html>
     `);
     win.document.close();
