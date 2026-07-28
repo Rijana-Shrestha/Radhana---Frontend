@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { axiosInstance } from "../utils/axios";
-import FooterMap from "../components/FooterMap";
 
 const Contact = () => {
   const fileInputRef = useRef(null);
@@ -104,9 +103,9 @@ const Contact = () => {
       color: "text-[#145faf]",
       bg: "bg-blue-50 border-blue-100",
       title: "Phone",
-      value: "+977 9823939106" + "\n" + "+977 9746679242",
+      value: `+977 9860031044 , +977 9746679242`,
       sub: "Monday – Friday, 10 AM – 6 PM",
-      href: "tel:+9779823939106",
+      href: "tel:+9779860031044",
     },
     {
       icon: "fas fa-envelope",
@@ -122,16 +121,16 @@ const Contact = () => {
       color: "text-green-600",
       bg: "bg-green-50 border-green-100",
       title: "WhatsApp",
-      value: "+977 9823939106" + "\n",
+      value: "+977 9860031044" + "\n",
       sub: "Chat with us anytime",
-      href: "https://wa.me/9779823939106",
+      href: "https://wa.me/9779860031044",
     },
     {
       icon: "fas fa-location-dot",
       color: "text-amber-500",
       bg: "bg-amber-50 border-amber-100",
       title: "Location",
-      value: "Sitatpaila",
+      value: "Kalanki",
       sub: "Kathmandu",
       href: "https://maps.app.goo.gl/Mjc4AzR8wo1aFf8C6",
     },
@@ -384,7 +383,7 @@ const Contact = () => {
                 <p className="font-sub text-xs text-gray-400 text-center">
                   Or reach us directly on{" "}
                   <a
-                    href="https://wa.me/9779823939106"
+                    href="https://wa.me/9779860031044"
                     target="_blank"
                     rel="noreferrer"
                     className="text-green-600 font-medium hover:underline"
@@ -428,7 +427,15 @@ const Contact = () => {
                 </div>
               </div>
 
-              <FooterMap />
+              <div className="overflow-hidden rounded-3xl border border-gray-100 shadow-sm">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.7714412411956!2d85.27888187532328!3d27.693458176190507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb17003c61bb55%3A0xfcec99432a89400f!2sRadhana%20Art!5e0!3m2!1sen!2snp!4v1785209101527!5m2!1sen!2snp"
+                  className="w-full h-[280px] md:h-[320px] border-0"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              </div>
 
               {/* Social / payment */}
               <div className="bg-white rounded-3xl shadow-sm p-6 border border-gray-50">
@@ -505,7 +512,7 @@ const Contact = () => {
             idea and we'll get started right away!
           </p>
           <a
-            href="https://wa.me/9779823939106"
+            href="https://wa.me/9779860031044"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-sub font-semibold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:-translate-y-0.5"

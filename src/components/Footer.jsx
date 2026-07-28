@@ -144,17 +144,15 @@ const Footer = () => {
             <ul className="space-y-2 mb-6">
               <li className="flex items-start gap-3">
                 <MapPin className="text-green-500 shrink-0 mt-1" size={18} />
-                <span className="text-gray-400">
-                  Sitapaila, Kathmandu, Nepal
-                </span>
+                <span className="text-gray-400">Kalanki, Kathmandu, Nepal</span>
               </li>
               <li className="flex items-center gap-3">
                 <PhoneCall className="text-green-500 shrink-0" size={18} />
                 <a
-                  href="tel:+9779823939106"
+                  href="tel:+977 9860031044"
                   className="text-gray-400 hover:text-white transition"
                 >
-                  +977 9823939106, +977 9746679242
+                  +977 9860031044, +977 9746679242
                 </a>
               </li>
               <li className="flex items-center gap-3">

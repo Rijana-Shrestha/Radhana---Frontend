@@ -112,12 +112,12 @@ const NavBar = () => {
         <div className="flex whitespace-nowrap announcement-scroll">
           <p className="font-sub text-xs md:text-sm font-medium inline-block pr-20">
             🎨 Premium Laser Engraving | 📦 Custom Wooden &amp; Acrylic Products
-            | 🎁 Perfect Gifts | 📞 +977 9823939106, +977 9746679242 | 🚚 Fast
+            | 🎁 Perfect Gifts | 📞 +977 9860031044, +977 9746679242 | 🚚 Fast
             Delivery Kathmandu | 💳 Cash · Khalti · FonePay Accepted
           </p>
           <p className="font-sub text-xs md:text-sm font-medium inline-block pr-20">
             🎨 Premium Laser Engraving | 📦 Custom Wooden &amp; Acrylic Products
-            | 🎁 Perfect Gifts | 📞 +977 9823939106, +977 9746679242 | 🚚 Fast
+            | 🎁 Perfect Gifts | 📞 +977 9860031044, +977 9746679242 | 🚚 Fast
             Delivery Kathmandu | 💳 Cash · Khalti · FonePay Accepted
           </p>
         </div>
@@ -354,13 +354,13 @@ const NavBar = () => {
 
               {/* WhatsApp */}
               <a
-                href="https://wa.me/9779823939106"
+                href="https://wa.me/9779860031044"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-green-600 font-sub text-sm font-medium hover:scale-105 transition"
               >
                 <i className="fa-brands fa-whatsapp text-2xl"></i>
-                <span>+977 9823939106</span>
+                <span>+977 9860031044</span>
               </a>
 
               {/* Cart */}
@@ -633,7 +633,7 @@ const NavBar = () => {
                 {/* Quick Actions */}
                 <div className="flex items-center gap-3 w-full">
                   <a
-                    href="https://wa.me/9779823939106"
+                    href="https://wa.me/9779860031044"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-green-600 font-sub text-sm font-medium hover:text-green-700 transition"
@@ -665,7 +665,7 @@ const NavBar = () => {
 
       {/* WhatsApp Float Button */}
       <a
-        href="https://wa.me/9779823939106"
+        href="https://wa.me/9779860031044"
         target="_blank"
         rel="noopener noreferrer"
         className="wa-float"
