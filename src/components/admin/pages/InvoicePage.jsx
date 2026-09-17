@@ -281,7 +281,7 @@ const InvoicePreview = ({ invoice, onClose }) => {
                 PAN No.: 128464005
               </p>
               <p style={{ color: "#000", fontSize: 12, margin: 0 }}>
-                Phone no.: 9823939106 &nbsp;|&nbsp; Email:
+                Phone no.: 9860031044 &nbsp;|&nbsp; Email:
                 radhanaenterprises1@gmail.com
               </p>
             </div>
