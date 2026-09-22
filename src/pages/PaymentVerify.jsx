@@ -148,7 +148,7 @@ const PaymentVerify = ({ gateway = "khalti" }) => {
                   Back to Home
                 </Link>
                 <a
-                  href="https://wa.me/9779823939106"
+                  href="https://wa.me/9779860031044"
                   className="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition text-sm flex items-center justify-center gap-2"
                 >
                   <i className="fas fa-comment"></i> WhatsApp
@@ -189,7 +189,7 @@ const PaymentVerify = ({ gateway = "khalti" }) => {
                   Back to Home
                 </Link>
                 <a
-                  href="https://wa.me/9779823939106"
+                  href="https://wa.me/9779860031044"
                   className="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition text-sm flex items-center justify-center gap-2"
                 >
                   <i className="fas fa-comment"></i> Get Help

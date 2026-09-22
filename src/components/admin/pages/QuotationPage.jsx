@@ -273,7 +273,7 @@ const PreviewModal = ({ qt, onClose }) => {
                 PAN No.: 128464005
               </p>
               <p style={{ color: "#e9d5ff", fontSize: 12, margin: 0 }}>
-                Phone: 9823939106 &nbsp;|&nbsp; Email: radhanaart@gmail.com
+                Phone: 9860031044 &nbsp;|&nbsp; Email: radhanaart@gmail.com
               </p>
             </div>
           </div>

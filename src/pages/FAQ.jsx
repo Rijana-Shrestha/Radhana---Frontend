@@ -394,7 +394,7 @@ const FAQ = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <a
-              href="https://wa.me/9779823939106"
+              href="https://wa.me/9779860031044"
               target="_blank"
               rel="noreferrer"
               className="bg-green-50 border-2 border-green-100 rounded-2xl p-6 text-center hover:shadow-lg transition-all hover:-translate-y-1 block"
@@ -409,7 +409,7 @@ const FAQ = () => {
                 Chat with us anytime
               </p>
               <p className="font-sub text-xs text-gray-400 mt-1">
-                +977 9823939106
+                +977 9860031044
               </p>
             </a>
             <a
@@ -440,7 +440,7 @@ const FAQ = () => {
                 Call us
               </p>
               <p className="font-sub text-xs text-gray-400 mt-1">
-                +977 9823939106
+                +977 9860031044
               </p>
             </div>
           </div>

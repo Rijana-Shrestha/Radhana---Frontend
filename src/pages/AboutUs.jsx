@@ -147,7 +147,7 @@ const AboutUs = () => {
               <i className="fas fa-store" /> Browse Products
             </Link>
             <a
-              href="https://wa.me/9779823939106"
+              href="https://wa.me/9779860031044"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-sub font-semibold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:-translate-y-0.5"
@@ -480,7 +480,7 @@ const AboutUs = () => {
               <i className="fas fa-envelope" /> Get in Touch
             </Link>
             <a
-              href="https://wa.me/9779823939106"
+              href="https://wa.me/9860031044"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-sub font-semibold px-8 py-3.5 rounded-xl transition hover:shadow-lg hover:-translate-y-0.5"

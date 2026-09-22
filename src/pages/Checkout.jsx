@@ -96,7 +96,7 @@ const QRPaymentModal = ({ method, amount, orderNumber, onClose }) => {
             🔸 After payment, send us a screenshot on WhatsApp
           </p>
           <a
-            href={"https://wa.me/9779823939106?text=" + whatsappMsg}
+            href={"https://wa.me/9779860031044?text=" + whatsappMsg}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm"
@@ -472,7 +472,7 @@ const Checkout = () => {
                         Back to Home
                       </Link>
                       <a
-                        href="https://wa.me/9779823939106"
+                        href="https://wa.me/9779860031044"
                         className="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition text-sm flex items-center justify-center gap-2"
                       >
                         <i className="fas fa-comment"></i> WhatsApp
@@ -531,7 +531,7 @@ const Checkout = () => {
                           🔸 After payment, send us a screenshot on WhatsApp
                         </p>
                         <a
-                          href={`https://wa.me/9779823939106?text=${whatsappMsg}`}
+                          href={`https://wa.me/9779860031044?text=${whatsappMsg}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm mb-2"

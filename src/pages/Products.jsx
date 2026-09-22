@@ -17,12 +17,12 @@ const Stars = ({ count = 5 }) => (
 
 const WhatsAppLink = ({ name, productId }) => {
   const productUrl = `${window.location.origin}/product/${productId}`;
-  
+
   const message = `Hi! I'm interested in: *${name}*\n\nView details here: ${productUrl}\n\nPlease let me know the details and how to order. Thank you!`;
-  
+
   return (
     <a
-      href={`https://wa.me/9779823939106?text=${encodeURIComponent(message)}`}
+      href={`https://wa.me/9779860031044?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noreferrer"
       className="flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-sub text-[10px] sm:text-xs font-medium transition-all hover:shadow-lg"
@@ -592,7 +592,7 @@ const Products = () => {
                   <i className="fas fa-expand" /> View Full Details
                 </button>
                 <a
-                  href={`https://wa.me/9779823939106?text=${encodeURIComponent(`Hi! I'm interested in: *${quickView.name}*\n\nPrice: Rs ${Number(quickView.price).toLocaleString()}\n\nView details here: ${window.location.origin}/product/${quickView._id}\n\nPlease let me know the details and how to order. Thank you!`)}`}
+                  href={`https://wa.me/9779860031044?text=${encodeURIComponent(`Hi! I'm interested in: *${quickView.name}*\n\nPrice: Rs ${Number(quickView.price).toLocaleString()}\n\nView details here: ${window.location.origin}/product/${quickView._id}\n\nPlease let me know the details and how to order. Thank you!`)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-sub font-medium py-2.5 rounded-xl transition"
@@ -787,7 +787,7 @@ const Products = () => {
             craft it for you.
           </p>
           <a
-            href="https://wa.me/9779823939106"
+            href="https://wa.me/9779860031044"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-sub font-semibold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:-translate-y-0.5"

@@ -89,10 +89,16 @@ const ProductDetail = () => {
       {/* Toast */}
       {toast.show && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[400]">
-          <div className={`font-sub text-sm px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 ${
-            toast.type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
-          }`}>
-            <i className={`fas ${toast.type === "success" ? "fa-check-circle" : "fa-exclamation-circle"}`} />
+          <div
+            className={`font-sub text-sm px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 ${
+              toast.type === "success"
+                ? "bg-green-600 text-white"
+                : "bg-red-600 text-white"
+            }`}
+          >
+            <i
+              className={`fas ${toast.type === "success" ? "fa-check-circle" : "fa-exclamation-circle"}`}
+            />
             {toast.msg}
           </div>
         </div>
@@ -101,11 +107,17 @@ const ProductDetail = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-8 text-sm font-sub text-gray-600">
-          <button onClick={() => navigate("/")} className="hover:text-[#145faf]">
+          <button
+            onClick={() => navigate("/")}
+            className="hover:text-[#145faf]"
+          >
             Home
           </button>
           <span>/</span>
-          <button onClick={() => navigate("/products")} className="hover:text-[#145faf]">
+          <button
+            onClick={() => navigate("/products")}
+            className="hover:text-[#145faf]"
+          >
             Products
           </button>
           <span>/</span>
@@ -121,7 +133,9 @@ const ProductDetail = () => {
                 src={mainImage}
                 alt={product.name}
                 className="w-full h-full object-cover"
-                onError={(e) => (e.target.src = "https://via.placeholder.com/500?text=Image")}
+                onError={(e) =>
+                  (e.target.src = "https://via.placeholder.com/500?text=Image")
+                }
               />
               {product.badge && (
                 <div className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full font-sub font-bold text-sm">
@@ -145,10 +159,16 @@ const ProductDetail = () => {
                     key={idx}
                     onClick={() => setSelectedImageIndex(idx)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                      idx === selectedImageIndex ? "border-[#145faf]" : "border-gray-300 hover:border-[#145faf]"
+                      idx === selectedImageIndex
+                        ? "border-[#145faf]"
+                        : "border-gray-300 hover:border-[#145faf]"
                     }`}
                   >
-                    <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      alt={`${product.name} ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -173,7 +193,9 @@ const ProductDetail = () => {
                     <i
                       key={i}
                       className={`fas fa-star text-lg ${
-                        i < Math.floor(product.stars || 5) ? "text-amber-400" : "text-gray-300"
+                        i < Math.floor(product.stars || 5)
+                          ? "text-amber-400"
+                          : "text-gray-300"
                       }`}
                     />
                   ))}
@@ -198,7 +220,8 @@ const ProductDetail = () => {
               </div>
               {product.maxPrice > product.price && (
                 <p className="text-green-600 font-sub font-bold">
-                  Save Rs {Number(product.maxPrice - product.price).toLocaleString()}
+                  Save Rs{" "}
+                  {Number(product.maxPrice - product.price).toLocaleString()}
                 </p>
               )}
             </div>
@@ -206,8 +229,12 @@ const ProductDetail = () => {
             {/* Description */}
             {product.description && (
               <div>
-                <h3 className="text-lg font-main text-[#145faf] mb-2">Description</h3>
-                <p className="text-gray-700 font-sub leading-relaxed">{product.description}</p>
+                <h3 className="text-lg font-main text-[#145faf] mb-2">
+                  Description
+                </h3>
+                <p className="text-gray-700 font-sub leading-relaxed">
+                  {product.description}
+                </p>
               </div>
             )}
 
@@ -215,13 +242,19 @@ const ProductDetail = () => {
             <div className="grid grid-cols-2 gap-4">
               {product.stock !== undefined && (
                 <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">Stock</p>
-                  <p className="text-lg font-bold text-[#145faf]">{product.stock || 99}</p>
+                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">
+                    Stock
+                  </p>
+                  <p className="text-lg font-bold text-[#145faf]">
+                    {product.stock || 99}
+                  </p>
                 </div>
               )}
               {product.forWho && product.forWho.length > 0 && (
                 <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">For</p>
+                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">
+                    For
+                  </p>
                   <p className="text-sm font-sub font-semibold text-[#145faf]">
                     {product.forWho.join(", ")}
                   </p>
@@ -229,7 +262,9 @@ const ProductDetail = () => {
               )}
               {product.festival && product.festival.length > 0 && (
                 <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">Festival</p>
+                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">
+                    Festival
+                  </p>
                   <p className="text-sm font-sub font-semibold text-[#145faf]">
                     {product.festival.join(", ")}
                   </p>
@@ -237,7 +272,9 @@ const ProductDetail = () => {
               )}
               {product.occasion && product.occasion.length > 0 && (
                 <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">Occasion</p>
+                  <p className="text-xs font-sub text-gray-600 uppercase mb-1">
+                    Occasion
+                  </p>
                   <p className="text-sm font-sub font-semibold text-[#145faf]">
                     {product.occasion.join(", ")}
                   </p>
@@ -247,7 +284,9 @@ const ProductDetail = () => {
 
             {/* Quantity Selector */}
             <div className="flex items-center gap-4">
-              <span className="font-sub font-semibold text-gray-700">Quantity:</span>
+              <span className="font-sub font-semibold text-gray-700">
+                Quantity:
+              </span>
               <div className="flex items-center border-2 border-gray-300 rounded-lg">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -258,7 +297,9 @@ const ProductDetail = () => {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e) =>
+                    setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                  }
                   className="w-16 text-center border-0 py-2 font-sub font-bold"
                   min="1"
                 />
@@ -301,7 +342,7 @@ const WhatsAppShareButton = ({ product }) => {
 
   return (
     <a
-      href={`https://wa.me/9779823939106?text=${encodeURIComponent(message)}`}
+      href={`https://wa.me/9779860031044?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noreferrer"
       className="w-full py-3 rounded-lg font-sub font-bold text-lg bg-green-600 hover:bg-green-700 text-white flex items-center justify-center gap-2 transition-all hover:shadow-lg"

@@ -159,7 +159,7 @@ const Gallery = () => {
                 </p>
               )}
               <a
-                href="https://wa.me/9779823939106"
+                href="https://wa.me/9779860031044"
                 target="_blank"
                 rel="noreferrer"
                 onClick={(e) => e.stopPropagation()}
@@ -308,7 +308,7 @@ const Gallery = () => {
                         <i className="fas fa-eye text-[9px]" /> View
                       </span>
                       <a
-                        href="https://wa.me/9779823939106"
+                        href="https://wa.me/9779860031044"
                         onClick={(e) => e.stopPropagation()}
                         target="_blank"
                         rel="noreferrer"
@@ -422,7 +422,7 @@ const Gallery = () => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a
-                href="https://wa.me/9779823939106"
+                href="https://wa.me/9779860031044"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-white text-[#D93A6A] font-sub font-semibold px-8 py-3.5 rounded-xl hover:bg-gray-50 transition hover:shadow-lg hover:-translate-y-0.5"

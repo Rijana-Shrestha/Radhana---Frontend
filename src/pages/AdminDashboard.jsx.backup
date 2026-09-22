@@ -3079,7 +3079,7 @@ function InvoicesPage({ showToast }) {
                   }}
                 >
                   <p style={{ margin: 0 }}>📍 Sitapaila, Kathmandu, Nepal</p>
-                  <p style={{ margin: 0 }}>📞 +977 9823939106</p>
+                  <p style={{ margin: 0 }}>📞 +977 9860031044</p>
                   <p style={{ margin: 0 }}>✉️ radhanaart@gmail.com</p>
                 </div>
               </div>
@@ -4090,7 +4090,7 @@ function EstimatesPage({ showToast }) {
                 >
                   <p style={{ margin: 0 }}>Sitapaila, Kathmandu, Nepal</p>
                   <p style={{ margin: 0 }}>
-                    +977 9823939106 · radhanaart@gmail.com
+                    +977 9860031044 · radhanaart@gmail.com
                   </p>
                 </div>
               </div>
@@ -4347,8 +4347,8 @@ function EstimatesPage({ showToast }) {
                 * This estimate is valid until the date mentioned above.
               </p>
               <p style={{ margin: "8px 0 0" }}>
-                📞 +977 9823939106 · 📧 radhanaart@gmail.com · WhatsApp: +977
-                9823939106
+                📞 +977 9860031044 · 📧 radhanaart@gmail.com · WhatsApp: +977
+                9860031044
               </p>
             </div>
           </div>
@@ -4801,7 +4801,7 @@ function SettingsPage() {
             {[
               ["Business Name", "Radhana Art"],
               ["Tagline", "Premium Laser Engraving Services"],
-              ["Phone", "+977 9823939106"],
+              ["Phone", "+977 9860031044"],
               ["Email", "radhanaart@gmail.com"],
               ["Address", "Sitapaila, Kathmandu, Nepal"],
               ["PAN Number", ""],
